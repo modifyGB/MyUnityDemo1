@@ -1,0 +1,57 @@
+using Enemy;
+using Manager;
+using Place;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Weapon
+{
+    [CreateAssetMenu(menuName = "MySO/WeaponSO")]
+    public class WeaponSO : MyScriptable
+    {
+        [Header("id")]
+        public int num = 0;
+        public WeaponObject weaponPrefab;
+        [Header("ÊýÖµ")]
+        //¹¥»÷ÊýÖµ
+        public float attack = 1;
+        //¹¥»÷¾àÀë
+        public float attackDistance = 2;
+        //¹¥»÷·¶Î§½Ç¶È
+        public float attackAngle = 45;
+        //¹¥»÷¾«¶È
+        public float attackPrecision = 1;
+        //¹¥»÷ËÙ¶È
+        public float attackRate = 1;
+        //¹¥»÷¼ä¸ô
+        public float attackInterval = 1;
+        //¹¥»÷ÏûºÄÄÍ¶È
+        public float attackDure = 1;
+        [Header("ÉèÖÃ")]
+        public int attackAnim = 0;
+
+        public WeaponObject CreateWeapon()
+        {
+            var x = GameObject.Instantiate(weaponPrefab);
+            x.Initialization(this);
+            return x;
+        }
+
+        public void AttackToPlace(PlaceObject placeObject)
+        {
+            var bag = PlayerManager.I.PlayerBag;
+            if (bag.Bag.ItemList[bag.UseNum].itemSO.isDurable)
+                bag.Bag.ItemList[bag.UseNum].Dure -= attackDure;
+            placeObject.BeAttack(this);
+        }
+
+        public void AttackToEnemy(EnemyObject enemyObject)
+        {
+            var bag = PlayerManager.I.PlayerBag;
+            if (bag.Bag.ItemList[bag.UseNum].itemSO.isDurable)
+                bag.Bag.ItemList[bag.UseNum].Dure -= attackDure;
+            enemyObject.BeAttack(this);
+        }
+    }
+}
