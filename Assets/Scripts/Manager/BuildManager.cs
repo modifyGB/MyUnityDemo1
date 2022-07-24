@@ -89,7 +89,7 @@ namespace Manager
             if (isMouse0)
             {
                 var mousePosition = Utils.MouseToTerrainPosition(MapManager.I.groundLayerName);
-                if (!UIManager.I.IsUI && Place(mousePosition) == null)
+                if (UIManager.I.UIState == UIState.Play && Place(mousePosition) == null)
                     print("can't build here");
                 else
                 {

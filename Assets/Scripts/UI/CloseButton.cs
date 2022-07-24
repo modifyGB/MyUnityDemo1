@@ -15,7 +15,7 @@ namespace UI
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            UIManager.I.IsUI = false;
+            UIManager.I.UIState = UIState.Play;
         }
     }
 }

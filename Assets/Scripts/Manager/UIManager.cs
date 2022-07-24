@@ -9,6 +9,8 @@ using UnityEngine;
 
 namespace Manager
 {
+    public enum UIState { Load, Play, Interface, Setting }
+
     public class UIManager : Singleton<UIManager>
     {
         [Header("组件")]
@@ -41,19 +43,27 @@ namespace Manager
                     pointerItem.transform.SetParent(BagTable.transform, false);
             }
         }
-        private bool isUI = false;
-        public bool IsUI
+        private UIState uIState = UIState.Play;
+        public UIState UIState
         {
-            get { return isUI; }
+            get { return uIState; }
             set
             {
-                isUI = value;
-                PlayerInterface.SetActive(value);
-                UseTable.gameObject.SetActive(!value);
+                uIState = value;
+                if (value == UIState.Play)
+                {
+                    PlayerInterface.SetActive(false);
+                    UseTable.gameObject.SetActive(true);
+                }
+                else if (value == UIState.Interface)
+                {
+                    PlayerInterface.SetActive(true);
+                    UseTable.gameObject.SetActive(false);
+                }
                 UISwitch.Invoke(value);
             }
         }
-        public Action<bool> UISwitch;
+        public Action<UIState> UISwitch;
 
         private Dictionary<KeyCode, bool> inputDic = new Dictionary<KeyCode, bool>();
         private float scrollWheel = 0;
@@ -106,11 +116,14 @@ namespace Manager
         {
             if (inputDic[KeyCode.E])
             {
-                IsUI = !IsUI;
+                if (UIState == UIState.Interface)
+                    UIState = UIState.Play;
+                else
+                    UIState = UIState.Interface;
                 inputDic[KeyCode.E] = false;
             }
 
-            if (IsUI)
+            if (UIState == UIState.Interface)
             {
                 DeleteItemMenu();
             }
@@ -167,7 +180,7 @@ namespace Manager
             itemMenu.transform.position = Input.mousePosition;
         }
         //删除ItemMenu
-        public void DeleteItemMenu(bool isOpen)
+        public void DeleteItemMenu(UIState isOpen)
         {
             if (itemMenu != null)
                 itemMenu.DestroySelf();
@@ -184,15 +197,15 @@ namespace Manager
         //更新PointerItem位置
         public void UpdatePointerItem()
         {
-            if (pointerItem == null || !UIManager.I.IsUI)
+            if (pointerItem == null || UIManager.I.UIState == UIState.Play)
                 return;
 
             pointerItem.transform.position = Input.mousePosition;
         }
         //丢弃PointerItem
-        public void ThrowPointerItem(bool Switch)
+        public void ThrowPointerItem(UIState flag)
         {
-            if (Switch)
+            if (flag != UIState.Interface)
                 return;
             if (pointerItem == null)
                 return;

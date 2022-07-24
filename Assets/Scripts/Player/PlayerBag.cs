@@ -59,14 +59,14 @@ namespace Player
         {
             if (inputDic[KeyCode.Q])
             {
-                if (!UIManager.I.IsUI && bag.ItemList[UseNum] != null)
+                if (UIManager.I.UIState == UIState.Play && bag.ItemList[UseNum] != null)
                     ThrowBagItem(UseNum);
                 inputDic[KeyCode.Q] = false;
             }
 
             if (isMouse0)
             {
-                if (!UIManager.I.IsUI && bag.ItemList[UseNum] != null)
+                if (UIManager.I.UIState == UIState.Play && bag.ItemList[UseNum] != null)
                     bag.UseItemOne(UseNum);
                 isMouse0 = false;
             }

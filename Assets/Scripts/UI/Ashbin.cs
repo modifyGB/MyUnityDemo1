@@ -42,9 +42,9 @@ namespace UI
             }
         }
 
-        public void Clear(bool isOpen)
+        public void Clear(UIState flag)
         {
-            if (isOpen)
+            if (flag != UIState.Interface)
                 return;
             if (itemObject != null)
                 itemObject.item.DestroySelf();

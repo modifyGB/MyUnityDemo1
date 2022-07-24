@@ -32,7 +32,7 @@ namespace Player
         {
             if (axisName == "Mouse X")
             {
-                if (isMouse1 && !UIManager.I.IsUI)
+                if (isMouse1 && UIManager.I.UIState == UIState.Play)
                     return -Input.GetAxis("Mouse X");
                 return 0;
             }

@@ -45,7 +45,7 @@ namespace Player
             attackTimer += Time.fixedDeltaTime;
             if (isMouse0)
             {
-                if (PlayerManager.I.PlayerState != PlayerState.Attack && PlayerManager.I.isWeapon && !UIManager.I.IsUI
+                if (PlayerManager.I.PlayerState != PlayerState.Attack && PlayerManager.I.isWeapon && UIManager.I.UIState == UIState.Play
                     && !BuildManager.I.IsBuilding && attackTimer >= PlayerManager.I.Weapon.WeaponSO.attackInterval &&
                     !EventSystem.current.IsPointerOverGameObject())
                 {
