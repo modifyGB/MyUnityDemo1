@@ -23,6 +23,6 @@ class Dataset:
     
     def save(self, num):
         with open(self.save_path+'/{}.json'.format(num),'w',encoding='utf-8') as f:
-            json.dump(self.L[int(num)], f)
+            json.dump(self.L[num], f)
             
 D = Dataset('data')

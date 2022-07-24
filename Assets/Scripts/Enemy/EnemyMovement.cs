@@ -12,7 +12,8 @@ namespace Enemy
 
         private EnemySO enemySO;
         private EnemyObject enemyObject;
-        private List<Vector3> PatrolPoints = new List<Vector3>();
+        private List<Vector3> patrolPoints = new List<Vector3>();
+        public List<Vector3> PatrolPoints { get { return patrolPoints; } }
 
         private int nowPatrolNum = 0;
         public int NowPatrolNum
@@ -23,6 +24,8 @@ namespace Enemy
         private float nowMoveSpeed = 0;
         private float stayTimer = 0;
         private bool isStay = false;
+        private float angle;
+        public float Angle { get { return angle; } }
 
         private void Awake()
         {
@@ -42,6 +45,7 @@ namespace Enemy
         public void Initialization(EnemySO enemySO, Vector3 rotation)
         {
             this.enemySO = enemySO;
+            angle = rotation.y;
             foreach (var i in enemySO.PatrolPoints)
             {
                 var vec = Quaternion.AngleAxis(rotation.y, Vector3.up) * i + transform.position;

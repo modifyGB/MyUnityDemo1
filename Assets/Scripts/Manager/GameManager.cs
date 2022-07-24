@@ -7,6 +7,7 @@ using Place;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -24,7 +25,11 @@ namespace Manager
         {
             public GridXZ.Serialization GridXZ;
             public PlayerManager.PlayerMessage Player;
-            public GameData(GridXZ.Serialization GridXZ, PlayerManager.PlayerMessage Player) { this.Player = Player; this.GridXZ = GridXZ; }
+            public List<EnemyObject.Serialization> EnemyList;
+            public GameData(GridXZ.Serialization GridXZ, PlayerManager.PlayerMessage Player, List<EnemyObject.Serialization> EnemyList) 
+            { this.Player = Player; this.GridXZ = GridXZ; this.EnemyList = EnemyList; }
+            public GameData(int x) { Player = PlayerManager.I.ToSerialization(); 
+                GridXZ = MapManager.I.grid.ToSerialization(); EnemyList = EnemyManager.I.FindAllEnemy(); }
         }
 
         public override void Awake()
@@ -42,7 +47,7 @@ namespace Manager
 
             enemyTableSO.table[1].Create(new Vector3(10, 0, 10), new Vector3(0, 0, 0));
 
-            SocketManager.Socket.Send("1", SocketSign.Connect);
+            SocketManager.Socket.Send("1", SocketSign.Connect, new AsyncCallback(ConnectCallBack));
         }
 
         private void Update()
@@ -59,17 +64,26 @@ namespace Manager
         {
             if (inputDic[KeyCode.V])
             {
-                Save();
+                SaveAll();
                 inputDic[KeyCode.V] = false;
             }
         }
 
         // ÷∂Ø±£¥Ê¥Êµµ
-        public void Save()
+        public void SaveAll()
         {
-            var gameData = new GameData(MapManager.I.grid.ToSerialization(), PlayerManager.I.ToSerialization());
+            var gameData = new GameData(0);
             SocketManager.Socket.Send(JsonConvert.SerializeObject(gameData), SocketSign.SaveAll);
             print("save success");
+        }
+
+        public void ConnectCallBack(IAsyncResult ar)
+        {
+            var message = SocketManager.Socket.ReceiveCallback(ar);
+            if (message == null)
+                return;
+
+            print(message);
         }
     }
 }

@@ -52,8 +52,8 @@ class MySocket:
             main_message_process(x[i], conn, addr, S, D)
         self.message_list[addr] = x[-1]
         
-    def send(self, message, conn):
-        conn.send(bytes(message,"UTF-8"))
+    def send(self, message, conn, count):
+        conn.send(bytes(count + ' ' + message,"UTF-8"))
         
             
 S = MySocket('0.0.0.0', 6666)

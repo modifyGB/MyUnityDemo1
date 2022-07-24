@@ -30,13 +30,11 @@ namespace Enemy
 
         public struct Serialization
         {
-
-        }
-
-        //序列化
-        public Serialization ToSerialization()
-        {
-            return default;
+            public int num;
+            public float[] position;
+            public float angle;
+            public Serialization(int num, float[] position, float angle) 
+            { this.num = num; this.position = position; this.angle = angle; }
         }
 
         private void Awake()
@@ -62,6 +60,13 @@ namespace Enemy
             enemyMovement.Initialization(enemySO, rotation);
             enemyAttack.Initialization(enemySO);
             enemyValue.Initialization(enemySO);
+        }
+        //序列化
+        public Serialization ToSerialization()
+        {
+            var position = enemyMovement.PatrolPoints[enemyMovement.PatrolPoints.Count - 1];
+            var vec = new float[3] { position[0], position[1], position[2] };
+            return new Serialization(enemySO.num, vec, enemyMovement.Angle);
         }
         //受到攻击处理
         public virtual void BeAttack(WeaponSO weapon)
