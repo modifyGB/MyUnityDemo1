@@ -189,4 +189,4 @@ dmypy.json
 .pyre/
 
 .vscode
-data/*.json
+Service/data/*.json

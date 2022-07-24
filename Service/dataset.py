@@ -12,7 +12,8 @@ class Dataset:
         self.L = {}
         self.save_path = save_path
         for i in os.listdir(save_path):
-            with open(save_path+'/'+i,'r',encoding='utf-8') as f:
+            p = save_path+'/'+i
+            with open(p,'r',encoding='utf-8') as f:
                 self.L[int(i.split('.')[0])] = json.load(f)
         
     def create(self, num):
@@ -20,6 +21,7 @@ class Dataset:
             'GridXZ' : copy.deepcopy(GridXZ),
             'Player' : copy.deepcopy(Player),
         }
+        self.save(num)
     
     def save(self, num):
         with open(self.save_path+'/{}.json'.format(num),'w',encoding='utf-8') as f:
