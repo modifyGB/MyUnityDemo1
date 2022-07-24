@@ -1,4 +1,5 @@
 using Cinemachine;
+using Items;
 using Player;
 using System;
 using System.Collections;
@@ -73,13 +74,28 @@ namespace Manager
 
         public struct PlayerMessage
         {
-
+            public float nowBlood;
+            public float experience;
+            public int bagCapacity;
+            public List<Item.Serialization> bag;
+            public PlayerMessage(float nowBlood, float experience, int bagCapacity, List<Item.Serialization> bag)
+            { this.nowBlood = nowBlood; this.experience = experience; this.bagCapacity = bagCapacity; this.bag = bag; }
         }
 
         //–Ú¡–ªØ
         public PlayerMessage ToSerialization()
         {
-            return default;
+            var nowBlood = playerValue.NowBlood;
+            var experience = playerValue.Experience;
+            var bagCapacity = PlayerBag.Bag.bagCapacity;
+            var bag = new List<Item.Serialization>();
+            foreach (var item in PlayerBag.Bag.ItemList)
+            {
+                if (item == null)
+                    continue;
+                bag.Add(item.ToSerialization());
+            }
+            return new PlayerMessage(nowBlood, experience, bagCapacity, bag);
         }
 
         public override void Awake()

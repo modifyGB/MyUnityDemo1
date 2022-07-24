@@ -72,11 +72,6 @@ namespace Manager
                 newPO.transform.SetParent(map);
             }
         }
-        //保存地图信息
-        public void SaveMap(string savePath)
-        {
-            Utils.SaveObjectAsJson(savePath, grid.ToSerialization());
-        }
         //加载地图信息并绘制
         public void LoadMap(string loadPath)
         {

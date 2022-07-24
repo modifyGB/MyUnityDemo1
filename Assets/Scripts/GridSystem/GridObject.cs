@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace GridSystem
 {
+    public enum GridEnvironment { GRASS, WATER };
+
     //网格单元类，用来存放一些单元信息
     public class GridObject
     {
@@ -25,7 +27,6 @@ namespace GridSystem
             }
         } //此处有输入单元信息
         public GridEnvironment gridEnvironment = GridEnvironment.GRASS;
-        public enum GridEnvironment { GRASS, WATER };
         public struct Serialization //序列化结构体
         {
             public GridEnvironment ge;

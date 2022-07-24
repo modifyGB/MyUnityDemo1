@@ -83,7 +83,6 @@ namespace Manager
             {
                 isMouse0 = false;
                 inputDic[KeyCode.R] = false;
-                inputDic[KeyCode.V] = false;
                 return;
             }
 
@@ -105,12 +104,6 @@ namespace Manager
             {
                 previewObject.NextDir();
                 inputDic[KeyCode.R] = false;
-            }
-
-            if (inputDic[KeyCode.V])
-            {
-                MapManager.I.SaveMap("map.json");
-                inputDic[KeyCode.V] = false;
             }
         }
 
