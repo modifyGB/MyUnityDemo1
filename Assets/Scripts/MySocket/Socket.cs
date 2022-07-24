@@ -27,7 +27,7 @@ namespace MySocket
 
         public void ReceiveCallback(IAsyncResult ar)
         {
-            S.EndReceive(ar);
+            //S.EndReceive(ar);
             Debug.Log(Encoding.UTF8.GetString(buffer));
         }
 

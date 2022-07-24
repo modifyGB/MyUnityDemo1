@@ -12,13 +12,15 @@ def main_message_process(message, conn, addr, socket, dataset):
     if addr in socket.addr_archive:
         dataset.save(socket.addr_archive[addr])
         
-        
+
+#保存全部
 def save_all(message, addr, socket, dataset):
     if addr not in socket.addr_archive:
         return
     dataset.L[socket.addr_archive[addr]] = json.loads(message)
+   
     
-    
+#链接存档
 def connect(message, conn, addr, socket):
     if int(message) in socket.addr_archive.values():
         socket.send('no', conn)
