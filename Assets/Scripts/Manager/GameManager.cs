@@ -15,9 +15,12 @@ namespace Manager
 {
     public class GameManager : Singleton<GameManager>
     {
+        [Header("×ÊÔ´")]
         public ItemTableSO itemTableSO;
         public PlaceTableSO placeTableSO;
         public EnemyTableSO enemyTableSO;
+        [Header("´æµµ")]
+        public int archive = 1;
 
         private Dictionary<KeyCode, bool> inputDic = new Dictionary<KeyCode, bool>();
 
@@ -37,17 +40,17 @@ namespace Manager
             base.Awake();
 
             inputDic.Add(KeyCode.V, false);
+            //Á´½Ó1´æµµ
+            SocketManager.Socket.Send(Convert.ToString(archive), SocketSign.Connect, new AsyncCallback(ConnectCallBack));
         }
 
         private void Start()
         {
-            var bag = PlayerManager.I.PlayerBag.Bag;
-            bag.AddBag(new Item.Serialization(2, 0f));
-            bag.AddBag(new Item.Serialization(1, 64));
+            //var bag = PlayerManager.I.PlayerBag.Bag;
+            //bag.AddBag(new Item.Serialization(2, 0f));
+            //bag.AddBag(new Item.Serialization(1, 64));
 
-            enemyTableSO.table[1].Create(new Vector3(10, 0, 10), new Vector3(0, 0, 0));
-
-            SocketManager.Socket.Send("1", SocketSign.Connect, new AsyncCallback(ConnectCallBack));
+            //enemyTableSO.table[1].Create(new Vector3(10, 0, 10), new Vector3(0, 0, 0));
         }
 
         private void Update()
@@ -83,7 +86,7 @@ namespace Manager
             if (message == null)
                 return;
 
-            print(message);
+            print(message.message);
         }
     }
 }

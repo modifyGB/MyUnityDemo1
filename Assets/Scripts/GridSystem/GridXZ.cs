@@ -3,6 +3,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Place;
+using MySocket;
 
 namespace GridSystem
 {

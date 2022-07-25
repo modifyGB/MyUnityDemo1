@@ -1,4 +1,8 @@
     
+SendMessage = {
+    'data' : None
+}
+
 Grid = {
     'ge' : 0
 }

@@ -10,6 +10,8 @@ def main_message_process(message, conn, addr, socket, dataset):
         save_all(message[2], addr, socket, dataset, message[0])
     elif message[1] == "CONNECT":
         connect(message[2], conn, addr, socket, message[0])
+    elif message[1] == "GET":
+        get(message[2:], conn, addr, socket, dataset, message[0])
 
 
 #保存全部
@@ -29,3 +31,15 @@ def connect(message, conn, addr, socket, count):
         return
     socket.addr_archive[addr] = int(message)
     socket.send('yes', conn, count)
+    
+
+#获取资源
+def get(message, conn, addr, socket, dataset, count):
+    if addr not in socket.addr_archive:
+        return
+    dataset = dataset.L[socket.addr_archive[addr]]
+    for i in message:
+        if i.isdigit():
+            i = int(i)
+        dataset = dataset[i]
+    socket.send(dataset, conn, count)

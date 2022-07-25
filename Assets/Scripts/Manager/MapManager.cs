@@ -1,5 +1,6 @@
 using GridSystem;
 using Place;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace Manager
         public int rowCount = 100;
         public int columnCount = 100;
         public Vector3 StartOrigin = Vector3.zero;
-        public string loadPath = "";
+        public bool isInitialize = false;
         [Header("设置")]
         public bool isDebug = false;
         public string groundLayerName = "Ground";
@@ -29,14 +30,14 @@ namespace Manager
         {
             base.Awake();
 
-            if (loadPath == "")
+            if (isInitialize)
             {
                 grid = new GridXZ(rowCount, columnCount, cellSize, StartOrigin);
                 BuildGround();
             }
             else
             {
-                LoadMap(loadPath);
+                LoadMap();
             }
 
             if (isDebug)
@@ -73,7 +74,7 @@ namespace Manager
             }
         }
         //加载地图信息并绘制
-        public void LoadMap(string loadPath)
+        public void LoadMap1(string loadPath)
         {
             var gridSerialization = Utils.LoadObject<GridXZ.Serialization>(loadPath);
             if (gridSerialization.PlaceableArray == null)
@@ -92,6 +93,55 @@ namespace Manager
 
             BuildGround();
             BuildPlaceableObject(gridSerialization.PlaceableArray);
+        }
+        public void LoadMap()
+        {
+            SocketManager.Socket.Send("GridXZ originPosition", 
+                MySocket.SocketSign.GET, new AsyncCallback(StartOriginCallBack));
+            SocketManager.Socket.Send("GridXZ Height",
+                MySocket.SocketSign.GET, new AsyncCallback(ColumnCountCallBack));
+            SocketManager.Socket.Send("GridXZ Width",
+                MySocket.SocketSign.GET, new AsyncCallback(RowCountCallBack));
+            SocketManager.Socket.Send("GridXZ CellSize",
+                MySocket.SocketSign.GET, new AsyncCallback(CellSizeCallBack));
+        }
+        //回调函数
+        public void StartOriginCallBack(IAsyncResult ar)
+        {
+            var message = SocketManager.Socket.ReceiveCallback(ar);
+            if (message == null)
+                return;
+
+            print(message.message);
+            var oc = message.ToSerialization<float[]>().data;
+            StartOrigin = new Vector3(oc[0], oc[1], oc[2]);
+        }
+        public void ColumnCountCallBack(IAsyncResult ar)
+        {
+            var message = SocketManager.Socket.ReceiveCallback(ar);
+            if (message == null)
+                return;
+
+            print(message.message);
+            columnCount = message.ToSerialization<int>().data;
+        }
+        public void RowCountCallBack(IAsyncResult ar)
+        {
+            var message = SocketManager.Socket.ReceiveCallback(ar);
+            if (message == null)
+                return;
+
+            print(message.message);
+            rowCount = message.ToSerialization<int>().data;
+        }
+        public void CellSizeCallBack(IAsyncResult ar)
+        {
+            var message = SocketManager.Socket.ReceiveCallback(ar);
+            if (message == null)
+                return;
+
+            print(message.message);
+            cellSize = message.ToSerialization<float>().data;
         }
     }
 }

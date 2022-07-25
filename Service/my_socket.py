@@ -1,4 +1,5 @@
 
+import json
 import socket
 import threading
 from dataset import D
@@ -52,8 +53,10 @@ class MySocket:
             main_message_process(x[i], conn, addr, S, D)
         self.message_list[addr] = x[-1]
         
-    def send(self, message, conn, count):
-        conn.send(bytes(count + ' ' + message,"UTF-8"))
+    def send(self, object, conn, count):
+        message = {'data': object}
+        out = count + ' ' + json.dumps(message).replace(' ','') + '\n'
+        conn.send(bytes(out ,"UTF-8"))
         
             
 S = MySocket('0.0.0.0', 6666)

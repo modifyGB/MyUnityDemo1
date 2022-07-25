@@ -9,7 +9,7 @@ using Manager;
 
 namespace MySocket
 {
-    public enum SocketSign { None, SaveAll, Connect }
+    public enum SocketSign { None, SaveAll, Connect, GET }
 
     public class Socket
     {
@@ -25,14 +25,14 @@ namespace MySocket
             Debug.Log("connect success");
         }
 
-        public string ReceiveCallback(IAsyncResult ar)
+        public ReceiveMessage ReceiveCallback(IAsyncResult ar)
         {
             S.EndReceive(ar);
-            var message = (Message)ar.AsyncState;
-            var mList = Encoding.UTF8.GetString(message.buffer).Split(' ');
-            if (mList.Length < 2 || int.Parse(mList[0]) != message.count)
+            var message = (SendMessage)ar.AsyncState;
+            var rm = new ReceiveMessage(message);
+            if (rm.message == null)
                 return null;
-            return mList[1];
+            return rm;
         }
 
         public void Send(string message, SocketSign sign)
@@ -41,8 +41,10 @@ namespace MySocket
             string sign_ = "";
             if (sign == SocketSign.SaveAll)
                 sign_ = "SAVEALL ";
-            if (sign == SocketSign.Connect)
+            else if (sign == SocketSign.Connect)
                 sign_ = "CONNECT ";
+            else if (sign == SocketSign.GET)
+                sign_ = "GET ";
 
             S.Send(Encoding.UTF8.GetBytes(count + " " + sign_ + message + '\n'));
         }
@@ -50,8 +52,8 @@ namespace MySocket
         public void Send(string message, SocketSign sign, AsyncCallback callback)
         {
             Send(message, sign);
-            Message m = new Message(count);
-            S.BeginReceive(m.buffer, 0, Message.BUFFER_SIZE, SocketFlags.None, callback, m);
+            SendMessage m = new SendMessage(count);
+            S.BeginReceive(m.buffer, 0, SendMessage.BUFFER_SIZE, SocketFlags.None, callback, m);
         }
 
     }
