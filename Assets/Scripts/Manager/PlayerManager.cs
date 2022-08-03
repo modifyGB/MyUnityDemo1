@@ -11,6 +11,17 @@ namespace Manager
 {
     public enum PlayerState { Move, Attack, Die, GetHit }
 
+    public struct PlayerMessage
+    {
+        public float nowBlood;
+        public float experience;
+        public float[] position;
+        public int bagCapacity;
+        public List<Item.Serialization> bag;
+        public PlayerMessage(float nowBlood, float experience, float[] position, int bagCapacity, List<Item.Serialization> bag)
+        { this.nowBlood = nowBlood; this.experience = experience; this.position = position; this.bagCapacity = bagCapacity; this.bag = bag; }
+    }
+
     public class PlayerManager : Singleton<PlayerManager>
     {
         [Header("人物")]
@@ -18,7 +29,6 @@ namespace Manager
         [Header("数值")]
         public float walkSpeed = 5f;
         public float runSpeedPlus = 5f;
-        public int bagCapacity = 8;
         [Header("设置")]
         public bool isBug = false;
 
@@ -72,18 +82,6 @@ namespace Manager
         public PlayerState PlayerState { get { return playerState; } set { playerState = value; } }
         public bool isWeapon { get { return weapon != null; } }
 
-        public struct PlayerMessage
-        {
-            public float nowBlood;
-            public float experience;
-            public float[] position;
-            public int bagCapacity;
-            public List<Item.Serialization> bag;
-            public PlayerMessage(float nowBlood, float experience, float[] position, int bagCapacity, List<Item.Serialization> bag)
-            { this.nowBlood = nowBlood; this.experience = experience; this.position = position; this.bagCapacity = bagCapacity; this.bag = bag; }
-        }
-
-        //序列化
         public PlayerMessage ToSerialization()
         {
             var nowBlood = playerValue.NowBlood;
@@ -105,7 +103,9 @@ namespace Manager
         {
             base.Awake();
 
-            Player = Instantiate(PlayerPrefab, new Vector3(5, 1, 5), Quaternion.identity);
+            var p = GameManager.I.ArchiveObject.Player;
+            var po = new Vector3(p.position[0], p.position[1], p.position[2]);
+            Player = Instantiate(PlayerPrefab, po, Quaternion.identity);
 
             shieldTransform = Utils.FindChildByName(Player, "Shield").transform;
             weaponTransform = Utils.FindChildByName(Player, "Weapon").transform;
@@ -115,6 +115,11 @@ namespace Manager
             playerAttack = Player.GetComponent<PlayerAttack>();
             playerValue = Player.GetComponent<PlayerValue>();
             playerBag = Player.GetComponent<PlayerBag>();
+        }
+
+        private void Start()
+        {
+            
         }
 
         void Update()

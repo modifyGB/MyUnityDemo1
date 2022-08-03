@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Weapon;
+using DG.Tweening;
 
 namespace Place
 {
@@ -13,7 +14,7 @@ namespace Place
         private PlaceSO placeSO;
         private int num = 0;
         public int Num { get { return num; } }
-        private Vector2Int origin;
+        protected Vector2Int origin;
         public Vector2Int Origin { get { return origin; } }
         private Dir dir = Dir.Down;
         public Dir Dir { get { return dir; } }
@@ -36,11 +37,10 @@ namespace Place
             public Serialization(int num, Vector2Int origin, Dir dir)
             { this.num = num; this.origin = new int[2] { origin.x, origin.y }; this.dir = dir; }
         }
-        private Transform dropPoint;
+        protected Transform dropPoint;
 
-        private void Awake()
+        public virtual void Awake()
         {
-            //blood = maxBlood;
             dropPoint = Utils.FindChildByName(gameObject, "Drop").transform;
         }
         //初始化
@@ -68,35 +68,69 @@ namespace Place
             dir = Utils.GetNextDir(dir);
         }
         //受到攻击处理
-        public virtual void BeAttack(WeaponSO weapon)
+        public virtual void BeAttackBefore()
         {
+            transform.DOShakePosition(0.1f, new Vector3(0.1f, 0, 0.1f), 100, 0, false, false);
+        }
+        public virtual void BeAttackNow(WeaponSO weapon)
+        {
+
             Blood -= weapon.attack;
         }
+        public virtual void BeAttackAfter() { }
+        public void BeAttack(WeaponSO weapon)
+        {
+            BeAttackBefore();
+            BeAttackNow(weapon);
+            BeAttackAfter();
+        }
         //爆物品
-        public void Drop()
+        public virtual void Drop()
         {
             foreach (var drop in placeSO.dropTableSO.table)
             {
                 var item = GameManager.I.itemTableSO.table[drop.num];
-                if (item.isCountable)
+                if (!item.isCountable)
                 {
-                    var dropItem = new Item(drop.num, drop.count);
-                    dropItem.Throw(dropPoint, new Vector3(0, 3, 0));
+                    for (int i = 0; i < drop.count; i++)
+                    {
+                        var dropItem = new Item(drop.num);
+                        dropItem.Throw(dropPoint, new Vector3(0, 3, 0));
+                    }
                 }
                 else
                 {
-
+                    if (drop.isRandom)
+                    {
+                        var dropItem = new Item(drop.num, Random.Range(drop.minCount, drop.maxCount + 1));
+                        dropItem.Throw(dropPoint, new Vector3(0, 3, 0));
+                    }
+                    else
+                    {
+                        var dropItem = new Item(drop.num, drop.count);
+                        dropItem.Throw(dropPoint, new Vector3(0, 3, 0));
+                    }
                 }
-
             }
         }
         //销毁
-        public void DestroyOut()
+        public virtual void DestroyOut()
+        {
+            MapManager.I.placeList[origin.x].Remove(origin.y);
+            if (MapManager.I.chestList.ContainsKey(origin.x) 
+                && MapManager.I.chestList[origin.x].ContainsKey(origin.y))
+                MapManager.I.chestList[origin.x].Remove(origin.y);
+
+            Drop();
+            DestroySelf();
+        }
+
+        public override void DestroySelf()
         {
             foreach (var gridPos in GetGridPositionList())
                 MapManager.I.grid.GetGridObject(gridPos.x, gridPos.y).ClearPlaceableObject();
-            Drop();
-            DestroySelf();
+
+            base.DestroySelf();
         }
     }
 }

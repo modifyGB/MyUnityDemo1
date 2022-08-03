@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace UI
 {
-    public class CloseButton : MonoBehaviour, IPointerUpHandler
+    public class CloseButton : MyScript, IPointerUpHandler
     {
 
         private void Awake()

@@ -51,12 +51,14 @@ namespace Items
         public Action ItemChange;
         public List<ItemObject> objectList = new List<ItemObject>();
 
+        [Serializable]
         public struct Serialization
         {
             public int num;
             public int count;
             public float dure;
             public bool isUnlimited;
+            public Serialization(int num) { this.num = num; count = 1; dure = 0; isUnlimited = false; }
             public Serialization(int num, int count) { this.num = num; this.count = count; dure = 0; isUnlimited = false; }
             public Serialization(int num, int count, bool isUnlimited) { this.num = num; this.count = count; dure = 0; this.isUnlimited = isUnlimited; }
             public Serialization(int num, float dure) { this.num = num; count = 1; this.dure = dure; isUnlimited = false; }

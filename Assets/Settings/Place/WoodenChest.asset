@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfd5d55e56545654db74f8eb1ab39e1e, type: 3}
+  m_Name: WoodenChest
+  m_EditorClassIdentifier: 
+  num: 2
+  placeObject: {fileID: 6685031403681327282, guid: 312874e267934014aae55848f5278291,
+    type: 3}
+  Left: 0
+  Right: 2
+  Up: 1
+  Down: 0
+  maxBlood: 4
+  dropTableSO: {fileID: 11400000, guid: 3613969d466599040be624090ffcc2bd, type: 2}
+  bagCapacity: 10

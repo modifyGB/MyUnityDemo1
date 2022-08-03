@@ -29,4 +29,5 @@ MonoBehaviour:
   attackRate: 10
   attackInterval: 2
   loseDistance: 20
+  dropTableSO: {fileID: 11400000, guid: 2c6a2ab605c096c43b426dbaf083bad2, type: 2}
   isBug: 0

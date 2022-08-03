@@ -43,6 +43,7 @@ namespace Player
         {
             var playerManager = PlayerManager.I;
             if (playerManager.PlayerState != PlayerState.Move ||
+                UIManager.I.UIState != UIState.Play || 
                 (horizontal == 0 && vertical == 0))
             {
                 nowMoveSpeed = 0;

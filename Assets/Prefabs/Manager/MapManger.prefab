@@ -45,12 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyOnLoad: 0
-  cellSize: 2
-  rowCount: 100
-  columnCount: 100
-  StartOrigin: {x: 0, y: 0, z: 0}
-  loadPath: map.json
   isDebug: 0
   groundLayerName: Ground
-  planeMaterial: {fileID: 2100000, guid: 710d3d1913c120f4b80687192445c26a, type: 2}
+  groundGrass: {fileID: -5471577474690972191, guid: 80c2b222294198647b4b05a8500da6f2,
+    type: 3}
+  groundSoil: {fileID: 6415619475489278966, guid: b123fef893b777a49a7a2ba6d5e4901e,
+    type: 3}
+  groundWater: {fileID: -7871627037033842952, guid: 456b3a01955868c41bdfbe0b6fb1abcf,
+    type: 3}
+  chestList: []
   map: {fileID: 0}

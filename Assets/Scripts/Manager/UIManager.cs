@@ -1,15 +1,18 @@
 using Bags;
 using Items;
+using Place;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Manager
 {
     public enum UIState { Load, Play, Interface, Setting }
+    public enum UILeftState { State, Make, Box }
 
     public class UIManager : Singleton<UIManager>
     {
@@ -19,6 +22,9 @@ namespace Manager
         public PlayerStateBar PlayerStateBarPrefab;
         public UseTable UseTablePrefab;
         public ItemMenu ItemMenuPrefab;
+        public MakeItem MakeItemPrefab;
+        public Slot SlotPrefab;
+        public ItemObject ItemObjectPrefab;
 
         private GameObject playerInterface;
         public GameObject PlayerInterface { get { return playerInterface; } }
@@ -26,12 +32,24 @@ namespace Manager
         public GameObject DropItemCanva { get { return dropItemCanva; } }
         private PlayerStateBar playerStateBar;
         public PlayerStateBar PlayerStateBar { get { return playerStateBar; } }
+        private PlayerStateValue playerStateValue;
+        public PlayerStateValue PlayerStateValue { get { return playerStateValue; } }
+        private PlayerStateButton playerStateButton;
+        public PlayerStateButton PlayerStateButton { get { return playerStateButton; } }
+        private MakeTableButton makeTableButton;
+        public MakeTableButton MakeTableButton { get { return makeTableButton; } }
+        private BoxButton boxButton;
+        public BoxButton BoxButton { get { return boxButton; } }
         private UseTable useTable;
         public UseTable UseTable { get { return useTable; } }
         private BagTable bagTable;
         public BagTable BagTable { get { return bagTable; } }
-        private ItemMenu itemMenu = null;
+        private MakeTable makeTable;
+        public MakeTable MakeTable { get { return makeTable; } }
+        private BoxTable boxTable;
+        public BoxTable BoxTable { get { return boxTable; } }
 
+        private ItemMenu itemMenu = null;
         private ItemObject pointerItem = null;
         public ItemObject PointerItem
         {
@@ -41,6 +59,60 @@ namespace Manager
                 pointerItem = value;
                 if (value != null)
                     pointerItem.transform.SetParent(BagTable.transform, false);
+            }
+        }
+        private Chest nowChest = null;
+        public Chest NowChest
+        {
+            get { return nowChest; }
+            set 
+            {
+                nowChest = value;
+                if (value != null)
+                {
+                    boxTable.Initializate(value);
+                    UIState = UIState.Interface;
+                    UILeftState = UILeftState.Box;
+                }
+                else
+                    boxTable.Clear();
+            }
+        }
+        private UILeftState uILeftState = UILeftState.State;
+        public UILeftState UILeftState
+        {
+            get { return uILeftState; }
+            set
+            {
+                uILeftState = value;
+
+                playerStateValue.gameObject.SetActive(false);
+                makeTable.gameObject.SetActive(false);
+                boxTable.gameObject.SetActive(false);
+                playerStateButton.button.interactable = true;
+                makeTableButton.button.interactable = true;
+                boxButton.button.interactable = true;
+                if (nowChest == null)
+                    boxButton.gameObject.SetActive(false);
+                else
+                    boxButton.gameObject.SetActive(true);
+
+                if (value == UILeftState.State)
+                {
+                    playerStateValue.gameObject.SetActive(true);
+                    playerStateButton.button.interactable = false;
+                }
+                else if (value == UILeftState.Make)
+                {
+                    makeTable.gameObject.SetActive(true);
+                    makeTableButton.button.interactable = false;
+                }
+                else if (value == UILeftState.Box)
+                {
+                    boxTable.gameObject.SetActive(true);
+                    boxButton.button.interactable = false;             
+                }
+                UILeftSwitch?.Invoke(value);
             }
         }
         private UIState uIState = UIState.Play;
@@ -59,15 +131,18 @@ namespace Manager
                 {
                     PlayerInterface.SetActive(true);
                     UseTable.gameObject.SetActive(false);
+                    UILeftState = UILeftState.State;
                 }
                 UISwitch.Invoke(value);
             }
         }
         public Action<UIState> UISwitch;
+        public Action<UILeftState> UILeftSwitch;
 
         private Dictionary<KeyCode, bool> inputDic = new Dictionary<KeyCode, bool>();
         private float scrollWheel = 0;
         private bool isMouse0 = false;
+        private bool isMouse1 = false;
 
         public override void Awake()
         {
@@ -78,6 +153,14 @@ namespace Manager
             dropItemCanva = Instantiate(DropItemCanvaPrefab);
             playerStateBar = Instantiate(PlayerStateBarPrefab);
             bagTable = Utils.FindChildByName(PlayerInterface, "BagTable").GetComponent<BagTable>();
+            makeTable = Utils.FindChildByName(PlayerInterface, "MakeTable").GetComponent<MakeTable>();
+            boxTable = Utils.FindChildByName(PlayerInterface, "BoxTable").GetComponent<BoxTable>();
+            playerStateValue = Utils.FindChildByName(PlayerInterface, "PlayerState").GetComponent<PlayerStateValue>();
+            playerStateButton = Utils.FindChildByName(PlayerInterface, "PlayerStateButton").GetComponent<PlayerStateButton>();
+            makeTableButton = Utils.FindChildByName(PlayerInterface, "MakeTableButton").GetComponent<MakeTableButton>();
+            boxButton = Utils.FindChildByName(PlayerInterface, "BoxButton").GetComponent<BoxButton>();
+
+            UILeftState = UILeftState.State;
             PlayerInterface.SetActive(false);
             UseTable.gameObject.SetActive(true);
 
@@ -87,6 +170,7 @@ namespace Manager
 
             UISwitch += DeleteItemMenu;
             UISwitch += ThrowPointerItem;
+            UISwitch += ClearNowChest;
         }
 
         private void Start()
@@ -108,6 +192,8 @@ namespace Manager
                 scrollWheel = Input.GetAxisRaw("Mouse ScrollWheel");
             if (!isMouse0)
                 isMouse0 = Input.GetMouseButtonDown(0);
+            if (!isMouse1)
+                isMouse1 = Input.GetMouseButtonDown(1);
 
             UpdatePointerItem();
         }
@@ -123,14 +209,15 @@ namespace Manager
                 inputDic[KeyCode.E] = false;
             }
 
-            if (UIState == UIState.Interface)
+            if (isMouse0)
             {
-                DeleteItemMenu();
+                if (itemMenu != null)
+                    itemMenu.DestroySelf();
+                isMouse0 = false;
             }
-            else
-            {
-                ChangeUseTable();
-            }
+
+            Mouse1Event();
+            ChangeUseTable();
         }
 
         //换物品栏所选物品
@@ -142,8 +229,11 @@ namespace Manager
             for (int i = 49; i < 57; i++)
                 if (inputDic[(KeyCode)i])
                 {
-                    bag.UseNum = i - 49;
-                    flag = true;
+                    if (UIState == UIState.Play)
+                    {
+                        bag.UseNum = i - 49;
+                        flag = true;
+                    }
                     break;
                 }
             if (flag)
@@ -152,19 +242,40 @@ namespace Manager
             //scrollWheel
             if (scrollWheel > 0)
             {
-                if (bag.UseNum == 0)
-                    bag.UseNum = 7;
-                else
-                    bag.UseNum--;
-                scrollWheel = 0;
+                if (UIState == UIState.Play)
+                {
+                    if (bag.UseNum == 0)
+                        bag.UseNum = 7;
+                    else
+                        bag.UseNum--;
+                    scrollWheel = 0;
+                }
             }
             else if (scrollWheel < 0)
             {
-                if (bag.UseNum == 7)
-                    bag.UseNum = 0;
-                else
-                    bag.UseNum++;
-                scrollWheel = 0;
+                if (UIState == UIState.Play)
+                {
+                    if (bag.UseNum == 7)
+                        bag.UseNum = 0;
+                    else
+                        bag.UseNum++;
+                    scrollWheel = 0;
+                }
+            }
+        }
+        //右键事件
+        void Mouse1Event()
+        {
+            if (isMouse1)
+            {
+                var hitObject_ = Utils.CameraRay();
+                if (hitObject_.transform != null)
+                {
+                    var hitObject = Utils.CameraRay().transform.gameObject;
+                    if (hitObject.tag == "Chest")
+                        NowChest = hitObject.GetComponent<Chest>();
+                }
+                isMouse1 = false;
             }
         }
         //创建ItemMenu
@@ -184,15 +295,6 @@ namespace Manager
         {
             if (itemMenu != null)
                 itemMenu.DestroySelf();
-        }
-        public void DeleteItemMenu()
-        {
-            if (isMouse0)
-            {
-                if (itemMenu != null)
-                    itemMenu.DestroySelf();
-                isMouse0 = false;
-            }
         }
         //更新PointerItem位置
         public void UpdatePointerItem()
@@ -252,6 +354,23 @@ namespace Manager
             var newItem = new Item(bag.ItemList[bagNum].Num, bag.ItemList[bagNum].Count / 2);
             bag.ItemList[bagNum].Count -= bag.ItemList[bagNum].Count / 2;
             PointerItem = newItem.Create(false);
+        }
+        //删除pointerItem检查
+        public void DeletePointerItemCheck()
+        {
+            if (PointerItem == null)
+                return;
+            if (PointerItem.item.Check())
+                return;
+
+            PointerItem.DestroySelf();
+            PointerItem = null;
+        }
+        //清空nowChest
+        public void ClearNowChest(UIState uIState)
+        {
+            if (uIState == UIState.Play)
+                NowChest = null;
         }
     }
 }

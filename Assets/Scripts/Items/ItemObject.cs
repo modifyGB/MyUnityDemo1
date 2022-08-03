@@ -17,6 +17,7 @@ namespace Items
         private GameObject countObject;
         private GameObject dureObject;
         private TextMeshProUGUI countText;
+        public TextMeshProUGUI CountText { get { return countText; } }
         private GameObject Nowdure;
 
         private bool isThrow = false;

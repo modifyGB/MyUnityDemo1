@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class UseButton : MonoBehaviour, IPointerDownHandler
+    public class UseButton : MyScript, IPointerDownHandler
     {
         public ItemMenu ItemMenu;
         public Button button;

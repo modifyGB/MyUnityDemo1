@@ -1,3 +1,4 @@
+using Bags;
 using Manager;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace Enemy
         public float attackInterval = 1;
         public float loseDistance = 10;
         [Header("ÆäËû")]
+        public DropTableSO dropTableSO;
         public bool isBug = false;
 
         public EnemyObject Create(Vector3 position, Vector3 rotation)

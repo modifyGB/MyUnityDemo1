@@ -3,87 +3,157 @@ using Place;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Manager
 {
     public class MapManager : Singleton<MapManager>
     {
-        [Header("初始化设置")]
-        public float cellSize = 2;
-        public int rowCount = 100;
-        public int columnCount = 100;
-        public Vector3 StartOrigin = Vector3.zero;
-        public bool isInitialize = false;
         [Header("设置")]
         public bool isDebug = false;
         public string groundLayerName = "Ground";
         [Header("资源")]
-        public Material planeMaterial;
+        public Ground groundGrass;
+        public Ground groundSoil;
+        public Ground groundWater;
 
         [HideInInspector]
         public GridXZ grid;
         [HideInInspector]
+        public Dictionary<int, Dictionary<int, Chest.ChestSerialization>> chestList
+            = new Dictionary<int, Dictionary<int, Chest.ChestSerialization>>();
+        [HideInInspector]
+        public Dictionary<int, Dictionary<int, PlaceObject.Serialization>> placeList
+            = new Dictionary<int, Dictionary<int, PlaceObject.Serialization>>();
+        [HideInInspector]
         public Transform map;
+        [HideInInspector]
+        public Transform ground;
+
+        public Action<GridObject> PlayerGridNow;
 
         public override void Awake()
         {
             base.Awake();
 
-            if (isInitialize)
-            {
-                grid = new GridXZ(rowCount, columnCount, cellSize, StartOrigin);
-                BuildGround();
-            }
-            else
-            {
-                LoadMap();
-            }
+            LoadMap();
 
             if (isDebug)
                 grid.InitializeDebug();
+        }
+
+        private void Update()
+        {
+            var playerGrid = grid.GetGridObject(PlayerManager.Player.transform.position);
+            PlayerGridNow?.Invoke(playerGrid);
+            UpdateGround(playerGrid);
         }
         //绘制地面
         public void BuildGround()
         {
             map = new GameObject("Map").transform;
             map.transform.localPosition = Vector3.zero;
-            var ground = new GameObject("Ground");
-            ground.transform.localPosition = Vector3.zero;
-            ground.transform.parent = map.transform;
+            ground = new GameObject("Ground").transform;
+            ground.localPosition = Vector3.zero;
+            ground.parent = map.transform;
 
-            foreach (var gridObject in grid.GridArray)
+            var player = GameManager.I.ArchiveObject.Player;
+            var playerGrid = grid.GetGridObject(new Vector3(player.position[0], 0, player.position[2]));
+            UpdateGround(playerGrid);
+        }
+        //更新地面
+        public void UpdateGround(GridObject playerGrid)
+        {
+            for (int i = Mathf.Clamp(playerGrid.x - 30, 0, grid.Width - 1) ; 
+                i < Mathf.Clamp(playerGrid.x + 30, 0, grid.Width - 1); i++)
+                for (int j = Mathf.Clamp(playerGrid.z - 30, 0, grid.Height - 1); 
+                    j < Mathf.Clamp(playerGrid.z + 30, 0, grid.Height - 1); j++)
+                {
+                    var gridObject = grid.GridArray[i, j];
+                    if (gridObject.groundObject != null)
+                        continue;
+                    Ground plane = null;
+                    if (gridObject.gridEnvironment == GridEnvironment.GRASS)
+                        plane = Instantiate(groundGrass);
+                    else if (gridObject.gridEnvironment == GridEnvironment.SOIL)
+                        plane = Instantiate(groundSoil);
+                    else if (gridObject.gridEnvironment == GridEnvironment.WATER)
+                        plane = Instantiate(groundWater);
+                    plane.Initialization(gridObject);
+                }
+        }
+        //加载放置物
+        public void LoadPlace()
+        {
+            foreach (var place in GameManager.I.ArchiveObject.PlaceList)
             {
-                var plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                plane.transform.parent = ground.transform;
-                plane.transform.localScale = new Vector3(grid.CellSize / 10f, 1, grid.CellSize / 10f);
-                var pos = gridObject.GetWorldPosition();
-                plane.transform.position = new Vector3(pos.x + grid.CellSize / 2, 0, pos.z + grid.CellSize / 2);
-                plane.GetComponent<MeshRenderer>().material = planeMaterial;
-                plane.layer = LayerMask.NameToLayer(groundLayerName);
+                if (!placeList.ContainsKey(place.origin[0]))
+                    placeList.Add(place.origin[0], new Dictionary<int, PlaceObject.Serialization>());
+                placeList[place.origin[0]].Add(place.origin[1], place);
             }
         }
-        //绘制放置物
-        public void BuildPlaceableObject(List<PlaceObject.Serialization> pList)
+        //存储放置物
+        public List<PlaceObject.Serialization> DumpPlace()
         {
-            foreach (PlaceObject.Serialization o in pList)
+            var ll = new List<PlaceObject.Serialization>();
+            for (int i = 0; i < placeList.Count; i++)
             {
-                var po = GameManager.I.placeTableSO.table[o.num];
-                var newPO = po.Create(new Vector2Int(o.origin[0], o.origin[1]), o.dir);
-                newPO.transform.SetParent(map);
+                var item1 = placeList.ElementAt(i);
+                for (int j = 0; j < item1.Value.Count; j++)
+                {
+                    var item2 = item1.Value.ElementAt(i);
+                    ll.Add(item2.Value);
+                }
             }
+            return ll;
+        }
+        //加载宝箱
+        public void LoadChest()
+        {
+            foreach (var chest in GameManager.I.ArchiveObject.ChestList)
+            {
+                if (!chestList.ContainsKey(chest.place.origin[0]))
+                    chestList.Add(chest.place.origin[0], new Dictionary<int, Chest.ChestSerialization>());
+                chestList[chest.place.origin[0]].Add(chest.place.origin[1], chest);
+            }
+        }
+        //存储宝箱
+        public List<Chest.ChestSerialization> DumpChest()
+        {
+            var ll = new List<Chest.ChestSerialization>();
+            for (int i = 0; i < chestList.Count; i++)
+            {
+                var item1 = chestList.ElementAt(i);
+                for (int j = 0; j < item1.Value.Count; j++)
+                {
+                    var item2 = item1.Value.ElementAt(i);
+                    ll.Add(item2.Value);
+                }
+            }
+            return ll;
+        }
+        //添加物体
+        public void AddPlace(PlaceObject placeObject)
+        {
+            if (!placeList.ContainsKey(placeObject.Origin[0]))
+                placeList.Add(placeObject.Origin[0], new Dictionary<int, PlaceObject.Serialization>());
+            placeList[placeObject.Origin[0]].Add(placeObject.Origin[1], placeObject.ToSerialization());
+            if (placeObject.GetType() != typeof(Chest))
+                return;
+            var chestObject = (Chest) placeObject;
+            if (!chestList.ContainsKey(chestObject.Origin[0]))
+                chestList.Add(chestObject.Origin[0], new Dictionary<int, Chest.ChestSerialization>());
+            chestList[chestObject.Origin[0]].Add(chestObject.Origin[1], chestObject.ToChestSerialization());
         }
         //加载地图信息并绘制
-        public void LoadMap1(string loadPath)
+        public void LoadMap()
         {
-            var gridSerialization = Utils.LoadObject<GridXZ.Serialization>(loadPath);
-            if (gridSerialization.PlaceableArray == null)
-                return;
-
-            cellSize = gridSerialization.CellSize;
-            rowCount = gridSerialization.Width;
-            columnCount = gridSerialization.Height;
-            StartOrigin = new Vector3(gridSerialization.originPosition[0], 
+            var gridSerialization = GameManager.I.ArchiveObject.GridXZ;
+            var cellSize = gridSerialization.CellSize;
+            var rowCount = gridSerialization.Width;
+            var columnCount = gridSerialization.Height;
+            var StartOrigin = new Vector3(gridSerialization.originPosition[0], 
                 gridSerialization.originPosition[1], gridSerialization.originPosition[2]);
 
             grid = new GridXZ(rowCount, columnCount, cellSize, StartOrigin);
@@ -91,57 +161,9 @@ namespace Manager
                 for (var y = 0; y < gridSerialization.Height; y++)
                     grid.GridArray[x, y].gridEnvironment = gridSerialization.GridArray[x, y].ge;
 
+            LoadPlace();
+            LoadChest();
             BuildGround();
-            BuildPlaceableObject(gridSerialization.PlaceableArray);
-        }
-        public void LoadMap()
-        {
-            SocketManager.Socket.Send("GridXZ originPosition", 
-                MySocket.SocketSign.GET, new AsyncCallback(StartOriginCallBack));
-            SocketManager.Socket.Send("GridXZ Height",
-                MySocket.SocketSign.GET, new AsyncCallback(ColumnCountCallBack));
-            SocketManager.Socket.Send("GridXZ Width",
-                MySocket.SocketSign.GET, new AsyncCallback(RowCountCallBack));
-            SocketManager.Socket.Send("GridXZ CellSize",
-                MySocket.SocketSign.GET, new AsyncCallback(CellSizeCallBack));
-        }
-        //回调函数
-        public void StartOriginCallBack(IAsyncResult ar)
-        {
-            var message = SocketManager.Socket.ReceiveCallback(ar);
-            if (message == null)
-                return;
-
-            print(message.message);
-            var oc = message.ToSerialization<float[]>().data;
-            StartOrigin = new Vector3(oc[0], oc[1], oc[2]);
-        }
-        public void ColumnCountCallBack(IAsyncResult ar)
-        {
-            var message = SocketManager.Socket.ReceiveCallback(ar);
-            if (message == null)
-                return;
-
-            print(message.message);
-            columnCount = message.ToSerialization<int>().data;
-        }
-        public void RowCountCallBack(IAsyncResult ar)
-        {
-            var message = SocketManager.Socket.ReceiveCallback(ar);
-            if (message == null)
-                return;
-
-            print(message.message);
-            rowCount = message.ToSerialization<int>().data;
-        }
-        public void CellSizeCallBack(IAsyncResult ar)
-        {
-            var message = SocketManager.Socket.ReceiveCallback(ar);
-            if (message == null)
-                return;
-
-            print(message.message);
-            cellSize = message.ToSerialization<float>().data;
         }
     }
 }

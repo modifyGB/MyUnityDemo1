@@ -61,13 +61,16 @@ namespace Place
             {
                 for (int y = Mathf.FloorToInt(down / cellSize); y < Mathf.CeilToInt(up / cellSize); y++)
                 {
-                    gridPositionList.Add(origin + new Vector2Int(x, y));
+                    var pos = origin + new Vector2Int(x, y);
+                    if (pos.x >= 0 && pos.y >= 0 && pos.x < 
+                        MapManager.I.grid.Width && pos.y < MapManager.I.grid.Height)
+                        gridPositionList.Add(pos);
                 }
             }
             return gridPositionList;
         }
         //创建物体
-        public PlaceObject Create(Vector2Int origin, Dir direction)
+        public virtual PlaceObject Create(Vector2Int origin, Dir direction)
         {
             GridXZ grid = MapManager.I.grid;
             var gridPosList = GetGridPositionList(origin, direction);
@@ -79,7 +82,7 @@ namespace Place
             foreach (var gridPos in gridPosList)
             {
                 var gridTobuild = grid.GetGridObject(gridPos.x, gridPos.y);
-                gridTobuild.PlaceableObject = newObject;
+                gridTobuild.PlaceObject = newObject;
             }
             //物体后处理
             Utils.FindChildByName(newObject.gameObject, "Area").SetActive(false);

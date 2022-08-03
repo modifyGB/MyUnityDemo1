@@ -7,7 +7,7 @@ using static UnityEngine.EventSystems.PointerEventData;
 
 namespace UI
 {
-    public class Slot : MonoBehaviour, IPointerUpHandler
+    public class Slot : MyScript, IPointerUpHandler
     {
         public Bag bag;
         public int bagNum;

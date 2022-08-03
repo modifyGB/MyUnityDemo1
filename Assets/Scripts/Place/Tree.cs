@@ -8,7 +8,7 @@ namespace Place
     public class Tree : PlaceObject
     {
         //受到攻击处理
-        public override void BeAttack(WeaponSO weapon)
+        public override void BeAttackNow(WeaponSO weapon)
         {
             if (weapon.weaponPrefab.GetType() == typeof(Axe))
                 Blood -= weapon.attack;

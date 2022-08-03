@@ -1,6 +1,9 @@
+using Bags;
+using Items;
 using Newtonsoft.Json;
 using Place;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -21,9 +24,7 @@ public static class Utils
     {
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit info))
-        {
             return info;
-        }
         return new RaycastHit();
     }
     //使用名字查找子物体
@@ -54,7 +55,6 @@ public static class Utils
 
         using (var writer = new StreamWriter(fileStream))
             writer.Write(json);
-        Debug.Log("Save success!");
     }
     //读取物体
     public static TSaveObject LoadObject<TSaveObject>(string savePath)
@@ -134,5 +134,93 @@ public static class Utils
         if (parent.transform.childCount > 0)
             for (int i = 0; i < parent.transform.childCount; i++)
                 GameObject.Destroy(parent.transform.GetChild(i).gameObject);
+    }
+    //Production转Serialization
+    public static Item.Serialization ProductionToSerialization(MakeItemSO.Production p)
+    {
+        return new Item.Serialization(p.num, p.count);
+    }
+    //创建二维柏林噪声
+    public static float[,] CreateNoiseMap(int mapWidth, int mapHeight, float scale, 
+        int octaves, float persistance, float lacunarity, float xOrg, float yOrg)
+    {
+        var map = new float[mapWidth, mapHeight];
+        float maxValue = float.MinValue;
+        float minValue = float.MaxValue;
+
+        for (int y = 0; y < mapHeight; y++)
+            for (int x = 0; x < mapWidth; x++)
+            {
+                float amplitude = 1;
+                float frequency = 1;
+                float noiseHeight = 0;
+
+                for (int i = 0; i < octaves; i++)
+                {
+                    float xCoord = xOrg + x / scale * frequency;
+                    float yCoord = yOrg + y / scale * frequency;
+                    float perlinValue = Mathf.PerlinNoise(xCoord, yCoord) * 2 - 1;
+                    noiseHeight += perlinValue * amplitude;
+
+                    amplitude *= persistance;
+                    frequency *= lacunarity;
+                }
+
+                if (noiseHeight > maxValue)
+                    maxValue = noiseHeight;
+                else if (noiseHeight < minValue)
+                    minValue = noiseHeight;
+                map[x, y] = noiseHeight;
+            }
+
+        for (int y = 0; y < mapHeight; y++)
+            for (int x = 0; x < mapWidth; x++)
+                map[x, y] = Mathf.InverseLerp(minValue, maxValue, map[x, y]);
+
+        return map;
+    }
+    public static float[,] CreateNoiseMap(int mapWidth, int mapHeight, float scale,
+        int octaves, float persistance, float lacunarity, int seed)
+    {
+        System.Random rand = new System.Random(seed);
+        float xOrg = rand.Next(0, mapWidth);
+        float yOrg = rand.Next(0, mapHeight);
+
+        return CreateNoiseMap(mapWidth, mapHeight, scale, octaves, persistance, lacunarity, xOrg, yOrg);
+    }
+    //二维随机取样
+    public static List<int[]> GetRandomPoint2(int Width, int widthCount, int Height, int heightCount)
+    {
+        List<int[]> output = new List<int[]>();
+        int[] widthOutput = new int[widthCount];
+        int[] heightOutput = new int[heightCount];
+        int[] widthList = new int[Width];
+        int[] heightList = new int[Height];
+        for (int i = 0; i < Width; i++)
+            widthList[i] = i;
+        for (int i = 0; i < Height; i++)
+            heightList[i] = i;
+
+        int end = widthList.Length;
+        int num = 0;
+        for (int i = 0; i < widthCount; i++)
+        {
+            num = UnityEngine.Random.Range(0, end);
+            widthOutput[i] = widthList[num];
+            widthList[num] = widthList[end - 1];
+            end--;
+        }
+        end = heightList.Length;
+        for (int i = 0; i < widthCount; i++)
+        {
+            num = UnityEngine.Random.Range(0, end);
+            heightOutput[i] = heightList[num];
+            heightList[num] = heightList[end - 1];
+            end--;
+        }
+
+        output.Add(widthOutput);
+        output.Add(heightOutput);
+        return output;
     }
 }

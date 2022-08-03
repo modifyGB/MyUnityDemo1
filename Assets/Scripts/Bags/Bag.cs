@@ -72,24 +72,68 @@ namespace Bags
                 return newItem;
             }
         }
+        //删除物品至背包
+        public void DeleteBag(Item.Serialization item)
+        {
+            var table = GameManager.I.itemTableSO.table;
+            if (table.Length <= item.num)
+                return;
+
+            for (int i = 0; i < bagCapacity; i++)
+                if (ItemList[i] != null && ItemList[i].Num == item.num)
+                {
+                    if (item.count > ItemList[i].Count)
+                    {
+                        item.count -= ItemList[i].Count;
+                        PutItemList(i);
+                    }
+                    else if (item.count < ItemList[i].Count)
+                    {
+                        ItemList[i].Count -= item.count;
+                        break;
+                    }
+                    else
+                    {
+                        PutItemList(i);
+                        break;
+                    }
+                }
+        }
+        //查看物品从背包
+        public bool CheckBag(Item.Serialization item)
+        {
+            var count = item.count;
+            bool flag = false;
+            for (int i = 0; i < bagCapacity; i++)
+            {
+                if (ItemList[i] != null && ItemList[i].Num == item.num)
+                    count -= ItemList[i].Count;
+                if (count <= 0)
+                {
+                    flag = true;
+                    break;
+                }
+            }
+            return flag;
+        }
         //添加物品至itemlist
         public void AddItemList(Item item, int bagNum)
         {
-            SlotChangeBefore.Invoke(bagNum);
+            SlotChangeBefore?.Invoke(bagNum);
             if (itemList[bagNum] != null)
                 itemList[bagNum].DestroySelf();
             itemList[bagNum] = item;
-            SlotChangeAfter.Invoke(bagNum);
+            SlotChangeAfter?.Invoke(bagNum);
         }
         //弹出物品从itemlist
         public Item PutItemList(int bagNum)
         {
             if (itemList[bagNum] == null)
                 return null;
-            SlotChangeBefore.Invoke(bagNum);
+            SlotChangeBefore?.Invoke(bagNum);
             var outItem = itemList[bagNum];
             itemList[bagNum] = null;
-            SlotChangeAfter.Invoke(bagNum);
+            SlotChangeAfter?.Invoke(bagNum);
             return outItem;
         }
         //删除物品检查
@@ -100,7 +144,9 @@ namespace Bags
             if (itemList[bagNum].Check())
                 return;
 
+            SlotChangeBefore?.Invoke(bagNum);
             PutItemList(bagNum).DestroySelf();
+            SlotChangeAfter?.Invoke(bagNum);
         }
         //使用一次物品
         public void UseItemOne(int bagNum)

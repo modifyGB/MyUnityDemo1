@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GridSystem
 {
-    public enum GridEnvironment { GRASS, WATER };
+    public enum GridEnvironment { GRASS, SOIL, WATER };
 
     //网格单元类，用来存放一些单元信息
     public class GridObject
@@ -13,10 +13,11 @@ namespace GridSystem
         public int z;
         private GridXZ grid;
         private PlaceObject placeObject;
+        public Ground groundObject = null;
 
         public bool IsWalkable = true;
         public bool CanBuild { get { return placeObject == null; } }
-        public PlaceObject PlaceableObject
+        public PlaceObject PlaceObject
         {
             get => placeObject;
             set

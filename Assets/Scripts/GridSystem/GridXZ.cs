@@ -44,11 +44,18 @@ namespace GridSystem
         public struct Serialization //序列化结构体
         {
             public GridObject.Serialization[,] GridArray;
-            public List<PlaceObject.Serialization> PlaceableArray;
             public float[] originPosition;
             public int Width;
             public int Height;
             public float CellSize;
+            public Serialization(int Width, int Height, float CellSize, Vector3 originPosition)
+            {
+                this.Width = Width;
+                this.Height = Height;
+                this.CellSize = CellSize;
+                this.originPosition = new float[3] {originPosition.x, originPosition.y, originPosition.z};
+                GridArray = new GridObject.Serialization[Width, Height];
+            }
         }
 
         //序列化
@@ -59,16 +66,10 @@ namespace GridSystem
             serialization.Height = Height;
             serialization.CellSize = CellSize;
             serialization.originPosition = new float[3] { originPosition.x, originPosition.y, originPosition.z };
-            serialization.PlaceableArray = new List<PlaceObject.Serialization>();
             serialization.GridArray = new GridObject.Serialization[Width, Height];
             for (int x = 0; x < Width; x++)
                 for (var y = 0; y < Height; y++)
-                {
                     serialization.GridArray[x, y] = GridArray[x, y].ToSerialization();
-                    var placeable = GridArray[x, y].PlaceableObject;
-                    if (placeable != null && placeable.Origin.x == x && placeable.Origin.y == y)
-                        serialization.PlaceableArray.Add(placeable.ToSerialization());
-                }
             return serialization;
         }
         //画辅助线
@@ -142,6 +143,12 @@ namespace GridSystem
                 Mathf.Clamp(gridPosition.x, 0, Width - 1),
                 Mathf.Clamp(gridPosition.y, 0, Height - 1)
             );
+        }
+        //判断此坐标是否可放置
+        public bool isCanBuild(int x, int z)
+        {
+            var gridObject = GetGridObject(x, z);
+            return gridObject.CanBuild;
         }
     }
 }

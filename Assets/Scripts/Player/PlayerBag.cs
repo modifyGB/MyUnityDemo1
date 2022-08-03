@@ -36,11 +36,20 @@ namespace Player
 
         private void Awake()
         {
-            bag = new Bag(PlayerManager.I.bagCapacity);
+            bag = new Bag(GameManager.I.ArchiveObject.Player.bagCapacity);
             bag.SlotChangeBefore += LoseEvent;
             bag.SlotChangeAfter += ChooseEvent;
 
             inputDic.Add(KeyCode.Q, false);
+        }
+
+        private void Start()
+        {
+            if (!GameManager.I.isInitialize)
+            {
+                foreach (var item in GameManager.I.ArchiveObject.Player.bag)
+                    bag.AddBag(item);
+            }
         }
 
         private void Update()

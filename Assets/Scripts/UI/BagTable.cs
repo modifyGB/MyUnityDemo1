@@ -1,3 +1,4 @@
+using Items;
 using Manager;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace UI
 
         private void Awake()
         {
-            var bagCapacity = PlayerManager.I.bagCapacity;
+            var bagCapacity = PlayerManager.I.PlayerBag.Bag.bagCapacity;
             for (int i = 0; i < bagCapacity; i++)
             {
                 var slot = Utils.FindChildByName(gameObject, "Slot (" + i + ")").GetComponent<Slot>();
@@ -32,7 +33,28 @@ namespace UI
             if (mouse)
                 UIManager.I.PointerAndSlot(slot);
             else
-                UIManager.I.CreateItemMenu(slot.bag, slot.bagNum);
+            {
+                if (UIManager.I.PointerItem == null)
+                    UIManager.I.CreateItemMenu(slot.bag, slot.bagNum);
+                else if (PlayerManager.I.PlayerBag.Bag.ItemList[slot.bagNum] == null 
+                    && UIManager.I.PointerItem.item.itemSO.isCountable)
+                {
+                    PlayerManager.I.PlayerBag.Bag.AddItemList(
+                        new Item(UIManager.I.PointerItem.item.Num, 1), slot.bagNum);
+                    UIManager.I.PointerItem.item.Count--;
+                    UIManager.I.DeletePointerItemCheck();
+
+                }
+                else if (UIManager.I.PointerItem.item.Num ==
+                    PlayerManager.I.PlayerBag.Bag.ItemList[slot.bagNum].Num)
+                {
+                    UIManager.I.PointerItem.item.Count--;
+                    PlayerManager.I.PlayerBag.Bag.ItemList[slot.bagNum].Count++;
+                    UIManager.I.DeletePointerItemCheck();
+                }
+                else
+                    UIManager.I.PointerAndSlot(slot);
+            }
         }
         //slot更新事件
         public void SlotChangeEvent(int bagNum)

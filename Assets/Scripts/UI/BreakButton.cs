@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class BreakButton : MonoBehaviour, IPointerDownHandler
+    public class BreakButton : MyScript, IPointerDownHandler
     {
         public ItemMenu ItemMenu;
         public Button button;

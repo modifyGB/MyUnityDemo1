@@ -5,7 +5,7 @@ using UnityEngine;
 public class MyScript : MonoBehaviour
 {
     //Ïú»Ù×Ô¼º
-    public void DestroySelf()
+    public virtual void DestroySelf()
     {
         Destroy(gameObject);
     }

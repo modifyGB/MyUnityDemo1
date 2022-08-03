@@ -49,5 +49,5 @@ MonoBehaviour:
     type: 3}
   walkSpeed: 5
   runSpeedPlus: 5
-  bagCapacity: 24
+  bagCapacity: 8
   isBug: 0

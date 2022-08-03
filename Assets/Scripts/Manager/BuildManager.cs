@@ -172,6 +172,7 @@ namespace Manager
             {
                 var newObject = BuildObject.Create(origin, previewObject.Dir);
                 newObject.transform.SetParent(MapManager.I.map);
+                MapManager.I.AddPlace(newObject);
                 return newObject;
             }
             return null;
@@ -179,7 +180,7 @@ namespace Manager
         //É¾³ýÎïÌå
         public void Delete(GridObject gridObject)
         {
-            var placedObject = gridObject.PlaceableObject;
+            var placedObject = gridObject.PlaceObject;
             if (placedObject == null)
                 return;
 

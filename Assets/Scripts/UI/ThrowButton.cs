@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class ThrowButton : MonoBehaviour, IPointerDownHandler
+    public class ThrowButton : MyScript, IPointerDownHandler
     {
         public ItemMenu ItemMenu;
         public Button button;

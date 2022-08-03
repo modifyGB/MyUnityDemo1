@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyOnLoad: 0
-  PlayerInterfacePrefab: {fileID: 143152420553558039, guid: dee982c736ff9b74b820fd4237e5e0b1,
+  PlayerInterfacePrefab: {fileID: 504660139355980649, guid: 515fd01ca40b06347bc22d6b87f29393,
     type: 3}
   DropItemCanvaPrefab: {fileID: 798719362734154713, guid: a60f5ad5d2b1b1b4c8aaf630482b1e75,
     type: 3}
@@ -54,4 +54,10 @@ MonoBehaviour:
   UseTablePrefab: {fileID: 1506435625468712888, guid: a9e4a002f91d198488e7f64342a3d541,
     type: 3}
   ItemMenuPrefab: {fileID: 9219277788859211963, guid: da20d5644c8c52d48a50eb93646732cb,
+    type: 3}
+  MakeItemPrefab: {fileID: 1770450106295698716, guid: e8d06d24d3c3de54eb1309dffc019967,
+    type: 3}
+  SlotPrefab: {fileID: 6438083680085833053, guid: 9b08f0add11dd5048b02b92f3550eed0,
+    type: 3}
+  ItemObjectPrefab: {fileID: 9124625693273389236, guid: 912c6a4a30a7a4b4fa593987b8202de0,
     type: 3}

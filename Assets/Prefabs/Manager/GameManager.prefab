@@ -45,7 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyOnLoad: 0
+  mapWidth: 100
+  mapHeight: 100
+  seed: 1
+  isInitialize: 1
   itemTableSO: {fileID: 11400000, guid: 4e975b4e493b37b4c93e6cde51ffb3fe, type: 2}
   placeTableSO: {fileID: 11400000, guid: 73fe9cba284c5274e99fd258d571447a, type: 2}
   enemyTableSO: {fileID: 11400000, guid: cdf2737cc9f2a1645ac3d6e5808ce164, type: 2}
+  makeItemTableSO: {fileID: 11400000, guid: 674eb379fd69eca4c8e721a3e9cce091, type: 2}
   archive: 1

@@ -54,6 +54,8 @@ namespace Player
         {
             animator = GetComponent<Animator>();
 
+            if (!GameManager.I.isInitialize)
+                LoadValue();
             UpdateLevel();
             UpdateValue();
         }
@@ -96,6 +98,13 @@ namespace Player
         public void Die()
         {
 
+        }
+        //º”‘ÿ¥Êµµ
+        public void LoadValue()
+        {
+            var p = GameManager.I.ArchiveObject.Player;
+            nowBlood = p.nowBlood;
+            experience = p.experience;
         }
     }
 }

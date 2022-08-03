@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace UI
 {
-    public class Ashbin : MonoBehaviour, IPointerDownHandler
+    public class Ashbin : MyScript, IPointerDownHandler
     {
         private ItemObject itemObject = null;
         private GameObject background = null;

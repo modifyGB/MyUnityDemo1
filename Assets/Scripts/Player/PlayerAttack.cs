@@ -45,9 +45,9 @@ namespace Player
             attackTimer += Time.fixedDeltaTime;
             if (isMouse0)
             {
-                if (PlayerManager.I.PlayerState != PlayerState.Attack && PlayerManager.I.isWeapon && UIManager.I.UIState == UIState.Play
-                    && !BuildManager.I.IsBuilding && attackTimer >= PlayerManager.I.Weapon.WeaponSO.attackInterval &&
-                    !EventSystem.current.IsPointerOverGameObject())
+                if (PlayerManager.I.PlayerState != PlayerState.Attack && PlayerManager.I.isWeapon && 
+                    UIManager.I.UIState == UIState.Play && attackTimer >= PlayerManager.I.Weapon.
+                    WeaponSO.attackInterval && !EventSystem.current.IsPointerOverGameObject())
                 {
                     animator.SetFloat("attackRate", PlayerManager.I.Weapon.WeaponSO.attackRate);
                     rb.velocity = new Vector3(0, rb.velocity.y, 0);

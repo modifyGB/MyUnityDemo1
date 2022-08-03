@@ -1,3 +1,4 @@
+using Items;
 using Manager;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ namespace Enemy
         protected GameObject bloodObject;
         protected GameObject nowBlood;
         protected GameObject bloodPoint;
+        protected Transform dropPoint;
 
         public struct Serialization
         {
@@ -45,6 +47,7 @@ namespace Enemy
             enemyValue = GetComponent<EnemyValue>();
 
             bloodPoint = Utils.FindChildByName(gameObject, "Blood");
+            dropPoint = Utils.FindChildByName(gameObject, "Drop").transform;
             CreateBloodObject();
         }
 
@@ -105,6 +108,32 @@ namespace Enemy
         public void Drop()
         {
             PlayerManager.I.PlayerValue.Experience += enemySO.experience;
+
+            foreach (var drop in enemySO.dropTableSO.table)
+            {
+                var item = GameManager.I.itemTableSO.table[drop.num];
+                if (!item.isCountable)
+                {
+                    for (int i = 0; i < drop.count; i++)
+                    {
+                        var dropItem = new Item(drop.num);
+                        dropItem.Throw(dropPoint, new Vector3(0, 3, 0));
+                    }
+                }
+                else
+                {
+                    if (drop.isRandom)
+                    {
+                        var dropItem = new Item(drop.num, Random.Range(drop.minCount, drop.maxCount + 1));
+                        dropItem.Throw(dropPoint, new Vector3(0, 3, 0));
+                    }
+                    else
+                    {
+                        var dropItem = new Item(drop.num, drop.count);
+                        dropItem.Throw(dropPoint, new Vector3(0, 3, 0));
+                    }
+                }
+            }
         }
     }
 }
