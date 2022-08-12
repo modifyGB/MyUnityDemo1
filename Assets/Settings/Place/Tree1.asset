@@ -16,8 +16,8 @@ MonoBehaviour:
   placeObject: {fileID: 2161442529862899187, guid: c7e882da3b6ab1d4b9315292233134b1,
     type: 3}
   Left: 2
-  Right: 4
-  Up: 4
+  Right: 3
+  Up: 3
   Down: 2
   maxBlood: 5
   dropTableSO: {fileID: 11400000, guid: 37984979cc0dd9e42b2af2db75b93e24, type: 2}

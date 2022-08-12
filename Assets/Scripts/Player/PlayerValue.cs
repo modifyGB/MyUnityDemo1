@@ -38,10 +38,10 @@ namespace Player
         { 
             get { return nowBlood; } 
             set 
-            { 
-                if (value < 0)
-                    value = 0;
-                nowBlood = value;
+            {
+                if (nowBlood <= 0)
+                    return;
+                nowBlood = Mathf.Clamp(value, 0, baseBlood);
                 DieCheck();
                 BloodChange.Invoke();
             } 
@@ -54,8 +54,7 @@ namespace Player
         {
             animator = GetComponent<Animator>();
 
-            if (!GameManager.I.isInitialize)
-                LoadValue();
+            LoadValue();
             UpdateLevel();
             UpdateValue();
         }
@@ -91,7 +90,7 @@ namespace Player
             if (nowBlood <= 0)
             {
                 animator.SetTrigger("isDie");
-                //animator.SetBool("Die", true);
+                animator.SetBool("Die", true);
             }
         }
         //ËÀÍö

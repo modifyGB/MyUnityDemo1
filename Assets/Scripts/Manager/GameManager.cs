@@ -16,25 +16,14 @@ namespace Manager
 {
     public class GameManager : Singleton<GameManager>
     {
-        [Header("初始化设置")]
-        public int mapWidth = 100;
-        public int mapHeight = 100;
-        public int seed;
-        public bool isInitialize = false;
-        [Header("柏林噪声设置")]
-        public float cellSize = 1;
-        public Vector3 StartOrigin = Vector3.zero;
-        public float scale = 20;
-        public int octaves = 1;
-        public float persistance = 0.5f;
-        public float lacunarity = 0;
         [Header("资源")]
         public ItemTableSO itemTableSO;
         public PlaceTableSO placeTableSO;
         public EnemyTableSO enemyTableSO;
         public MakeItemTableSO makeItemTableSO;
-        [Header("存档")]
-        public int archive = 1;
+        [Header("其他")]
+        public bool Debug = false;
+        public string archiveName;
 
         private GameData archiveObject;
         public GameData ArchiveObject { get { return archiveObject; } }
@@ -53,7 +42,7 @@ namespace Manager
             { 
                 Player = PlayerManager.I.ToSerialization(); 
                 GridXZ = MapManager.I.grid.ToSerialization();
-                EnemyList = EnemyManager.I.FindAllEnemy(); 
+                EnemyList = EnemyManager.I.DumpEnemy(); 
                 ChestList = MapManager.I.DumpChest();
                 PlaceList = MapManager.I.DumpPlace();
             }
@@ -64,21 +53,18 @@ namespace Manager
             base.Awake();
 
             inputDic.Add(KeyCode.V, false);
+            foreach (MakeType type in Enum.GetValues(typeof(MakeType)))
+                makeTypeDic.Add(type, new List<MakeItemSO>());
             foreach (var makeItem in makeItemTableSO.table)
             {
                 if (makeItem == null) continue;
-                if (!makeTypeDic.ContainsKey(makeItem.makeType))
-                    makeTypeDic[makeItem.makeType] = new List<MakeItemSO>();
                 makeTypeDic[makeItem.makeType].Add(makeItem);
             }
 
             if (!Directory.Exists(Path.Combine(Application.persistentDataPath, "Archive")))
                 Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Archive"));
 
-            if (isInitialize)
-                CreateWorld(seed, mapWidth, mapHeight);
-            else
-                LoadArchive();
+            LoadArchive();
         }
 
         private void Start()
@@ -112,47 +98,19 @@ namespace Manager
         public void SaveArchive()
         {
             var saveObject = new GameData(0);
-            Utils.SaveObjectAsJson("Archive/" + Convert.ToString(archive) + ".json", saveObject);
+            if (Debug)
+                Utils.SaveObjectAsJson("Archive/" + archiveName + ".json", saveObject);
+            else
+                Utils.SaveObjectAsJson("Archive/" + Convert.ToString(World.archiveName) + ".json", saveObject);
             print("save success");
         }
         //加载存档
         public void LoadArchive()
         {
-            archiveObject = Utils.LoadObject<GameData>("Archive/" + Convert.ToString(archive) + ".json");
-        }
-        //创建世界
-        public void CreateWorld(int seed, int mapWidth, int mapHeight)
-        {
-            //初始化
-            archiveObject = default(GameData);
-            archiveObject.Player = new PlayerMessage(100, 0, new float[3] 
-            { mapWidth / 2, 0, mapHeight / 2 }, 8, new List<Item.Serialization>());
-            archiveObject.GridXZ = new GridXZ.Serialization(mapWidth, mapHeight, cellSize, StartOrigin);
-            archiveObject.EnemyList = new List<EnemyObject.Serialization>();
-            archiveObject.ChestList = new List<Chest.ChestSerialization>();
-            archiveObject.PlaceList = new List<PlaceObject.Serialization>();
-            //环境初始化
-            var map = Utils.CreateNoiseMap(mapWidth, mapHeight, scale, octaves, persistance, lacunarity, seed);
-            for (int i = 0; i < map.GetLength(0); i++)
-                for (int j = 0; j < map.GetLength(1); j++)
-                {
-                    if (map[i, j] >= 0.5) archiveObject.GridXZ.GridArray[i, j] = new GridObject.Serialization(GridEnvironment.GRASS);
-                    else if (map[i, j] >= 0.4) archiveObject.GridXZ.GridArray[i, j] = new GridObject.Serialization(GridEnvironment.SOIL);
-                    else archiveObject.GridXZ.GridArray[i, j] = new GridObject.Serialization(GridEnvironment.WATER);
-                }
-            //物体生成
-            var ll = Utils.GetRandomPoint2(mapWidth, mapWidth / 10, mapHeight, mapHeight / 10);
-            foreach (var x in ll[0])
-                foreach (var z in ll[1])
-                    CreatePlace(x, z);
-        }
-        //物体生成逻辑
-        public void CreatePlace(int x, int z)
-        {
-            var gridObject = archiveObject.GridXZ.GridArray[x, z];
-            if (gridObject.ge == GridEnvironment.GRASS)
-                archiveObject.PlaceList.Add(
-                    new PlaceObject.Serialization(1, new Vector2Int(x, z), Dir.Down));
+            if (Debug)
+                archiveObject = Utils.LoadObject<GameData>("Archive/" + archiveName + ".json");
+            else
+                archiveObject = Utils.LoadObject<GameData>("Archive/" + Convert.ToString(World.archiveName) + ".json");
         }
     }
 }

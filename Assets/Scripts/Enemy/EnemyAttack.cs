@@ -102,12 +102,16 @@ namespace Enemy
 
         void Attack1()
         {
+            if (PlayerManager.I.PlayerState == PlayerState.Die)
+                return;
             PlayerManager.I.PlayerValue.NowBlood -= Mathf.Clamp(
                 enemySO.attack - PlayerManager.I.PlayerValue.BaseDefence, 1, enemySO.attack);
         }
 
         void Attack2()
         {
+            if (PlayerManager.I.PlayerState == PlayerState.Die)
+                return;
             PlayerManager.I.PlayerValue.NowBlood -= Mathf.Clamp(
                 enemySO.attack - PlayerManager.I.PlayerValue.BaseDefence, 1, enemySO.attack);
             PlayerManager.I.PlayerMovement.GetHit();

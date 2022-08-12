@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Bags
 {
-    public enum MakeType { None, WorkBench }
+    public enum MakeType { None, WorkBench, Water }
 
     [CreateAssetMenu(menuName = "MySO/MakeItemSO")]
     public class MakeItemSO : ScriptableObject

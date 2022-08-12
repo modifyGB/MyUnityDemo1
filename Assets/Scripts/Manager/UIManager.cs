@@ -269,11 +269,11 @@ namespace Manager
             if (isMouse1)
             {
                 var hitObject_ = Utils.CameraRay();
-                if (hitObject_.transform != null)
+                if (hitObject_.transform != null && uIState == UIState.Play)
                 {
-                    var hitObject = Utils.CameraRay().transform.gameObject;
-                    if (hitObject.tag == "Chest")
-                        NowChest = hitObject.GetComponent<Chest>();
+                    var place = Utils.CameraRay().transform.GetComponent<PlaceObject>();
+                    if (place != null)
+                        place.Mouse1Event();
                 }
                 isMouse1 = false;
             }

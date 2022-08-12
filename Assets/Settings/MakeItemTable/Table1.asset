@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Table1
   m_EditorClassIdentifier: 
   table:
+  - {fileID: 0}
   - {fileID: 11400000, guid: b95900fffa627f54fa26d2a798caeba8, type: 2}
+  - {fileID: 11400000, guid: ec6d491036709364fb1a373670ff9a3f, type: 2}

@@ -1,4 +1,5 @@
 using Bags;
+using Items;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,7 +31,7 @@ namespace UI
             this.bag = bag;
             if (!bag.ItemList[bagNum].itemSO.isCountable || bag.ItemList[bagNum].IsUnlimited || bag.ItemList[bagNum].Count == 1)
                 BreakButton.button.interactable = false;
-            if (!bag.ItemList[bagNum].itemSO.isUseable)
+            if (bag.ItemList[bagNum].itemSO.useType == UseType.None)
                 UseButton.button.interactable = false;
         }
     }

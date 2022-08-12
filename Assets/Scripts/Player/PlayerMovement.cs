@@ -15,6 +15,8 @@ namespace Player
         float horizontal;
         float vertical;
         bool isShiftButton;
+        bool isJumpButton;
+        bool canJump = true;
         Vector3 cameraAngles;
         string currentAnimState = "";
         float nowMoveSpeed;
@@ -30,12 +32,14 @@ namespace Player
             horizontal = Input.GetAxisRaw("Horizontal");
             vertical = Input.GetAxisRaw("Vertical");
             isShiftButton = Input.GetKey(KeyCode.LeftShift);
+            isJumpButton = Input.GetKey(KeyCode.Space);
             cameraAngles = Camera.main.transform.rotation.eulerAngles;
         }
 
         void FixedUpdate()
         {
             Move();
+            Jump();
             Animate();
         }
 
@@ -66,6 +70,22 @@ namespace Player
             transform.rotation = Quaternion.Lerp(transform.rotation,
                 Quaternion.Euler(transform.rotation.eulerAngles.x, angles,
                 transform.rotation.eulerAngles.z), 0.5f);
+        }
+
+        void Jump()
+        {
+            if (isJumpButton)
+            {
+                if (canJump)
+                {
+                    rb.velocity += new Vector3(0, PlayerManager.I.jumpSpeed, 0);
+                    canJump = false;
+                }
+                isJumpButton = false;
+            }
+
+            if (transform.position.y < 0.2 && rb.velocity.y < 0)
+                canJump = true;
         }
 
         void Animate()

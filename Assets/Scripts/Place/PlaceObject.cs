@@ -67,6 +67,11 @@ namespace Place
         {
             dir = Utils.GetNextDir(dir);
         }
+        //右键事件
+        public virtual void Mouse1Event()
+        {
+
+        }
         //受到攻击处理
         public virtual void BeAttackBefore()
         {
@@ -74,8 +79,7 @@ namespace Place
         }
         public virtual void BeAttackNow(WeaponSO weapon)
         {
-
-            Blood -= weapon.attack;
+            Blood -= 1;
         }
         public virtual void BeAttackAfter() { }
         public void BeAttack(WeaponSO weapon)
@@ -87,9 +91,13 @@ namespace Place
         //爆物品
         public virtual void Drop()
         {
+            if (placeSO.dropTableSO == null)
+                return;
             foreach (var drop in placeSO.dropTableSO.table)
             {
                 var item = GameManager.I.itemTableSO.table[drop.num];
+                if (Random.Range(0, 1f) > drop.itemRandom)
+                    continue;
                 if (!item.isCountable)
                 {
                     for (int i = 0; i < drop.count; i++)
@@ -100,7 +108,7 @@ namespace Place
                 }
                 else
                 {
-                    if (drop.isRandom)
+                    if (drop.countRandom)
                     {
                         var dropItem = new Item(drop.num, Random.Range(drop.minCount, drop.maxCount + 1));
                         dropItem.Throw(dropPoint, new Vector3(0, 3, 0));

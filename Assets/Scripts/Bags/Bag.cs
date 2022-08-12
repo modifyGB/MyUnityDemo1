@@ -151,7 +151,7 @@ namespace Bags
         //使用一次物品
         public void UseItemOne(int bagNum)
         {
-            if (!ItemList[bagNum].itemSO.isUseable)
+            if (ItemList[bagNum].itemSO.useType == UseType.None)
                 return;
             ItemList[bagNum].Use();
             ItemList[bagNum].Count -= 1;

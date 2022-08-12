@@ -15,7 +15,8 @@ namespace Bags
             public int count = 0;
             public int maxCount = 0;
             public int minCount = 0;
-            public bool isRandom = false;
+            public bool countRandom = false;
+            public float itemRandom = 1;
         }
 
         public DropItem[] table;

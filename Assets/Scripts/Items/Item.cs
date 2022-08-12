@@ -120,7 +120,8 @@ namespace Items
         //使用物品
         public virtual void Use()
         {
-            Debug.Log("use item");
+            if (itemSO.useType == UseType.AddBlood)
+                PlayerManager.I.PlayerValue.NowBlood += itemSO.addBlood;
         }
         //选中物品
         public void Choose()

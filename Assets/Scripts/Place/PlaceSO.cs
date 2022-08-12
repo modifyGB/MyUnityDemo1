@@ -57,9 +57,9 @@ namespace Place
                     down = Left;
                     break;
             }
-            for (int x = Mathf.FloorToInt(left / cellSize); x < Mathf.CeilToInt(right / cellSize); x++)
+            for (int x = Mathf.FloorToInt(left / cellSize); x <= Mathf.CeilToInt(right / cellSize); x++)
             {
-                for (int y = Mathf.FloorToInt(down / cellSize); y < Mathf.CeilToInt(up / cellSize); y++)
+                for (int y = Mathf.FloorToInt(down / cellSize); y <= Mathf.CeilToInt(up / cellSize); y++)
                 {
                     var pos = origin + new Vector2Int(x, y);
                     if (pos.x >= 0 && pos.y >= 0 && pos.x < 
@@ -78,17 +78,14 @@ namespace Place
             var worldPosition = grid.GetWorldPosition(origin.x, origin.y) + new Vector3(rotOffset.x, 0, rotOffset.y) * grid.CellSize;
             //创建物体
             var newObject = Instantiate(placeObject, worldPosition, Quaternion.Euler(0, Utils.GetRotationAngle(direction), 0));
-            newObject.Initialization(num, origin, direction, maxBlood);
             foreach (var gridPos in gridPosList)
             {
                 var gridTobuild = grid.GetGridObject(gridPos.x, gridPos.y);
                 gridTobuild.PlaceObject = newObject;
             }
-            //物体后处理
             Utils.FindChildByName(newObject.gameObject, "Area").SetActive(false);
-            // Build effects
-            // placedObjectTransform.DOShakeScale(.5f, .2f, 10, 90, true);
 
+            newObject.Initialization(num, origin, direction, maxBlood);
             return newObject;
         }
         //判断是否能建造

@@ -45,13 +45,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyOnLoad: 0
+  p: 20
+  floor: 0
+  friction: 0.05
   isDebug: 0
   groundLayerName: Ground
+  buoyancyPrefab: {fileID: 2638980827960914640, guid: 8e4269e0f0ecc114cba2f6b8821a91b9,
+    type: 3}
   groundGrass: {fileID: -5471577474690972191, guid: 80c2b222294198647b4b05a8500da6f2,
     type: 3}
   groundSoil: {fileID: 6415619475489278966, guid: b123fef893b777a49a7a2ba6d5e4901e,
     type: 3}
   groundWater: {fileID: -7871627037033842952, guid: 456b3a01955868c41bdfbe0b6fb1abcf,
     type: 3}
-  chestList: []
   map: {fileID: 0}
+  ground: {fileID: 0}

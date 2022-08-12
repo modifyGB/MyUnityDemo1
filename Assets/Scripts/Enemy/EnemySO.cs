@@ -38,7 +38,6 @@ namespace Enemy
         {
             var newEnemy = GameObject.Instantiate(enemyPrefab, position, Quaternion.Euler(rotation));
             newEnemy.Initialization(this, rotation);
-            newEnemy.transform.SetParent(EnemyManager.I.Enemy.transform);
             return newEnemy;
         }
     }

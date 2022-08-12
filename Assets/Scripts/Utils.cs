@@ -10,6 +10,8 @@ using UnityEngine;
 //工具类
 public static class Utils
 {
+    public static string originSavePath = Application.persistentDataPath;
+
     //返回鼠标指向地面的坐标
     public static Vector3 MouseToTerrainPosition(string layerName)
     {
@@ -50,7 +52,7 @@ public static class Utils
     public static void SaveObjectAsJson(string savePath, object saveData)
     {
         string json = JsonConvert.SerializeObject(saveData);
-        var allSavePath = Path.Combine(Application.persistentDataPath, savePath);
+        var allSavePath = Path.Combine(originSavePath, savePath);
         var fileStream = new FileStream(allSavePath, FileMode.Create);
 
         using (var writer = new StreamWriter(fileStream))
@@ -59,7 +61,7 @@ public static class Utils
     //读取物体
     public static TSaveObject LoadObject<TSaveObject>(string savePath)
     {
-        var allSavePath = Path.Combine(Application.persistentDataPath, savePath);
+        var allSavePath = Path.Combine(originSavePath, savePath);
         if (File.Exists(allSavePath))
             using (var reader = new StreamReader(allSavePath))
             {
@@ -68,8 +70,20 @@ public static class Utils
                     return default;
                 return JsonConvert.DeserializeObject<TSaveObject>(saveData);
             }
-        Debug.LogError("Cannot find the save file!");
         return default;
+    }
+    //删除文件
+    public static void DeleteFile(string deletePath)
+    {
+        var allSavePath = Path.Combine(originSavePath, deletePath);
+        if (File.Exists(allSavePath))
+            File.Delete(allSavePath);
+    }
+    //返回路径下的文件
+    public static FileInfo[] FindFile(string findPath)
+    {
+        var allFindPath = Path.Combine(Application.persistentDataPath, findPath);
+        return new DirectoryInfo(allFindPath).GetFiles();
     }
     //通过朝向返回旋转角度
     public static float GetAngleByXZ(float horizontal, float vertical)
@@ -189,38 +203,23 @@ public static class Utils
         return CreateNoiseMap(mapWidth, mapHeight, scale, octaves, persistance, lacunarity, xOrg, yOrg);
     }
     //二维随机取样
-    public static List<int[]> GetRandomPoint2(int Width, int widthCount, int Height, int heightCount)
+    public static List<int[]> GetRandomPoint2(int Width, int Height, int Count)
     {
         List<int[]> output = new List<int[]>();
-        int[] widthOutput = new int[widthCount];
-        int[] heightOutput = new int[heightCount];
-        int[] widthList = new int[Width];
-        int[] heightList = new int[Height];
-        for (int i = 0; i < Width; i++)
-            widthList[i] = i;
-        for (int i = 0; i < Height; i++)
-            heightList[i] = i;
+        int[] pointList = new int[Width * Height];
+        for (int i = 0; i < pointList.Length; i++)
+            pointList[i] = i;
 
-        int end = widthList.Length;
+        int end = pointList.Length;
         int num = 0;
-        for (int i = 0; i < widthCount; i++)
+        for (int i = 0; i < Count; i++)
         {
-            num = UnityEngine.Random.Range(0, end);
-            widthOutput[i] = widthList[num];
-            widthList[num] = widthList[end - 1];
+            var random = new System.Random();
+            num = random.Next(0, end);
+            output.Add(new int[2] { pointList[num] / Width, pointList[num] % Width });
+            pointList[num] = pointList[end - 1];
             end--;
         }
-        end = heightList.Length;
-        for (int i = 0; i < widthCount; i++)
-        {
-            num = UnityEngine.Random.Range(0, end);
-            heightOutput[i] = heightList[num];
-            heightList[num] = heightList[end - 1];
-            end--;
-        }
-
-        output.Add(widthOutput);
-        output.Add(heightOutput);
         return output;
     }
 }

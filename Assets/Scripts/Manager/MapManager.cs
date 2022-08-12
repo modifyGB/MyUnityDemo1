@@ -10,10 +10,15 @@ namespace Manager
 {
     public class MapManager : Singleton<MapManager>
     {
+        [Header("浮力")]
+        public float p = 1000;
+        public float floor = 0;
+        public float friction = 0.1f;
         [Header("设置")]
         public bool isDebug = false;
         public string groundLayerName = "Ground";
         [Header("资源")]
+        public Buoyancy buoyancyPrefab;
         public Ground groundGrass;
         public Ground groundSoil;
         public Ground groundWater;
@@ -37,7 +42,7 @@ namespace Manager
         {
             base.Awake();
 
-            LoadMap();
+            BuildMap();
 
             if (isDebug)
                 grid.InitializeDebug();
@@ -49,26 +54,13 @@ namespace Manager
             PlayerGridNow?.Invoke(playerGrid);
             UpdateGround(playerGrid);
         }
-        //绘制地面
-        public void BuildGround()
-        {
-            map = new GameObject("Map").transform;
-            map.transform.localPosition = Vector3.zero;
-            ground = new GameObject("Ground").transform;
-            ground.localPosition = Vector3.zero;
-            ground.parent = map.transform;
-
-            var player = GameManager.I.ArchiveObject.Player;
-            var playerGrid = grid.GetGridObject(new Vector3(player.position[0], 0, player.position[2]));
-            UpdateGround(playerGrid);
-        }
         //更新地面
         public void UpdateGround(GridObject playerGrid)
         {
-            for (int i = Mathf.Clamp(playerGrid.x - 30, 0, grid.Width - 1) ; 
-                i < Mathf.Clamp(playerGrid.x + 30, 0, grid.Width - 1); i++)
-                for (int j = Mathf.Clamp(playerGrid.z - 30, 0, grid.Height - 1); 
-                    j < Mathf.Clamp(playerGrid.z + 30, 0, grid.Height - 1); j++)
+            for (int i = Mathf.Clamp(playerGrid.x - 30, 0, grid.Width); 
+                i < Mathf.Clamp(playerGrid.x + 30, 0, grid.Width); i++)
+                for (int j = Mathf.Clamp(playerGrid.z - 30, 0, grid.Height); 
+                    j < Mathf.Clamp(playerGrid.z + 30, 0, grid.Height); j++)
                 {
                     var gridObject = grid.GridArray[i, j];
                     if (gridObject.groundObject != null)
@@ -102,7 +94,7 @@ namespace Manager
                 var item1 = placeList.ElementAt(i);
                 for (int j = 0; j < item1.Value.Count; j++)
                 {
-                    var item2 = item1.Value.ElementAt(i);
+                    var item2 = item1.Value.ElementAt(j);
                     ll.Add(item2.Value);
                 }
             }
@@ -127,7 +119,7 @@ namespace Manager
                 var item1 = chestList.ElementAt(i);
                 for (int j = 0; j < item1.Value.Count; j++)
                 {
-                    var item2 = item1.Value.ElementAt(i);
+                    var item2 = item1.Value.ElementAt(j);
                     ll.Add(item2.Value);
                 }
             }
@@ -147,7 +139,7 @@ namespace Manager
             chestList[chestObject.Origin[0]].Add(chestObject.Origin[1], chestObject.ToChestSerialization());
         }
         //加载地图信息并绘制
-        public void LoadMap()
+        public void BuildMap()
         {
             var gridSerialization = GameManager.I.ArchiveObject.GridXZ;
             var cellSize = gridSerialization.CellSize;
@@ -161,9 +153,49 @@ namespace Manager
                 for (var y = 0; y < gridSerialization.Height; y++)
                     grid.GridArray[x, y].gridEnvironment = gridSerialization.GridArray[x, y].ge;
 
+            map = new GameObject("Map").transform;
+            map.transform.localPosition = Vector3.zero;
+            ground = new GameObject("Ground").transform;
+            ground.localPosition = Vector3.zero;
+            ground.parent = map.transform;
+            var buoyancy = Instantiate(buoyancyPrefab);
+            buoyancy.Initialization(rowCount, columnCount);
+            buoyancy.transform.SetParent(map, false);
+
+            BuildWall(rowCount, columnCount);
             LoadPlace();
             LoadChest();
-            BuildGround();
+        }
+        //设置墙体
+        public void BuildWall(int width, int height)
+        {
+            var wall = new GameObject("Wall");
+            var col = wall.AddComponent<BoxCollider>();
+            wall.transform.SetParent(map, false);
+            wall.transform.localPosition = Vector3.zero;
+            col.size = new Vector3(width, 10, 0.1f);
+            col.center = new Vector3(width / 2, 0, 0);
+
+            wall = new GameObject("Wall");
+            col = wall.AddComponent<BoxCollider>();
+            wall.transform.SetParent(map, false);
+            wall.transform.localPosition = Vector3.zero;
+            col.size = new Vector3(width, 10, 0.1f);
+            col.center = new Vector3(width / 2, 0, height);
+
+            wall = new GameObject("Wall");
+            col = wall.AddComponent<BoxCollider>();
+            wall.transform.SetParent(map, false);
+            wall.transform.localPosition = Vector3.zero;
+            col.size = new Vector3(0.1f, 10, height);
+            col.center = new Vector3(0, 0, height / 2);
+
+            wall = new GameObject("Wall");
+            col = wall.AddComponent<BoxCollider>();
+            wall.transform.SetParent(map, false);
+            wall.transform.localPosition = Vector3.zero;
+            col.size = new Vector3(0.1f, 10, height);
+            col.center = new Vector3(width, 0, height / 2);
         }
     }
 }

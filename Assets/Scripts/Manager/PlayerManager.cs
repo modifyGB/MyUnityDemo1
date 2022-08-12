@@ -20,6 +20,8 @@ namespace Manager
         public List<Item.Serialization> bag;
         public PlayerMessage(float nowBlood, float experience, float[] position, int bagCapacity, List<Item.Serialization> bag)
         { this.nowBlood = nowBlood; this.experience = experience; this.position = position; this.bagCapacity = bagCapacity; this.bag = bag; }
+        public PlayerMessage(float[] position)
+        {this.nowBlood = 100; this.experience = 0; this.position = position; this.bagCapacity = 8; this.bag = new List<Item.Serialization>();}
     }
 
     public class PlayerManager : Singleton<PlayerManager>
@@ -29,6 +31,7 @@ namespace Manager
         [Header(" ˝÷µ")]
         public float walkSpeed = 5f;
         public float runSpeedPlus = 5f;
+        public float jumpSpeed = 5f;
         [Header("…Ë÷√")]
         public bool isBug = false;
 

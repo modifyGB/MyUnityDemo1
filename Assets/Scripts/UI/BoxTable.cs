@@ -51,20 +51,19 @@ namespace UI
             {
                 if (UIManager.I.PointerItem == null)
                     UIManager.I.CreateItemMenu(slot.bag, slot.bagNum);
-                else if (PlayerManager.I.PlayerBag.Bag.ItemList[slot.bagNum] == null
+                else if (slot.bag.ItemList[slot.bagNum] == null
                     && UIManager.I.PointerItem.item.itemSO.isCountable)
                 {
-                    PlayerManager.I.PlayerBag.Bag.AddItemList(
-                        new Item(UIManager.I.PointerItem.item.Num, 1), slot.bagNum);
+                    slot.bag.AddItemList(new Item(UIManager.I.PointerItem.item.Num, 1), slot.bagNum);
                     UIManager.I.PointerItem.item.Count--;
                     UIManager.I.DeletePointerItemCheck();
 
                 }
                 else if (UIManager.I.PointerItem.item.Num ==
-                    PlayerManager.I.PlayerBag.Bag.ItemList[slot.bagNum].Num)
+                    slot.bag.ItemList[slot.bagNum].Num)
                 {
                     UIManager.I.PointerItem.item.Count--;
-                    PlayerManager.I.PlayerBag.Bag.ItemList[slot.bagNum].Count++;
+                    slot.bag.ItemList[slot.bagNum].Count++;
                     UIManager.I.DeletePointerItemCheck();
                 }
                 else

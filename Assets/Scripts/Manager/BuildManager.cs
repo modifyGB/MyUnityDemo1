@@ -89,7 +89,9 @@ namespace Manager
             if (isMouse0)
             {
                 var mousePosition = Utils.MouseToTerrainPosition(MapManager.I.groundLayerName);
-                if (UIManager.I.UIState == UIState.Play && Place(mousePosition) == null)
+                if (UIManager.I.UIState != UIState.Play)
+                    isMouse0 = false;
+                else if (Place(mousePosition) == null)
                     print("can't build here");
                 else
                 {
@@ -170,7 +172,12 @@ namespace Manager
             var origin = MapManager.I.grid.GetXZ(position);
             if (BuildObject.BuildCheck(origin, previewObject.Dir))
             {
-                var newObject = BuildObject.Create(origin, previewObject.Dir);
+                PlaceObject newObject;
+                if (BuildObject.GetType() == typeof(ChestPlaceSO))
+                    newObject = ((ChestPlaceSO) BuildObject).Create(origin, previewObject.Dir);
+                else
+                    newObject = BuildObject.Create(origin, previewObject.Dir);
+
                 newObject.transform.SetParent(MapManager.I.map);
                 MapManager.I.AddPlace(newObject);
                 return newObject;

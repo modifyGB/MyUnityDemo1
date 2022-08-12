@@ -55,6 +55,11 @@ namespace Place
             foreach (Item.Serialization item in bagList)
                 bag.AddBag(item);
         }
+        //ÓÒ¼üÊÂ¼þ
+        public override void Mouse1Event()
+        {
+            UIManager.I.NowChest = this;
+        }
 
         public override void BeAttackNow(WeaponSO weapon)
         {

@@ -63,6 +63,7 @@ namespace Enemy
             enemyMovement.Initialization(enemySO, rotation);
             enemyAttack.Initialization(enemySO);
             enemyValue.Initialization(enemySO);
+            transform.SetParent(EnemyManager.I.Enemy);
         }
         //序列化
         public Serialization ToSerialization()
@@ -74,6 +75,8 @@ namespace Enemy
         //受到攻击处理
         public virtual void BeAttack(WeaponSO weapon)
         {
+            if (EnemyState == EnemyState.Die)
+                return;
             enemyValue.Blood -= CalHeart(weapon);
             enemyState = EnemyState.Attract;
             animator.SetTrigger("isAttract");
@@ -101,8 +104,10 @@ namespace Enemy
         //死亡
         public void EndDie()
         {
-            Destroy(bloodObject);
-            Destroy(gameObject);
+            var pos = enemyMovement.PatrolPoints[enemyMovement.PatrolPoints.Count - 1];
+            var xz = MapManager.I.grid.GetXZ(pos);
+            EnemyManager.I.EnemyList[xz.x].Remove(xz.y);
+            DestroySelf();
         }
         //掉落
         public void Drop()
@@ -112,6 +117,8 @@ namespace Enemy
             foreach (var drop in enemySO.dropTableSO.table)
             {
                 var item = GameManager.I.itemTableSO.table[drop.num];
+                if (Random.Range(0, 1f) > drop.itemRandom)
+                    continue;
                 if (!item.isCountable)
                 {
                     for (int i = 0; i < drop.count; i++)
@@ -122,7 +129,7 @@ namespace Enemy
                 }
                 else
                 {
-                    if (drop.isRandom)
+                    if (drop.countRandom)
                     {
                         var dropItem = new Item(drop.num, Random.Range(drop.minCount, drop.maxCount + 1));
                         dropItem.Throw(dropPoint, new Vector3(0, 3, 0));
@@ -134,6 +141,12 @@ namespace Enemy
                     }
                 }
             }
+        }
+
+        public override void DestroySelf()
+        {
+            Destroy(bloodObject);
+            base.DestroySelf();
         }
     }
 }

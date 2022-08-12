@@ -45,11 +45,8 @@ namespace Player
 
         private void Start()
         {
-            if (!GameManager.I.isInitialize)
-            {
-                foreach (var item in GameManager.I.ArchiveObject.Player.bag)
-                    bag.AddBag(item);
-            }
+            foreach (var item in GameManager.I.ArchiveObject.Player.bag)
+                bag.AddBag(item);
         }
 
         private void Update()
