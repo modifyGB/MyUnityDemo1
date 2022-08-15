@@ -61,3 +61,5 @@ MonoBehaviour:
     type: 3}
   ItemObjectPrefab: {fileID: 9124625693273389236, guid: 912c6a4a30a7a4b4fa593987b8202de0,
     type: 3}
+  SettingTablePrefab: {fileID: 133488323993960514, guid: dbca01037285d9340b3f781c7599ccf9,
+    type: 3}

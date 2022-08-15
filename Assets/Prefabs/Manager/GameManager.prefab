@@ -50,4 +50,4 @@ MonoBehaviour:
   enemyTableSO: {fileID: 11400000, guid: cdf2737cc9f2a1645ac3d6e5808ce164, type: 2}
   makeItemTableSO: {fileID: 11400000, guid: 674eb379fd69eca4c8e721a3e9cce091, type: 2}
   Debug: 0
-  archiveName: hahaha
+  archiveName: aaa

@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505c91d9ef5f2a6498c8238035eaa089, type: 3}
   m_Name: WoodenPlank
   m_EditorClassIdentifier: 
-  num: 3
+  num: 8
   itemObject: {fileID: 2849552257504849116, guid: f782a634c11910e459c03879d646aa75,
     type: 3}
   isCountable: 1
-  isUseable: 0
   isDurable: 0
   MaxCount: 64
   MaxDure: 100
   placeSO: {fileID: 0}
   weaponSO: {fileID: 0}
   text: ItemObject describe
+  useType: 0
+  addBlood: 0

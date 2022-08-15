@@ -19,6 +19,8 @@ namespace UI
         public void OnPointerDown(PointerEventData eventData)
         {
             UIManager.I.UILeftState = UILeftState.Make;
+
+            SoundManager.I.buttonSource.Play();
         }
     }
 }

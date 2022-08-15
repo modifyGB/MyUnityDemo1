@@ -17,6 +17,6 @@ MonoBehaviour:
   - num: 1
     count: 1
   To:
-    num: 3
-    count: 4
+    num: 8
+    count: 2
   makeType: 0

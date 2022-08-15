@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505c91d9ef5f2a6498c8238035eaa089, type: 3}
   m_Name: RockPickaxe
   m_EditorClassIdentifier: 
-  num: 0
-  itemObject: {fileID: 0}
+  num: 19
+  itemObject: {fileID: 3660202556460947829, guid: 3e4043a4506dd85408efbb8a452a7f31,
+    type: 3}
   isCountable: 0
-  isDurable: 0
+  isDurable: 1
   MaxCount: 64
   MaxDure: 100
   placeSO: {fileID: 0}
-  weaponSO: {fileID: 0}
+  weaponSO: {fileID: 11400000, guid: c85984037804f0843a6f0c023d793946, type: 2}
   text: ItemObject describe
   useType: 0
   addBlood: 0

@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: RockSword
   m_EditorClassIdentifier: 
   num: 0
-  weaponPrefab: {fileID: 0}
-  attack: 1
+  weaponPrefab: {fileID: -6418018959393934869, guid: 9ed46828caf4aac49ba8f91d74a64dc8,
+    type: 3}
+  attack: 5
   attackDistance: 2
   attackAngle: 45
   attackPrecision: 1

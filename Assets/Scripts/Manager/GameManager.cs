@@ -52,6 +52,8 @@ namespace Manager
         {
             base.Awake();
 
+            SoundManager.I.ChangeBackground(1);
+
             inputDic.Add(KeyCode.V, false);
             foreach (MakeType type in Enum.GetValues(typeof(MakeType)))
                 makeTypeDic.Add(type, new List<MakeItemSO>());
@@ -69,8 +71,7 @@ namespace Manager
 
         private void Start()
         {
-            //PlayerManager.I.PlayerBag.Bag.AddBag(new Item.Serialization(1, 64));
-            //PlayerManager.I.PlayerBag.Bag.AddBag(new Item.Serialization(2));
+            //PlayerManager.I.PlayerBag.Bag.AddBag(new Item.Serialization(13));
             //PlayerManager.I.PlayerBag.Bag.AddBag(new Item.Serialization(4, 10));
             //enemyTableSO.table[1].Create(new Vector3(50, 0, 60), Vector3.zero);
         }

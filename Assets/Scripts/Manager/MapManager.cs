@@ -120,7 +120,9 @@ namespace Manager
                 for (int j = 0; j < item1.Value.Count; j++)
                 {
                     var item2 = item1.Value.ElementAt(j);
-                    ll.Add(item2.Value);
+                    var chest = (Chest) grid.GetGridObject(
+                        item2.Value.place.origin[0], item2.Value.place.origin[1]).PlaceObject;
+                    ll.Add(chest.ToChestSerialization());
                 }
             }
             return ll;

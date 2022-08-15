@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505c91d9ef5f2a6498c8238035eaa089, type: 3}
   m_Name: CampFire
   m_EditorClassIdentifier: 
-  num: 0
-  itemObject: {fileID: 0}
-  isCountable: 0
+  num: 23
+  itemObject: {fileID: 839983401507789798, guid: eaa49a566e8041e48bcb8c2e912e4031,
+    type: 3}
+  isCountable: 1
   isDurable: 0
-  MaxCount: 64
+  MaxCount: 16
   MaxDure: 100
-  placeSO: {fileID: 0}
+  placeSO: {fileID: 11400000, guid: 743be9e955e94e64da14e7ef70c871ba, type: 2}
   weaponSO: {fileID: 0}
   text: ItemObject describe
   useType: 0

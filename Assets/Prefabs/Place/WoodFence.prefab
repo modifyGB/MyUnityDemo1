@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8585573107680059379}
   - component: {fileID: 4300399565355755459}
-  - component: {fileID: 7636082992461340638}
+  - component: {fileID: 8433012730587890954}
   m_Layer: 9
   m_Name: WoodFence
   m_TagString: Untagged
@@ -81,7 +81,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.1999998, y: 1, z: 0.19999999}
   m_Center: {x: 1, y: 0.5, z: 0.12}
---- !u!114 &7636082992461340638
+--- !u!114 &8433012730587890954
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2740539249800273092}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e502558ee1a059942a4cdc64d24b90b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 980fa4583f272724a96eabaae28bcd9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3383977669915232119

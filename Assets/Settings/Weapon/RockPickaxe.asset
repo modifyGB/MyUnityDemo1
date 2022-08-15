@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: RockPickaxe
   m_EditorClassIdentifier: 
   num: 0
-  weaponPrefab: {fileID: 0}
-  attack: 1
+  weaponPrefab: {fileID: 1698002834998831270, guid: fcdb12c0011022649b9ec1569d29917d,
+    type: 3}
+  attack: 5
   attackDistance: 2
   attackAngle: 45
   attackPrecision: 1

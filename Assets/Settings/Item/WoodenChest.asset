@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505c91d9ef5f2a6498c8238035eaa089, type: 3}
   m_Name: WoodenChest
   m_EditorClassIdentifier: 
-  num: 4
+  num: 35
   itemObject: {fileID: 4752179628629869774, guid: 972a3a98261951a4f876c18fbe9c9abe,
     type: 3}
   isCountable: 1
-  isUseable: 0
   isDurable: 0
-  MaxCount: 64
+  MaxCount: 16
   MaxDure: 100
   placeSO: {fileID: 11400000, guid: 0e625f9a0965674419df697b2d80bf67, type: 2}
   weaponSO: {fileID: 0}
   text: ItemObject describe
+  useType: 0
+  addBlood: 0

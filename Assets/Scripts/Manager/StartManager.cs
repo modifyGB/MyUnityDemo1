@@ -90,6 +90,8 @@ namespace Manager
         public override void Awake()
         {
             base.Awake();
+
+            SoundManager.I.ChangeBackground(0);
         }
 
         //更新存档列表

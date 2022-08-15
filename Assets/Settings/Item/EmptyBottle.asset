@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505c91d9ef5f2a6498c8238035eaa089, type: 3}
   m_Name: EmptyBottle
   m_EditorClassIdentifier: 
-  num: 0
-  itemObject: {fileID: 0}
-  isCountable: 0
+  num: 50
+  itemObject: {fileID: 5591010284300295747, guid: bf291c06202d9a2438614386999f1cfc,
+    type: 3}
+  isCountable: 1
   isDurable: 0
   MaxCount: 64
   MaxDure: 100

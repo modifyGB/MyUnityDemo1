@@ -18,13 +18,14 @@ namespace Player
         bool isJumpButton;
         bool canJump = true;
         Vector3 cameraAngles;
-        string currentAnimState = "";
         float nowMoveSpeed;
 
         void Awake()
         {
             rb = GetComponent<Rigidbody>();
             animator = GetComponent<Animator>();
+
+            StartCoroutine(MoveSound());
         }
 
         void Update()
@@ -119,12 +120,28 @@ namespace Player
             PlayerManager.I.PlayerState = PlayerState.Move;
         }
 
-        public void ChangAnimationState(string animName)
+        IEnumerator MoveSound()
         {
-            if (currentAnimState == animName)
-                return;
-            animator.Play(animName);
-            currentAnimState = animName;
+            var playerManager = PlayerManager.I;
+            while (true)
+            {
+                if (transform.position.y < 0.2 && transform.position.y > -0.2)
+                {
+                    if (nowMoveSpeed >= playerManager.walkSpeed + playerManager.runSpeedPlus)
+                    {
+                        SoundManager.I.Run();
+                        yield return new WaitForSeconds(2.5f / (playerManager.walkSpeed + playerManager.runSpeedPlus));
+                        continue;
+                    }
+                    else if (nowMoveSpeed >= playerManager.walkSpeed)
+                    {
+                        SoundManager.I.Walk();
+                        yield return new WaitForSeconds(2.5f / playerManager.walkSpeed);
+                        continue;
+                    }
+                }
+                yield return null;
+            }
         }
     }
 }

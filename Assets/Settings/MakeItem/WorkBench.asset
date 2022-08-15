@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   num: 2
   From:
-  - num: 3
+  - num: 8
     count: 4
   To:
-    num: 6
+    num: 22
     count: 1
   makeType: 0

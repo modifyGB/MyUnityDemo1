@@ -180,6 +180,9 @@ namespace Manager
 
                 newObject.transform.SetParent(MapManager.I.map);
                 MapManager.I.AddPlace(newObject);
+
+                newObject.Sound();
+
                 return newObject;
             }
             return null;

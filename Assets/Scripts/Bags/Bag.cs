@@ -124,6 +124,7 @@ namespace Bags
                 itemList[bagNum].DestroySelf();
             itemList[bagNum] = item;
             SlotChangeAfter?.Invoke(bagNum);
+            item.ItemChange += UIManager.I.MakeTable.MakeItemCheck;
         }
         //弹出物品从itemlist
         public Item PutItemList(int bagNum)

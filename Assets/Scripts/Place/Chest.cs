@@ -16,6 +16,8 @@ namespace Place
         private Bag bag;
         public Bag Bag { get { return bag; } }
 
+        float dis4Player;
+
         public struct ChestSerialization
         {
             public PlaceObject.Serialization place;
@@ -43,6 +45,11 @@ namespace Place
             animator = GetComponentInChildren<Animator>();
         }
 
+        private void Update()
+        {
+            dis4Player = Vector3.Distance(PlayerManager.Player.transform.position, transform.position);
+        }
+
         public void Initialization(int bagCapacity)
         {
             bag = new Bag(bagCapacity);
@@ -58,7 +65,8 @@ namespace Place
         //ÓÒ¼üÊÂ¼þ
         public override void Mouse1Event()
         {
-            UIManager.I.NowChest = this;
+            if (dis4Player < 3)
+                UIManager.I.NowChest = this;
         }
 
         public override void BeAttackNow(WeaponSO weapon)

@@ -71,6 +71,7 @@ namespace Player
         {
             HashSet<GameObject> gameObjects = new HashSet<GameObject>();
             RaycastHit hit;
+            SoundManager.I.Attack(PlayerManager.I.Weapon.WeaponSO.attackAnim);
             foreach (var angle in PlayerManager.I.Weapon.Angles)
             {
                 float x1 = Mathf.Sin(Mathf.Deg2Rad * angle);

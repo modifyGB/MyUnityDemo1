@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: WoodenChest
   m_EditorClassIdentifier: 
   table:
-  - num: 4
+  - num: 30
     count: 1
     maxCount: 0
     minCount: 0
-    isRandom: 0
+    countRandom: 0
+    itemRandom: 1

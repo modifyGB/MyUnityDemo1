@@ -24,6 +24,7 @@ namespace UI
             var item = ItemMenu.bag.PutItemList(ItemMenu.bagNum);
             item.DestroySelf();
             item.Throw(PlayerManager.I.ThrowPoint, PlayerManager.Player.transform.forward * 5);
+            SoundManager.I.buttonSource.Play();
         }
     }
 }

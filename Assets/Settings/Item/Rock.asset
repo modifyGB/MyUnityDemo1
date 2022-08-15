@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505c91d9ef5f2a6498c8238035eaa089, type: 3}
   m_Name: Rock
   m_EditorClassIdentifier: 
-  num: 0
-  itemObject: {fileID: 0}
-  isCountable: 0
+  num: 2
+  itemObject: {fileID: 8101527902879447450, guid: 98090420e2edb2946b8cd049a5fb6c65,
+    type: 3}
+  isCountable: 1
   isDurable: 0
   MaxCount: 64
   MaxDure: 100

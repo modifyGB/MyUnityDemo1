@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: GoldenSword
   m_EditorClassIdentifier: 
   num: 0
-  weaponPrefab: {fileID: 0}
-  attack: 1
+  weaponPrefab: {fileID: 2174676222011339559, guid: 6eb18d9d451e45e4bb30bf34fdb5dbfb,
+    type: 3}
+  attack: 30
   attackDistance: 2
   attackAngle: 45
   attackPrecision: 1

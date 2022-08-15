@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505c91d9ef5f2a6498c8238035eaa089, type: 3}
   m_Name: RockSword
   m_EditorClassIdentifier: 
-  num: 0
-  itemObject: {fileID: 0}
+  num: 11
+  itemObject: {fileID: 6222504760255339450, guid: f758c16b40895b144808bc99cda1839c,
+    type: 3}
   isCountable: 0
-  isDurable: 0
+  isDurable: 1
   MaxCount: 64
   MaxDure: 100
   placeSO: {fileID: 0}
-  weaponSO: {fileID: 0}
+  weaponSO: {fileID: 11400000, guid: 2bf451f30e7e4874ebbfec03063e12cd, type: 2}
   text: ItemObject describe
   useType: 0
   addBlood: 0

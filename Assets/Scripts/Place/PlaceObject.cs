@@ -76,6 +76,7 @@ namespace Place
         public virtual void BeAttackBefore()
         {
             transform.DOShakePosition(0.1f, new Vector3(0.1f, 0, 0.1f), 100, 0, false, false);
+            Sound();
         }
         public virtual void BeAttackNow(WeaponSO weapon)
         {
@@ -87,6 +88,11 @@ namespace Place
             BeAttackBefore();
             BeAttackNow(weapon);
             BeAttackAfter();
+        }
+        //声音处理
+        public virtual void Sound()
+        {
+            SoundManager.I.Place(0);
         }
         //爆物品
         public virtual void Drop()

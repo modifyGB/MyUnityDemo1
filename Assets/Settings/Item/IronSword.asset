@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505c91d9ef5f2a6498c8238035eaa089, type: 3}
   m_Name: IronSword
   m_EditorClassIdentifier: 
-  num: 0
-  itemObject: {fileID: 0}
+  num: 12
+  itemObject: {fileID: 2552858301314946304, guid: 8360c9de83fbbab4f8994601ee1cd0ef,
+    type: 3}
   isCountable: 0
-  isDurable: 0
+  isDurable: 1
   MaxCount: 64
-  MaxDure: 100
+  MaxDure: 300
   placeSO: {fileID: 0}
-  weaponSO: {fileID: 0}
+  weaponSO: {fileID: 11400000, guid: c18141f2617f03f4d862e4ee0a06cab8, type: 2}
   text: ItemObject describe
   useType: 0
   addBlood: 0

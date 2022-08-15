@@ -1,7 +1,9 @@
 using Bags;
 using Manager;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,18 +14,10 @@ namespace UI
         private Transform MakeList;
         private Dictionary<int, MakeItem> makeItemList;
         public Dictionary<int, MakeItem> MakeItemList { get { return makeItemList; } }
-        private MakeType makeType = MakeType.None;
-        public MakeType MakeType 
-        { 
-            get { return makeType; } 
-            set 
-            { 
-                makeType = value;
-                RefreshMakeItem(value, true);
-            } 
-        }
+        private Dictionary<MakeType, bool> makeTypeOpenList = new Dictionary<MakeType, bool>();
+        public Dictionary<MakeType, bool> MakeTypeOpenList { get { return makeTypeOpenList; } }
 
-        private int offset = 350;
+        private int offset = -350;
         private Vector3 upPos = new Vector3(0, 145, 0);
         private Vector3 downPos = new Vector3(0, 145, 0);
         private Vector3 beginDraggingPoint;
@@ -35,6 +29,9 @@ namespace UI
             MakeList = Utils.FindChildByName(gameObject, "MakeList").GetComponent<Transform>();
             makeItemList = new Dictionary<int, MakeItem>();
             PlayerManager.I.PlayerBag.Bag.SlotChangeAfter += MakeItemCheck;
+            foreach (MakeType type in Enum.GetValues(typeof(MakeType)))
+                makeTypeOpenList.Add(type, false);
+            makeTypeOpenList[MakeType.None] = true;
         }
 
         private void Update()
@@ -54,13 +51,23 @@ namespace UI
             }
         }
 
+        //检查makeitem
+        public void MakeItemCheck()
+        {
+            for (int i = 0; i < makeTypeOpenList.Count; i++)
+            {
+                var item = makeTypeOpenList.ElementAt(i);
+                if (makeTypeOpenList[item.Key])
+                    RefreshMakeItem(item.Key, true);
+                else
+                    RefreshMakeItem(item.Key, false);
+            }
+        }
         public void MakeItemCheck(int x)
         {
-            RefreshMakeItem(MakeType.None, true);
-            if (makeType != MakeType.None)
-                RefreshMakeItem(makeType, true);
+            MakeItemCheck();
         }
-
+        //更新makeitem列表
         public void RefreshMakeItem(MakeType makeType, bool isUsed)
         {
             if (isUsed)
@@ -75,7 +82,7 @@ namespace UI
                 foreach (var makeItem in GameManager.I.MakeTypeDic[makeType])
                     DeleteMakeItem(makeItem);
         }
-
+        //加入makeitem
         public void AddMakeItem(MakeItemSO makeItemSO)
         {
             if (makeItemList.ContainsKey(makeItemSO.num))
@@ -83,14 +90,20 @@ namespace UI
             var makeItem = makeItemSO.Create();
             makeItemList[makeItemSO.num] = makeItem;
             makeItem.transform.SetParent(MakeList, false);
-        }
 
+            offset += 80;
+            downPos = new Vector3(0, 145 + Mathf.Clamp(offset, 0, float.MaxValue), 0);
+        }
+        //删除makeitem
         public void DeleteMakeItem(MakeItemSO makeItemSO)
         {
             if (!makeItemList.ContainsKey(makeItemSO.num))
                 return;
             makeItemList[makeItemSO.num].DestroySelf();
             makeItemList.Remove(makeItemSO.num);
+
+            offset -= 80;
+            downPos = new Vector3(0, 145 + Mathf.Clamp(offset, 0, float.MaxValue), 0);
         }
 
         public void OnPointerDown(PointerEventData eventData)

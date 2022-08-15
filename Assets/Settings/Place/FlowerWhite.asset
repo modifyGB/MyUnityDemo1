@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d02f8c6ca0a7234f814d74df1ab8b7d, type: 3}
   m_Name: FlowerWhite
   m_EditorClassIdentifier: 
-  num: 0
-  placeObject: {fileID: 0}
+  num: 23
+  placeObject: {fileID: 1586563515522838827, guid: 1e2c56da331da3844bdb9d440f0da7d7,
+    type: 3}
   Left: 0
-  Right: 5
-  Up: 5
+  Right: 0
+  Up: 0
   Down: 0
-  maxBlood: 10
-  dropTableSO: {fileID: 0}
+  maxBlood: 1
+  dropTableSO: {fileID: 11400000, guid: b48b65569b2afbd429265ac4f1e71fbe, type: 2}

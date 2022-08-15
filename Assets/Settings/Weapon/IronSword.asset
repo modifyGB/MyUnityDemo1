@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: IronSword
   m_EditorClassIdentifier: 
   num: 0
-  weaponPrefab: {fileID: 0}
-  attack: 1
+  weaponPrefab: {fileID: 7508307035588411870, guid: 944690db56c8ecd4eb71cd85def4fa24,
+    type: 3}
+  attack: 15
   attackDistance: 2
   attackAngle: 45
   attackPrecision: 1

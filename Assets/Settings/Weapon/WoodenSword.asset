@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: WoodenSword
   m_EditorClassIdentifier: 
   num: 0
-  weaponPrefab: {fileID: 0}
-  attack: 1
+  weaponPrefab: {fileID: 4273719453617140899, guid: 9c4ca10fb01898b45bab5163fde55bf0,
+    type: 3}
+  attack: 3
   attackDistance: 2
   attackAngle: 45
   attackPrecision: 1

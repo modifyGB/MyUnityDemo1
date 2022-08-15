@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505c91d9ef5f2a6498c8238035eaa089, type: 3}
   m_Name: RockAxe
   m_EditorClassIdentifier: 
-  num: 2
+  num: 15
   itemObject: {fileID: 6944177007110436096, guid: cc40d21b34f43ae4bb568086bcf4f427,
     type: 3}
   isCountable: 0
-  isUseable: 0
   isDurable: 1
   MaxCount: 64
   MaxDure: 100
   placeSO: {fileID: 0}
   weaponSO: {fileID: 11400000, guid: d917979c2a985724d993a766853d524e, type: 2}
   text: ItemObject describe
+  useType: 0
+  addBlood: 0

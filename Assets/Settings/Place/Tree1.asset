@@ -19,5 +19,5 @@ MonoBehaviour:
   Right: 3
   Up: 3
   Down: 2
-  maxBlood: 5
+  maxBlood: 15
   dropTableSO: {fileID: 11400000, guid: 37984979cc0dd9e42b2af2db75b93e24, type: 2}

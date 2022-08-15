@@ -21,6 +21,7 @@ namespace UI
         {
             if (archiveTable.pointTimer < 0.1)
             {
+                SoundManager.I.buttonSource.Play();
                 StartManager.I.State = StartManager.StartState.CreateArchive;
                 return;
             }

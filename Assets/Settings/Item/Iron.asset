@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505c91d9ef5f2a6498c8238035eaa089, type: 3}
   m_Name: Iron
   m_EditorClassIdentifier: 
-  num: 0
-  itemObject: {fileID: 0}
-  isCountable: 0
+  num: 4
+  itemObject: {fileID: 4693728258872739038, guid: 9932c3513eae13c4fbf10a49a2ed35a2,
+    type: 3}
+  isCountable: 1
   isDurable: 0
   MaxCount: 64
   MaxDure: 100

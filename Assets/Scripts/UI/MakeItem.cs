@@ -51,7 +51,7 @@ namespace UI
                 var newItemObject = newItem.Create(false);
                 UIManager.I.PointerItem = newItemObject;
             }
-            else if (UIManager.I.PointerItem != null && !UIManager.I.PointerItem.item.IsUnlimited 
+            else if (UIManager.I.PointerItem != null && !UIManager.I.PointerItem.item.IsUnlimited
                 && UIManager.I.PointerItem.item.itemSO.isCountable
                 && UIManager.I.PointerItem.item.Num == makeItemSO.To.num)
             {
@@ -60,6 +60,8 @@ namespace UI
                     return;
                 UIManager.I.PointerItem.item.Count += makeItemSO.To.count;
             }
+            else
+                return;
 
             makeItemSO.DeleteFrom();
         }

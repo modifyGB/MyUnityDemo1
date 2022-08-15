@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d02f8c6ca0a7234f814d74df1ab8b7d, type: 3}
   m_Name: Tree8
   m_EditorClassIdentifier: 
-  num: 0
-  placeObject: {fileID: 0}
-  Left: 0
-  Right: 5
-  Up: 5
-  Down: 0
-  maxBlood: 10
-  dropTableSO: {fileID: 0}
+  num: 8
+  placeObject: {fileID: 7217367132143762129, guid: b560576bbbc12e24d84bd1989c98e662,
+    type: 3}
+  Left: 2
+  Right: 3
+  Up: 3
+  Down: 2
+  maxBlood: 15
+  dropTableSO: {fileID: 11400000, guid: 37984979cc0dd9e42b2af2db75b93e24, type: 2}

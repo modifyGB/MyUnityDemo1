@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505c91d9ef5f2a6498c8238035eaa089, type: 3}
   m_Name: FlowerYellow
   m_EditorClassIdentifier: 
-  num: 0
-  itemObject: {fileID: 0}
-  isCountable: 0
+  num: 42
+  itemObject: {fileID: 288714959477009749, guid: 68c38135b43bfaf45ad266accfa9e0ba,
+    type: 3}
+  isCountable: 1
   isDurable: 0
   MaxCount: 64
   MaxDure: 100
-  placeSO: {fileID: 0}
+  placeSO: {fileID: 11400000, guid: ce2e5bf06b776d64b8ef619c93303596, type: 2}
   weaponSO: {fileID: 0}
   text: ItemObject describe
   useType: 0

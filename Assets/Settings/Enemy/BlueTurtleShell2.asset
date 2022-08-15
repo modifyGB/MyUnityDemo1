@@ -12,21 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 484f1c5b782ee054f82005782fb584a8, type: 3}
   m_Name: BlueTurtleShell2
   m_EditorClassIdentifier: 
-  num: 0
-  enemyPrefab: {fileID: 0}
-  maxBlood: 5
-  attack: 1
-  defence: 0
-  experience: 5
-  walkSpeed: 5
-  runSpeedPlus: 5
-  PatrolPoints: []
+  num: 5
+  enemyPrefab: {fileID: 2744916037447578986, guid: cb02f48a09b9c60419643d8b260837e9,
+    type: 3}
+  maxBlood: 50
+  attack: 10
+  defence: 20
+  experience: 30
+  walkSpeed: 2
+  runSpeedPlus: 1
+  PatrolPoints:
+  - {x: 5, y: 0, z: 0}
   findDistance: 5
   findAngle: 180
   findPrecision: 5
   attackDistance: 1
-  attackRate: 5
+  attackRate: 10
   attackInterval: 1
-  loseDistance: 10
-  dropTableSO: {fileID: 0}
+  loseDistance: 20
+  dropTableSO: {fileID: 11400000, guid: e938b74be9b6f98458b1b45e98f72cb2, type: 2}
   isBug: 0

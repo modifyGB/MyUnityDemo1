@@ -1,3 +1,4 @@
+using Manager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -10,6 +11,8 @@ namespace UI
     {
         public void OnPointerClick(PointerEventData eventData)
         {
+            SoundManager.I.buttonSource.Play();
+
             ExitGame();
         }
 

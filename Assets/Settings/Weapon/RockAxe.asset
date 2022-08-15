@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 971c405182e260342beb4550c217d989, type: 3}
   m_Name: RockAxe
   m_EditorClassIdentifier: 
-  num: 1
+  num: 0
   weaponPrefab: {fileID: 946700029798382586, guid: c8abccebf51185b4097c6c21f9537b03,
     type: 3}
-  attack: 2
+  attack: 5
   attackDistance: 3
   attackAngle: 90
   attackPrecision: 3

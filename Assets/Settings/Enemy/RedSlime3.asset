@@ -12,21 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 484f1c5b782ee054f82005782fb584a8, type: 3}
   m_Name: RedSlime3
   m_EditorClassIdentifier: 
-  num: 0
-  enemyPrefab: {fileID: 0}
-  maxBlood: 5
-  attack: 1
+  num: 3
+  enemyPrefab: {fileID: 7673905383508216564, guid: 10fdcab1c72e5774f8be92e61bd4e98d,
+    type: 3}
+  maxBlood: 20
+  attack: 5
   defence: 0
-  experience: 5
-  walkSpeed: 5
-  runSpeedPlus: 5
-  PatrolPoints: []
+  experience: 10
+  walkSpeed: 3
+  runSpeedPlus: 3
+  PatrolPoints:
+  - {x: 3, y: 0, z: 0}
+  - {x: 3, y: 0, z: 3}
+  - {x: 0, y: 0, z: 3}
   findDistance: 5
   findAngle: 180
   findPrecision: 5
   attackDistance: 1
-  attackRate: 5
+  attackRate: 10
   attackInterval: 1
-  loseDistance: 10
-  dropTableSO: {fileID: 0}
+  loseDistance: 20
+  dropTableSO: {fileID: 11400000, guid: 2c6a2ab605c096c43b426dbaf083bad2, type: 2}
   isBug: 0

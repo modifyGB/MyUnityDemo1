@@ -1,3 +1,4 @@
+using Manager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,11 @@ namespace Place
                 Blood -= weapon.attack;
             else
                 Blood -= 1;
+        }
+        //…˘“Ù¥¶¿Ì
+        public override void Sound()
+        {
+            SoundManager.I.Place(1);
         }
     }
 }

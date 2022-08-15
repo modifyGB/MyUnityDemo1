@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d02f8c6ca0a7234f814d74df1ab8b7d, type: 3}
   m_Name: WoodFence
   m_EditorClassIdentifier: 
-  num: 0
-  placeObject: {fileID: 0}
+  num: 37
+  placeObject: {fileID: 7636082992461340638, guid: 586acfdac6376be4c988d57aec5f171b,
+    type: 3}
   Left: 0
-  Right: 5
-  Up: 5
+  Right: 1
+  Up: 0
   Down: 0
   maxBlood: 10
-  dropTableSO: {fileID: 0}
+  dropTableSO: {fileID: 11400000, guid: 0599e091eca62b5408a02983eb0040d5, type: 2}

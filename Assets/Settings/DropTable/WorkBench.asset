@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WorkBench
   m_EditorClassIdentifier: 
   table:
-  - num: 6
+  - num: 22
     count: 1
     maxCount: 0
     minCount: 0

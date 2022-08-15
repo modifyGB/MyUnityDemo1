@@ -77,9 +77,13 @@ namespace Enemy
         {
             if (EnemyState == EnemyState.Die)
                 return;
-            enemyValue.Blood -= CalHeart(weapon);
+            if (weapon.weaponPrefab.GetType() == typeof(Sword))
+                enemyValue.Blood -= CalHeart(weapon);
+            else
+                enemyValue.Blood -= 1;
+            if (enemyState == EnemyState.PeaceMove)
+                animator.SetTrigger("isAttract");
             enemyState = EnemyState.Attract;
-            animator.SetTrigger("isAttract");
         }
         //初始化bloodObject
         public virtual void CreateBloodObject()
@@ -93,7 +97,7 @@ namespace Enemy
         //计算伤害
         public virtual float CalHeart(WeaponSO weapon)
         {
-            return weapon.attack + PlayerManager.I.PlayerValue.BaseAttack - enemySO.defence;
+            return Mathf.Clamp(weapon.attack + PlayerManager.I.PlayerValue.BaseAttack - enemySO.defence, 1, float.MaxValue);
         }
         //BloodObject触发器
         public void BloodObjectHandler()

@@ -12,6 +12,7 @@ namespace UI
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            SoundManager.I.buttonSource.Play();
             Utils.DeleteFile("Archive/" + archiveItem.Name + ".json");
             Utils.DeleteFile("Archive/" + archiveItem.Name + ".list.json");
             StartManager.I.ArchiveTable.Refresh();

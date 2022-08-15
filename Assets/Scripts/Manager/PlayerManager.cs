@@ -1,3 +1,4 @@
+using Bags;
 using Cinemachine;
 using Items;
 using Player;
@@ -130,5 +131,16 @@ namespace Manager
 
         }
 
+        public void WaterCheck()
+        {
+            var lastMakeType = UIManager.I.MakeTable.MakeTypeOpenList[MakeType.Water];
+            var gridObject = MapManager.I.grid.GetGridObject(player.transform.position);
+            if (gridObject.gridEnvironment == GridSystem.GridEnvironment.WATER)
+                UIManager.I.MakeTable.MakeTypeOpenList[MakeType.Water] = true;
+            else
+                UIManager.I.MakeTable.MakeTypeOpenList[MakeType.Water] = false;
+            if (lastMakeType != UIManager.I.MakeTable.MakeTypeOpenList[MakeType.Water])
+                UIManager.I.MakeTable.MakeItemCheck();
+        }
     }
 }

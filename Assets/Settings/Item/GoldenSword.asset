@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505c91d9ef5f2a6498c8238035eaa089, type: 3}
   m_Name: GoldenSword
   m_EditorClassIdentifier: 
-  num: 0
-  itemObject: {fileID: 0}
+  num: 13
+  itemObject: {fileID: 1177121478732356537, guid: 1f706d01961e3984b9f330d527cec40d,
+    type: 3}
   isCountable: 0
-  isDurable: 0
+  isDurable: 1
   MaxCount: 64
-  MaxDure: 100
+  MaxDure: 500
   placeSO: {fileID: 0}
-  weaponSO: {fileID: 0}
+  weaponSO: {fileID: 11400000, guid: a8e244dd9b395114cbb12d67edb11217, type: 2}
   text: ItemObject describe
   useType: 0
   addBlood: 0

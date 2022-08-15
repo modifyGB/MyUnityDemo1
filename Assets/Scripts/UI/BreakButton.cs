@@ -23,6 +23,8 @@ namespace UI
                 return;
 
             UIManager.I.BreakItemHalfToPointer(ItemMenu.bag, ItemMenu.bagNum);
+
+            SoundManager.I.buttonSource.Play();
         }
     }
 }

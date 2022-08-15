@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505c91d9ef5f2a6498c8238035eaa089, type: 3}
   m_Name: WoodenSword
   m_EditorClassIdentifier: 
-  num: 0
-  itemObject: {fileID: 0}
+  num: 10
+  itemObject: {fileID: 273158227526691481, guid: 895baf5c1a9b6fc4b84e3c184cdd9985,
+    type: 3}
   isCountable: 0
-  isDurable: 0
+  isDurable: 1
   MaxCount: 64
-  MaxDure: 100
+  MaxDure: 50
   placeSO: {fileID: 0}
-  weaponSO: {fileID: 0}
+  weaponSO: {fileID: 11400000, guid: 45dee72368ff5be48abea817252569c7, type: 2}
   text: ItemObject describe
   useType: 0
   addBlood: 0

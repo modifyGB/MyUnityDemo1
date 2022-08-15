@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace Manager
 {
-    public enum UIState { Load, Play, Interface, Setting }
+    public enum UIState { Play, Interface, Setting }
     public enum UILeftState { State, Make, Box }
 
     public class UIManager : Singleton<UIManager>
@@ -25,9 +25,12 @@ namespace Manager
         public MakeItem MakeItemPrefab;
         public Slot SlotPrefab;
         public ItemObject ItemObjectPrefab;
+        public SettingTable SettingTablePrefab;
 
         private GameObject playerInterface;
         public GameObject PlayerInterface { get { return playerInterface; } }
+        private SettingTable settingTable;
+        public SettingTable SettingTable { get { return settingTable; } }
         private GameObject dropItemCanva;
         public GameObject DropItemCanva { get { return dropItemCanva; } }
         private PlayerStateBar playerStateBar;
@@ -126,12 +129,20 @@ namespace Manager
                 {
                     PlayerInterface.SetActive(false);
                     UseTable.gameObject.SetActive(true);
+                    settingTable.gameObject.SetActive(false);
                 }
                 else if (value == UIState.Interface)
                 {
                     PlayerInterface.SetActive(true);
                     UseTable.gameObject.SetActive(false);
+                    settingTable.gameObject.SetActive(false);
                     UILeftState = UILeftState.State;
+                }
+                else if (value == UIState.Setting)
+                {
+                    PlayerInterface.SetActive(false);
+                    UseTable.gameObject.SetActive(false);
+                    settingTable.gameObject.SetActive(true);
                 }
                 UISwitch.Invoke(value);
             }
@@ -152,6 +163,7 @@ namespace Manager
             playerInterface = Instantiate(PlayerInterfacePrefab);
             dropItemCanva = Instantiate(DropItemCanvaPrefab);
             playerStateBar = Instantiate(PlayerStateBarPrefab);
+            settingTable = Instantiate(SettingTablePrefab);
             bagTable = Utils.FindChildByName(PlayerInterface, "BagTable").GetComponent<BagTable>();
             makeTable = Utils.FindChildByName(PlayerInterface, "MakeTable").GetComponent<MakeTable>();
             boxTable = Utils.FindChildByName(PlayerInterface, "BoxTable").GetComponent<BoxTable>();
@@ -160,9 +172,8 @@ namespace Manager
             makeTableButton = Utils.FindChildByName(PlayerInterface, "MakeTableButton").GetComponent<MakeTableButton>();
             boxButton = Utils.FindChildByName(PlayerInterface, "BoxButton").GetComponent<BoxButton>();
 
+            UIState = UIState.Play;
             UILeftState = UILeftState.State;
-            PlayerInterface.SetActive(false);
-            UseTable.gameObject.SetActive(true);
 
             for (int i = 49; i < 57; i++)
                 inputDic.Add((KeyCode)i, false);
@@ -371,6 +382,12 @@ namespace Manager
         {
             if (uIState == UIState.Play)
                 NowChest = null;
+        }
+        //¸Ä±äUIState
+        public void ChangeUIState(int uIState)
+        {
+            UIState = (UIState)uIState;
+            SoundManager.I.buttonSource.Play();
         }
     }
 }

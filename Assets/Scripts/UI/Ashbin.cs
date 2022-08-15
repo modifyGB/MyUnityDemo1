@@ -40,6 +40,8 @@ namespace UI
                 itemObject = null;
                 background.SetActive(true);
             }
+
+            SoundManager.I.buttonSource.Play();
         }
 
         public void Clear(UIState flag)

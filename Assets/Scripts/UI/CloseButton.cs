@@ -16,6 +16,8 @@ namespace UI
         public void OnPointerUp(PointerEventData eventData)
         {
             UIManager.I.UIState = UIState.Play;
+
+            SoundManager.I.buttonSource.Play();
         }
     }
 }

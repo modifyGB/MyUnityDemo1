@@ -16,10 +16,11 @@ MonoBehaviour:
   itemObject: {fileID: 2853018945201470531, guid: e51a74d0e2a8ae04a822bf8ddf4b2b1c,
     type: 3}
   isCountable: 1
-  isUseable: 0
   isDurable: 0
   MaxCount: 64
   MaxDure: 100
-  placeSO: {fileID: 11400000, guid: d030f479445d1354fbf79a4ce8f51d48, type: 2}
+  placeSO: {fileID: 0}
   weaponSO: {fileID: 0}
   text: ItemObject describe
+  useType: 0
+  addBlood: 0

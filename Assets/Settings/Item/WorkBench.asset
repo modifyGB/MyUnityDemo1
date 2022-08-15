@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505c91d9ef5f2a6498c8238035eaa089, type: 3}
   m_Name: WorkBench
   m_EditorClassIdentifier: 
-  num: 6
+  num: 22
   itemObject: {fileID: 1871685852184241239, guid: 7028ea1ee88274548ba173939c1bf93e,
     type: 3}
   isCountable: 1
-  isUseable: 0
   isDurable: 0
-  MaxCount: 64
+  MaxCount: 16
   MaxDure: 100
   placeSO: {fileID: 11400000, guid: 1031e15151a63dd4c96532cc336bb86b, type: 2}
   weaponSO: {fileID: 0}
   text: ItemObject describe
+  useType: 0
+  addBlood: 0

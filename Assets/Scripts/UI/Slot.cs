@@ -1,4 +1,5 @@
 ﻿using Bags;
+using Manager;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -35,6 +36,8 @@ namespace UI
                 ClickEvent.Invoke(this, true);
             else if (eventData.button == InputButton.Right)
                 ClickEvent.Invoke(this, false);
+
+            SoundManager.I.buttonSource.Play();
         }
     }
 }

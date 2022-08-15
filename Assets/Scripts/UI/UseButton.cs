@@ -1,3 +1,4 @@
+using Manager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,7 @@ namespace UI
             if (!button.interactable)
                 return;
             ItemMenu.bag.UseItemOne(ItemMenu.bagNum);
+            SoundManager.I.buttonSource.Play();
         }
     }
 }

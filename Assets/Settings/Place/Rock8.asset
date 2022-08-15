@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d02f8c6ca0a7234f814d74df1ab8b7d, type: 3}
   m_Name: Rock8
   m_EditorClassIdentifier: 
-  num: 0
-  placeObject: {fileID: 0}
-  Left: 0
-  Right: 5
-  Up: 5
-  Down: 0
-  maxBlood: 10
-  dropTableSO: {fileID: 0}
+  num: 17
+  placeObject: {fileID: 2324584983489471776, guid: d55f2d4eb3fecf942930dd2044a1f51b,
+    type: 3}
+  Left: 1
+  Right: 1
+  Up: 1
+  Down: 1
+  maxBlood: 30
+  dropTableSO: {fileID: 11400000, guid: dc7c558c26899154da4190e3cbe569e0, type: 2}

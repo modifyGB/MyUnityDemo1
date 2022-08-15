@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505c91d9ef5f2a6498c8238035eaa089, type: 3}
   m_Name: RedPotion1
   m_EditorClassIdentifier: 
-  num: 0
-  itemObject: {fileID: 0}
-  isCountable: 0
+  num: 51
+  itemObject: {fileID: 6166152576019371435, guid: feee50b5a44a7d145ba29827855e95f4,
+    type: 3}
+  isCountable: 1
   isDurable: 0
   MaxCount: 64
   MaxDure: 100
   placeSO: {fileID: 0}
   weaponSO: {fileID: 0}
   text: ItemObject describe
-  useType: 0
-  addBlood: 0
+  useType: 1
+  addBlood: 10

@@ -100,7 +100,7 @@ namespace Enemy
                 angles.Add(enemySO.findAngle / 2 - i * (enemySO.findAngle / enemySO.findPrecision / 2));
         }
 
-        void Attack1()
+        public void Attack1()
         {
             if (PlayerManager.I.PlayerState == PlayerState.Die)
                 return;
@@ -108,7 +108,7 @@ namespace Enemy
                 enemySO.attack - PlayerManager.I.PlayerValue.BaseDefence, 1, enemySO.attack);
         }
 
-        void Attack2()
+        public void Attack2()
         {
             if (PlayerManager.I.PlayerState == PlayerState.Die)
                 return;
@@ -117,17 +117,17 @@ namespace Enemy
             PlayerManager.I.PlayerMovement.GetHit();
         }
 
-        void EndAttract()
+        public void EndAttract()
         {
             enemyObject.EnemyState = EnemyState.AttractMove;
         }
 
-        void EndAttack()
+        public void EndAttack()
         {
             enemyObject.EnemyState = EnemyState.AttractMove;
         }
 
-        void DrawDebug()
+        public void DrawDebug()
         {
             if (enemySO.isBug)
             {
