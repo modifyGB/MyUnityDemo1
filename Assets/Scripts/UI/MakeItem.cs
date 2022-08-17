@@ -35,16 +35,22 @@ namespace UI
             var item = new Item(makeItemSO.To.num, makeItemSO.To.count);
             var itemObject = item.Create(false);
             itemObject.transform.SetParent(outSlot.transform, false);
+            outSlot.itemSO = item.itemSO;
+
             for (int i = 0; i < makeItemSO.From.Length; i++)
             {
                 item = new Item(makeItemSO.From[i].num, makeItemSO.From[i].count);
                 itemObject = item.Create(false);
                 itemObject.transform.SetParent(SlotList[i].transform, false);
+                SlotList[i].itemSO = item.itemSO;
             }
         }
 
         public void OutSlotClickEvent(Slot slot, bool mouse)
         {
+            if (!makeItemSO.CheckMake())
+                return;
+
             if (UIManager.I.PointerItem == null)
             {
                 var newItem = new Item(makeItemSO.To.num, makeItemSO.To.count);

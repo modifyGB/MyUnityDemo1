@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace Manager
 {
-    public enum UIState { Play, Interface, Setting }
+    public enum UIState { Play, Interface, Setting, Died }
     public enum UILeftState { State, Make, Box }
 
     public class UIManager : Singleton<UIManager>
@@ -26,6 +26,8 @@ namespace Manager
         public Slot SlotPrefab;
         public ItemObject ItemObjectPrefab;
         public SettingTable SettingTablePrefab;
+        public Describe describePrefab;
+        public DiedCanvas DiedCanvasPrefab;
 
         private GameObject playerInterface;
         public GameObject PlayerInterface { get { return playerInterface; } }
@@ -51,6 +53,10 @@ namespace Manager
         public MakeTable MakeTable { get { return makeTable; } }
         private BoxTable boxTable;
         public BoxTable BoxTable { get { return boxTable; } }
+        private Describe describe;
+        public Describe Describe { get { return describe; } }
+        private DiedCanvas diedCanvas;
+        public DiedCanvas DiedCanvas { get { return diedCanvas; } }
 
         private ItemMenu itemMenu = null;
         private ItemObject pointerItem = null;
@@ -130,12 +136,14 @@ namespace Manager
                     PlayerInterface.SetActive(false);
                     UseTable.gameObject.SetActive(true);
                     settingTable.gameObject.SetActive(false);
+                    if (diedCanvas != null) diedCanvas.DestroySelf();
                 }
                 else if (value == UIState.Interface)
                 {
                     PlayerInterface.SetActive(true);
                     UseTable.gameObject.SetActive(false);
                     settingTable.gameObject.SetActive(false);
+                    if (diedCanvas != null) diedCanvas.DestroySelf();
                     UILeftState = UILeftState.State;
                 }
                 else if (value == UIState.Setting)
@@ -143,6 +151,14 @@ namespace Manager
                     PlayerInterface.SetActive(false);
                     UseTable.gameObject.SetActive(false);
                     settingTable.gameObject.SetActive(true);
+                    if (diedCanvas != null) diedCanvas.DestroySelf();
+                }
+                else if (value == UIState.Died)
+                {
+                    PlayerInterface.SetActive(false);
+                    UseTable.gameObject.SetActive(false);
+                    settingTable.gameObject.SetActive(false);
+                    if (diedCanvas == null) diedCanvas = Instantiate(DiedCanvasPrefab);
                 }
                 UISwitch.Invoke(value);
             }
@@ -178,10 +194,12 @@ namespace Manager
             for (int i = 49; i < 57; i++)
                 inputDic.Add((KeyCode)i, false);
             inputDic.Add(KeyCode.E, false);
+            inputDic.Add(KeyCode.Escape, false);
 
             UISwitch += DeleteItemMenu;
             UISwitch += ThrowPointerItem;
             UISwitch += ClearNowChest;
+            UISwitch += DeleteDescribe;
         }
 
         private void Start()
@@ -207,6 +225,7 @@ namespace Manager
                 isMouse1 = Input.GetMouseButtonDown(1);
 
             UpdatePointerItem();
+            UpdateDescribe();
         }
 
         private void FixedUpdate()
@@ -218,6 +237,15 @@ namespace Manager
                 else
                     UIState = UIState.Interface;
                 inputDic[KeyCode.E] = false;
+            }
+
+            if (inputDic[KeyCode.Escape])
+            {
+                if (UIState == UIState.Setting)
+                    UIState = UIState.Play;
+                else
+                    UIState = UIState.Setting;
+                inputDic[KeyCode.Escape] = false;
             }
 
             if (isMouse0)
@@ -300,6 +328,8 @@ namespace Manager
             itemMenu.SetTarget(bag, bagNum);
             itemMenu.transform.SetParent(BagTable.transform, false);
             itemMenu.transform.position = Input.mousePosition;
+
+            DeleteDescribe();
         }
         //删除ItemMenu
         public void DeleteItemMenu(UIState isOpen)
@@ -388,6 +418,35 @@ namespace Manager
         {
             UIState = (UIState)uIState;
             SoundManager.I.buttonSource.Play();
+        }
+        //创建Describe
+        public void CreateDescribe(string name, string text)
+        {
+            DeleteDescribe();
+            describe = Instantiate(describePrefab);
+            describe.Initialization(name, text);
+            describe.transform.SetParent(playerInterface.transform, false);
+        }
+        //删除Describe
+        public void DeleteDescribe()
+        {
+            if (describe != null)
+                describe.DestroySelf();
+            describe = null;
+        }
+        public void DeleteDescribe(UIState uIState)
+        {
+            if (uIState != UIState.Interface)
+                DeleteDescribe();
+        }
+        //更新Describe位置
+        public void UpdateDescribe()
+        {
+            if (describe == null)
+                return;
+
+            describe.transform.position = Input.mousePosition;
+
         }
     }
 }

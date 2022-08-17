@@ -17,7 +17,7 @@ namespace GridSystem
             public int z;
         }
 
-        public GridObject[,] GridArray;
+        public GridObject[,][,] GridArrayList;
         public Vector3 originPosition;
         public int Width;
         public int Height;
@@ -31,19 +31,12 @@ namespace GridSystem
             this.CellSize = cellSize;
             this.originPosition = originPosition;
 
-            GridArray = new GridObject[width, height];
-
-            for (int x = 0; x < GridArray.GetLength(0); x++)
-            {
-                for (int z = 0; z < GridArray.GetLength(1); z++)
-                {
-                    GridArray[x, z] = new GridObject(this, x, z);
-                }
-            }
+            var blockWidth = Mathf.CeilToInt(width / 100f);
+            var blockHeight = Mathf.CeilToInt(height / 100f);
+            GridArrayList = new GridObject[blockWidth, blockHeight][,];
         }
         public struct Serialization //序列化结构体
         {
-            public GridObject.Serialization[,] GridArray;
             public float[] originPosition;
             public int Width;
             public int Height;
@@ -54,37 +47,13 @@ namespace GridSystem
                 this.Height = Height;
                 this.CellSize = CellSize;
                 this.originPosition = new float[3] {originPosition.x, originPosition.y, originPosition.z};
-                GridArray = new GridObject.Serialization[Width, Height];
             }
         }
 
         //序列化
         public Serialization ToSerialization()
         {
-            Serialization serialization = new Serialization();
-            serialization.Width = Width;
-            serialization.Height = Height;
-            serialization.CellSize = CellSize;
-            serialization.originPosition = new float[3] { originPosition.x, originPosition.y, originPosition.z };
-            serialization.GridArray = new GridObject.Serialization[Width, Height];
-            for (int x = 0; x < Width; x++)
-                for (var y = 0; y < Height; y++)
-                    serialization.GridArray[x, y] = GridArray[x, y].ToSerialization();
-            return serialization;
-        }
-        //画辅助线
-        public void InitializeDebug()
-        {
-            for (int x = 0; x < GridArray.GetLength(0); x++)
-            {
-                for (int z = 0; z < GridArray.GetLength(1); z++)
-                {
-                    Debug.DrawLine(GetWorldPosition(x, z), GetWorldPosition(x, z + 1), Color.white, 100f);
-                    Debug.DrawLine(GetWorldPosition(x, z), GetWorldPosition(x + 1, z), Color.white, 100f);
-                }
-            }
-            Debug.DrawLine(GetWorldPosition(0, Height), GetWorldPosition(Width, Height), Color.white, 100f);
-            Debug.DrawLine(GetWorldPosition(Width, 0), GetWorldPosition(Width, Height), Color.white, 100f);
+            return new Serialization(Width, Height, CellSize, originPosition);
         }
         //返回单元对应世界坐标
         public Vector3 GetWorldPosition(int x, int z)
@@ -103,7 +72,7 @@ namespace GridSystem
         {
             if (x >= 0 && z >= 0 && x < Width && z < Height)
             {
-                GridArray[x, z] = value;
+                GridArrayList[x / 100, z / 100][x % 100, z % 100] = value;
                 TriggerGridObjectChanged(x, z);
             }
         }
@@ -121,14 +90,9 @@ namespace GridSystem
         //使用网格坐标获得单元
         public GridObject GetGridObject(int x, int z)
         {
-            if (x >= 0 && z >= 0 && x < Width && z < Height)
-            {
-                return GridArray[x, z];
-            }
-            else
-            {
-                return default(GridObject);
-            }
+            if (x > 0 && z > 0 && x < Width && z < Height)
+                return GridArrayList[x / 100, z / 100][x % 100, z % 100];
+            return null;
         }
         //使用世界坐标获得单元
         public GridObject GetGridObject(Vector3 worldPosition)
@@ -149,6 +113,16 @@ namespace GridSystem
         {
             var gridObject = GetGridObject(x, z);
             return gridObject.CanBuild;
+        }
+        //Grid序列化
+        public GridObject.Serialization[,] GridToSerialization(int blockWidth, int blockHeight)
+        {
+            var gridArray = GridArrayList[blockWidth, blockHeight];
+            var _out = new GridObject.Serialization[gridArray.GetLength(0), gridArray.GetLength(1)];
+            for (int i = 0; i < gridArray.GetLength(0); i++)
+                for (int j = 0; j < gridArray.GetLength(1); j++)
+                    _out[i, j] = gridArray[i, j].ToSerialization();
+            return _out;
         }
     }
 }

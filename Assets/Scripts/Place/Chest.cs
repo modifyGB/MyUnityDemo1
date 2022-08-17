@@ -53,6 +53,8 @@ namespace Place
         public void Initialization(int bagCapacity)
         {
             bag = new Bag(bagCapacity);
+
+            bag.SlotChangeAfter += Save;
         }
 
         public void InitializationBag(List<Item.Serialization> bagList)
@@ -85,6 +87,25 @@ namespace Place
                 if (item == null) continue;
                 item.Throw(dropPoint, new Vector3(0, 3, 0));
             }
+        }
+        //…˘“Ù¥¶¿Ì
+        public override void Sound()
+        {
+            SoundManager.I.Place(1);
+        }
+        //±£¥Ê±¶œ‰
+        public void Save()
+        {
+            if (!MapManager.I.chestList.ContainsKey(origin.x)
+                || !MapManager.I.chestList[origin.x].ContainsKey(origin.y))
+                return;
+            MapManager.I.chestList[origin.x][origin.y] = ToChestSerialization();
+        }
+        public void Save(int x)
+        {
+            if (bag.ItemList[x] != null)
+                bag.ItemList[x].ItemChange += Save;
+            Save();
         }
     }
 }

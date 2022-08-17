@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Bags
 {
-    public enum MakeType { None, WorkBench, Water }
+    public enum MakeType { None, WorkBench, Water, Bag1, Bag2, Bag3 }
 
     [CreateAssetMenu(menuName = "MySO/MakeItemSO")]
     public class MakeItemSO : ScriptableObject
@@ -32,15 +32,30 @@ namespace Bags
             return newMakeItem;
         }
 
-        public bool Check()
+        public bool CheckMake()
         {
             bool flag = true;
             foreach (var pro in From)
             {
-                if (!PlayerManager.I.PlayerBag.Bag.CheckBag
+                if (!PlayerManager.I.PlayerBag.Bag.CheckBagEnough
                     (Utils.ProductionToSerialization(pro)))
                 {
                     flag = false;
+                    break;
+                }
+            }
+            return flag;
+        }
+
+        public bool CheckActive()
+        {
+            bool flag = false;
+            foreach (var pro in From)
+            {
+                if (PlayerManager.I.PlayerBag.Bag.CheckBagHave
+                    (Utils.ProductionToSerialization(pro)))
+                {
+                    flag = true;
                     break;
                 }
             }

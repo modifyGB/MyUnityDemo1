@@ -20,4 +20,4 @@ MonoBehaviour:
   Up: 1
   Down: 0
   maxBlood: 20
-  dropTableSO: {fileID: 11400000, guid: dc7c558c26899154da4190e3cbe569e0, type: 2}
+  dropTableSO: {fileID: 11400000, guid: 0a4235ed79135f942a28eb886fddaf55, type: 2}

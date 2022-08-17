@@ -21,32 +21,49 @@ namespace Manager
             base.Awake();
 
             enemy = new GameObject("Enemy").transform;
-            LoadEnemy();
+            //LoadEnemy();
         }
 
-        public List<EnemyObject.Serialization> DumpEnemy()
+        public List<EnemyObject.Serialization> DumpEnemy(int blockWidth, int blockHeight)
         {
             var list = new List<EnemyObject.Serialization>();
-            for (int i = 0; i < enemyList.Count; i++)
+            var xOrg = blockWidth * 100;
+            var yOrg = blockHeight * 100;
+            for (int i = 0; i < 100; i++)
             {
-                var item1 = enemyList.ElementAt(i);
-                for (int j = 0; j < item1.Value.Count; j++)
+                if (!enemyList.ContainsKey(i + xOrg))
+                    continue;
+                var item1 = enemyList[i + xOrg];
+                for (int j = 0; j < 100; j++)
                 {
-                    var item2 = item1.Value.ElementAt(j);
-                    list.Add(item2.Value);
+                    if (!item1.ContainsKey(j + yOrg))
+                        continue;
+                    var item2 = item1[j + yOrg];
+                    list.Add(item2);
                 }
             }
             return list;
         }
 
-        public void LoadEnemy()
+        public void LoadEnemy(int blockWidth, int blockHeight)
         {
-            foreach (var e in GameManager.I.ArchiveObject.EnemyList)
+            foreach (var e in GameManager.I.ArchiveData.mapDataList[blockWidth, blockHeight].EnemyList)
             {
                 var xz = MapManager.I.grid.GetXZ(new Vector3(e.position[0], e.position[1], e.position[2]));
                 if (!enemyList.ContainsKey(xz.x))
                     enemyList.Add(xz.x, new Dictionary<int, EnemyObject.Serialization>());
                 enemyList[xz.x].Add(xz.y, e);
+            }
+        }
+
+        public void DeleteEnemy(int blockWidth, int blockHeight)
+        {
+            foreach (var e in GameManager.I.ArchiveData.mapDataList[blockWidth, blockHeight].EnemyList)
+            {
+                var xz = MapManager.I.grid.GetXZ(new Vector3(e.position[0], e.position[1], e.position[2]));
+                if (!enemyList.ContainsKey(xz.x))
+                    return;
+                enemyList[xz.x].Remove(xz.y);
             }
         }
     }

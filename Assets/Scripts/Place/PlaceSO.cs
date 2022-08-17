@@ -101,7 +101,8 @@ namespace Place
                     canBuild = false;
                     break;
                 }
-                if (!grid.GetGridObject(gridPos.x, gridPos.y).CanBuild)
+                var gridObject = grid.GetGridObject(gridPos.x, gridPos.y);
+                if (gridObject == null || !gridObject.CanBuild)
                 {
                     canBuild = false;
                     break;

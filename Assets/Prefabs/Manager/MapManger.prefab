@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0a56ef1c783c9440a0539069ca3f0f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnLoad: 0
+  destroyOnLoad: 1
   p: 20
   floor: 0
   friction: 0.05

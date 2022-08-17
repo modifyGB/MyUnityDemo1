@@ -22,6 +22,13 @@ namespace Bags
             for (int i = 0; i < bagCapacity; i++)
                 itemList.Add(null);
         }
+        //扩容
+        public void ExpansionBag(int expansionCapacity)
+        {
+            bagCapacity += expansionCapacity;
+            for (int i = 0; i < expansionCapacity; i++)
+                itemList.Add(null);
+        }
         //添加物品至背包
         public Item AddBag(Item.Serialization item)
         {
@@ -100,7 +107,7 @@ namespace Bags
                 }
         }
         //查看物品从背包
-        public bool CheckBag(Item.Serialization item)
+        public bool CheckBagEnough(Item.Serialization item)
         {
             var count = item.count;
             bool flag = false;
@@ -109,6 +116,19 @@ namespace Bags
                 if (ItemList[i] != null && ItemList[i].Num == item.num)
                     count -= ItemList[i].Count;
                 if (count <= 0)
+                {
+                    flag = true;
+                    break;
+                }
+            }
+            return flag;
+        }
+        public bool CheckBagHave(Item.Serialization item)
+        {
+            bool flag = false;
+            for (int i = 0; i < bagCapacity; i++)
+            {
+                if (ItemList[i] != null && ItemList[i].Num == item.num)
                 {
                     flag = true;
                     break;

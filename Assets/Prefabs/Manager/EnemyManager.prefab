@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bc9b3fedff9fda4b89ca61eaad609fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnLoad: 0
+  destroyOnLoad: 1
   enemyBloodPrefab: {fileID: 8272502015704496483, guid: 75005b0b963f90a42b7ffee692be9f7e,
     type: 3}

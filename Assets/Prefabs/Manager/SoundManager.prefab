@@ -77,14 +77,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 856b6d74addb9ad4ab2b7b47bae3e839, type: 3}
   - {fileID: 8300000, guid: bb5ec83ccc5c69f43b31f100278bff91, type: 3}
   - {fileID: 8300000, guid: 3d8f480d252db9449b2f978284506f8e, type: 3}
-  attackSounds:
+  otherSounds:
   - {fileID: 8300000, guid: fe0b1f9aeb45b41b089175aeeabd5d95, type: 3}
   - {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
+  - {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
   buttonSource: {fileID: 7152439970555516751}
   moveSource: {fileID: 227701098382699306}
   placeSource: {fileID: 4266721291440010862}
   backgroundSource: {fileID: 8356061064407461566}
-  attackSource: {fileID: 3251021211966854023}
+  otherSource: {fileID: 3251021211966854023}
 --- !u!82 &7152439970555516751
 AudioSource:
   m_ObjectHideFlags: 0

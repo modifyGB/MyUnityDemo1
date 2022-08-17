@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66495bde3aff0ce43867352ddb56a4df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnLoad: 0
+  destroyOnLoad: 1
   archiveItemPrefab: {fileID: 668493304931946419, guid: 1bf48f6147d155d4b9a289e3685979d7,
     type: 3}
   createArchiveButtonPrefab: {fileID: 4913449757988973401, guid: 5290b08434b928c4883284b1fa6ee2cf,
@@ -57,4 +57,5 @@ MonoBehaviour:
     type: 3}
   loadCanvasPrefab: {fileID: 1169138251187181175, guid: 45ebf0228d682b342b36c20c8b580b8c,
     type: 3}
-  StartCanvas: {fileID: 0}
+  startCanvasPrefab: {fileID: 2322500938344477496, guid: 8c217cfbe6ee0f0459fd5d2905bf7bb6,
+    type: 3}

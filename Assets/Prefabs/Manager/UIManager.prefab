@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6edf1fe71c4416d49a5e05a6298b7199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnLoad: 0
+  destroyOnLoad: 1
   PlayerInterfacePrefab: {fileID: 504660139355980649, guid: 515fd01ca40b06347bc22d6b87f29393,
     type: 3}
   DropItemCanvaPrefab: {fileID: 798719362734154713, guid: a60f5ad5d2b1b1b4c8aaf630482b1e75,
@@ -62,4 +62,8 @@ MonoBehaviour:
   ItemObjectPrefab: {fileID: 9124625693273389236, guid: 912c6a4a30a7a4b4fa593987b8202de0,
     type: 3}
   SettingTablePrefab: {fileID: 133488323993960514, guid: dbca01037285d9340b3f781c7599ccf9,
+    type: 3}
+  describePrefab: {fileID: 1495608599627866308, guid: 82d3688b57c3c364c9a7c5c9f2682f7f,
+    type: 3}
+  DiedCanvasPrefab: {fileID: 3255804078927230249, guid: 1e312f6d01d21c64794b56c4fa9c880e,
     type: 3}

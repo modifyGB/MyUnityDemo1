@@ -65,5 +65,20 @@ namespace UI
             else
                 bag.ItemList[bagNum].Create(false).transform.SetParent(slotList[bagNum].transform, false);
         }
+        //slot¿©»›
+        public void ExpansionSlot(int expansionCapacity)
+        {
+            var offset = slotList.Count;
+            for (int i = 0; i < expansionCapacity; i++)
+            {
+                var x = offset + i;
+                var slot = Utils.FindChildByName(gameObject, "Slot (" + x + ")").GetComponent<Slot>();
+                slot.Initialization(PlayerManager.I.PlayerBag.Bag, x, SlotClickEvent);
+                slotList.Add(slot);
+                var image = slot.GetComponent<Image>();
+                image.color = new Color(image.color.r, image.color.g, image.color.b, 1);
+                slotList[x].GetComponent<Button>().interactable = true;
+            }
+        }
     }
 }

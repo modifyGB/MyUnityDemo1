@@ -15,7 +15,7 @@ MonoBehaviour:
   table:
   - num: 36
     count: 0
-    maxCount: 1
-    minCount: 2
+    maxCount: 3
+    minCount: 1
     countRandom: 1
-    itemRandom: 0.5
+    itemRandom: 0.7

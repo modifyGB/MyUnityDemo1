@@ -79,11 +79,24 @@ public static class Utils
         if (File.Exists(allSavePath))
             File.Delete(allSavePath);
     }
+    //删除文件夹
+    public static void DeleteDirectory(string deletePath)
+    {
+        var allSavePath = Path.Combine(originSavePath, deletePath);
+        if (Directory.Exists(allSavePath))
+            new DirectoryInfo(allSavePath).Delete(true);
+    }
     //返回路径下的文件
     public static FileInfo[] FindFile(string findPath)
     {
         var allFindPath = Path.Combine(Application.persistentDataPath, findPath);
         return new DirectoryInfo(allFindPath).GetFiles();
+    }
+    //返回路径下的文件夹
+    public static DirectoryInfo[] FindDirectory(string findPath)
+    {
+        var allFindPath = Path.Combine(Application.persistentDataPath, findPath);
+        return new DirectoryInfo(allFindPath).GetDirectories();
     }
     //通过朝向返回旋转角度
     public static float GetAngleByXZ(float horizontal, float vertical)

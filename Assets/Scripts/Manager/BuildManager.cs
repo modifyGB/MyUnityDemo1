@@ -135,7 +135,7 @@ namespace Manager
         {
             if (previewObject != null)
             {
-                previewObject.DestroySelf();
+                Destroy(previewObject.gameObject);
                 previewObject = null;
             }
         }

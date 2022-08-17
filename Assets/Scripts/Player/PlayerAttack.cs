@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Weapon;
 
 namespace Player
 {
@@ -69,9 +70,10 @@ namespace Player
 
         void Attack()
         {
+            if (PlayerManager.I.Weapon == null)
+                return;
             HashSet<GameObject> gameObjects = new HashSet<GameObject>();
             RaycastHit hit;
-            SoundManager.I.Attack(PlayerManager.I.Weapon.WeaponSO.attackAnim);
             foreach (var angle in PlayerManager.I.Weapon.Angles)
             {
                 float x1 = Mathf.Sin(Mathf.Deg2Rad * angle);
@@ -94,6 +96,9 @@ namespace Player
                 else if (eo != null)
                     PlayerManager.I.Weapon.WeaponSO.AttackToEnemy(eo);
             }
+
+            if (PlayerManager.I.Weapon.GetType() == typeof(Sword))
+                SoundManager.I.Attack(PlayerManager.I.Weapon.WeaponSO.attackAnim);
         }
 
         void DrawDebug()

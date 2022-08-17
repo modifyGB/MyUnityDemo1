@@ -107,7 +107,7 @@ namespace Manager
         {
             base.Awake();
 
-            var p = GameManager.I.ArchiveObject.Player;
+            var p = GameManager.I.ArchiveData.Player;
             var po = new Vector3(p.position[0], p.position[1], p.position[2]);
             Player = Instantiate(PlayerPrefab, po, Quaternion.identity);
 
@@ -128,7 +128,7 @@ namespace Manager
 
         void Update()
         {
-
+            WaterCheck();
         }
 
         public void WaterCheck()

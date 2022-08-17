@@ -17,9 +17,9 @@ MonoBehaviour:
     type: 3}
   attack: 3
   attackDistance: 2
-  attackAngle: 45
-  attackPrecision: 1
+  attackAngle: 135
+  attackPrecision: 4
   attackRate: 1
-  attackInterval: 1
+  attackInterval: 0.5
   attackDure: 1
-  attackAnim: 0
+  attackAnim: 1

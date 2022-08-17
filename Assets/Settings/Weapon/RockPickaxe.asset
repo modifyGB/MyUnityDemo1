@@ -16,10 +16,10 @@ MonoBehaviour:
   weaponPrefab: {fileID: 1698002834998831270, guid: fcdb12c0011022649b9ec1569d29917d,
     type: 3}
   attack: 5
-  attackDistance: 2
-  attackAngle: 45
-  attackPrecision: 1
+  attackDistance: 3
+  attackAngle: 90
+  attackPrecision: 4
   attackRate: 1
-  attackInterval: 1
+  attackInterval: 0.5
   attackDure: 1
   attackAnim: 0

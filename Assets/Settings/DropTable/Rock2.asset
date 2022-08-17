@@ -10,30 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 309da9fe141698541854aec09de00fdc, type: 3}
-  m_Name: Rock
+  m_Name: Rock2
   m_EditorClassIdentifier: 
   table:
   - num: 2
     count: 0
-    maxCount: 1
-    minCount: 3
+    maxCount: 6
+    minCount: 2
     countRandom: 1
     itemRandom: 1
   - num: 3
     count: 0
-    maxCount: 1
-    minCount: 3
+    maxCount: 6
+    minCount: 2
     countRandom: 1
-    itemRandom: 0.7
+    itemRandom: 0.5
   - num: 5
     count: 0
-    maxCount: 1
-    minCount: 3
+    maxCount: 4
+    minCount: 2
     countRandom: 1
-    itemRandom: 0.3
+    itemRandom: 0.7
   - num: 7
     count: 0
-    maxCount: 1
-    minCount: 3
+    maxCount: 4
+    minCount: 2
     countRandom: 1
-    itemRandom: 0.1
+    itemRandom: 0.2

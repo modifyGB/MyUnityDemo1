@@ -6,7 +6,7 @@ using Weapon;
 
 namespace Items
 {
-    public enum UseType { None, AddBlood }
+    public enum UseType { None, AddBlood, Bag1, Bag2, Bag3 }
 
     [CreateAssetMenu(menuName = "MySO/ItemSO")]
     public class ItemSO : MyScriptable
@@ -14,6 +14,8 @@ namespace Items
         [Header("id")]
         public int num = 0;
         public ItemObject itemObject;
+        public string itemName = "Item Name";
+        public string text = "ItemObject describe";
         [Header("种类")]
         public bool isCountable = false;
         public bool isDurable = false;
@@ -22,7 +24,6 @@ namespace Items
         public float MaxDure = 100;
         public PlaceSO placeSO = null;
         public WeaponSO weaponSO = null;
-        public string text = "ItemObject describe";
         [Header("使用")]
         public UseType useType = UseType.None;
         public float addBlood = 0;

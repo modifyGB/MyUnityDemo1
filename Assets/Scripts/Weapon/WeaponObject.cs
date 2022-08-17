@@ -13,6 +13,9 @@ namespace Weapon
         private List<float> angles = new List<float>();
         public List<float> Angles { get { return angles; } }
 
+        public Vector3 position = Vector3.zero;
+        public Vector3 rotation = Vector3.zero;
+
         //≥ı ºªØ
         public void Initialization(WeaponSO weaponSO)
         {
@@ -24,7 +27,8 @@ namespace Weapon
         public virtual void SetTransform(Transform parent)
         {
             transform.SetParent(parent, false);
-            transform.localPosition = Vector3.zero;
+            transform.localPosition = position;
+            transform.localRotation = Quaternion.Euler(rotation);
         }
     }
 }

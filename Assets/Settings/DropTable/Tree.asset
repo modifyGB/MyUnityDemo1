@@ -15,7 +15,13 @@ MonoBehaviour:
   table:
   - num: 1
     count: 0
-    maxCount: 1
-    minCount: 3
+    maxCount: 3
+    minCount: 1
     countRandom: 1
     itemRandom: 1
+  - num: 9
+    count: 0
+    maxCount: 3
+    minCount: 1
+    countRandom: 1
+    itemRandom: 0.4

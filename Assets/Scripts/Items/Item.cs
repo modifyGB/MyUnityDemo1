@@ -122,6 +122,32 @@ namespace Items
         {
             if (itemSO.useType == UseType.AddBlood)
                 PlayerManager.I.PlayerValue.NowBlood += itemSO.addBlood;
+            else if (itemSO.useType == UseType.Bag1)
+            {
+                if (PlayerManager.I.PlayerBag.Bag.bagCapacity >= 24)
+                    return;
+
+                PlayerManager.I.PlayerBag.ExpansionBag(16);
+                UIManager.I.MakeTable.MakeTypeOpenList[Bags.MakeType.Bag1] = false;
+                UIManager.I.MakeTable.MakeTypeOpenList[Bags.MakeType.Bag2] = true;
+            }
+            else if (itemSO.useType == UseType.Bag2)
+            {
+                if (PlayerManager.I.PlayerBag.Bag.bagCapacity >= 40)
+                    return;
+
+                PlayerManager.I.PlayerBag.ExpansionBag(16);
+                UIManager.I.MakeTable.MakeTypeOpenList[Bags.MakeType.Bag2] = false;
+                UIManager.I.MakeTable.MakeTypeOpenList[Bags.MakeType.Bag3] = true;
+            }
+            else if (itemSO.useType == UseType.Bag3)
+            {
+                if (PlayerManager.I.PlayerBag.Bag.bagCapacity >= 56)
+                    return;
+
+                PlayerManager.I.PlayerBag.ExpansionBag(16);
+                UIManager.I.MakeTable.MakeTypeOpenList[Bags.MakeType.Bag3] = false;
+            }
         }
         //选中物品
         public void Choose()
@@ -164,7 +190,8 @@ namespace Items
                 PlayerManager.I.Weapon = itemSO.weaponSO.CreateWeapon();
             else
             {
-                PlayerManager.I.Weapon.DestroySelf();
+                if (PlayerManager.I.Weapon != null)
+                    PlayerManager.I.Weapon.DestroySelf();
                 PlayerManager.I.Weapon = null;
             }
             PlayerManager.I.PlayerValue.ExperienceChange.Invoke();

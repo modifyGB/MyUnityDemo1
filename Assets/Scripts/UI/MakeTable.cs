@@ -28,10 +28,18 @@ namespace UI
         {
             MakeList = Utils.FindChildByName(gameObject, "MakeList").GetComponent<Transform>();
             makeItemList = new Dictionary<int, MakeItem>();
+
             PlayerManager.I.PlayerBag.Bag.SlotChangeAfter += MakeItemCheck;
+
             foreach (MakeType type in Enum.GetValues(typeof(MakeType)))
                 makeTypeOpenList.Add(type, false);
             makeTypeOpenList[MakeType.None] = true;
+            if (GameManager.I.ArchiveData.Player.bagCapacity <= 8)
+                makeTypeOpenList[MakeType.Bag1] = true;
+            else if (GameManager.I.ArchiveData.Player.bagCapacity <= 24)
+                makeTypeOpenList[MakeType.Bag2] = true;
+            else if (GameManager.I.ArchiveData.Player.bagCapacity <= 40)
+                makeTypeOpenList[MakeType.Bag3] = true;
         }
 
         private void Update()
@@ -73,9 +81,9 @@ namespace UI
             if (isUsed)
                 foreach (var makeItem in GameManager.I.MakeTypeDic[makeType])
                 {
-                    if (!makeItem.Check())
+                    if (!makeItem.CheckActive())
                         DeleteMakeItem(makeItem);
-                    else if (makeItem.Check())
+                    else
                         AddMakeItem(makeItem);
                 }
             else

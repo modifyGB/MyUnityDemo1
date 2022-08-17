@@ -11,20 +11,18 @@ namespace Manager
         public List<AudioClip> runSounds = new List<AudioClip>();
         public List<AudioClip> backgroundSounds = new List<AudioClip>();
         public List<AudioClip> placeSounds = new List<AudioClip>();
-        public List<AudioClip> attackSounds = new List<AudioClip>();
+        public List<AudioClip> otherSounds = new List<AudioClip>();
         public AudioSource buttonSource;
         public AudioSource moveSource;
         public AudioSource placeSource;
         public AudioSource backgroundSource;
-        public AudioSource attackSource;
+        public AudioSource otherSource;
 
         private System.Random random = new System.Random();
 
         public override void Awake()
         {
             base.Awake();
-
-            //DontDestroyOnLoad(gameObject);
         }
 
         public void Walk()
@@ -49,8 +47,14 @@ namespace Manager
 
         public void Attack(int num)
         {
-            attackSource.clip = attackSounds[num];
-            attackSource.Play();
+            otherSource.clip = otherSounds[num];
+            otherSource.Play();
+        }
+
+        public void Pick()
+        {
+            otherSource.clip = otherSounds[2];
+            otherSource.Play();
         }
 
         public void ChangeBackground(int num)

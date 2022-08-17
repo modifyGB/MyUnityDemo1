@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 170aa5a288262c946ab910a8e24423ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnLoad: 0
+  destroyOnLoad: 1
   canBuildMaterial: {fileID: 2100000, guid: 7fc52f1e5ab340843929450b82b9c996, type: 2}
   noBuildMaterial: {fileID: 2100000, guid: e77689173a5cd30459dc045c1c38acd9, type: 2}

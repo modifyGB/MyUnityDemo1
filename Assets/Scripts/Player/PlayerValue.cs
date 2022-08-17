@@ -96,12 +96,12 @@ namespace Player
         //À¿Õˆ
         public void Die()
         {
-
+            UIManager.I.UIState = UIState.Died;
         }
         //º”‘ÿ¥Êµµ
         public void LoadValue()
         {
-            var p = GameManager.I.ArchiveObject.Player;
+            var p = GameManager.I.ArchiveData.Player;
             nowBlood = p.nowBlood;
             experience = p.experience;
         }

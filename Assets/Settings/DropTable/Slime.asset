@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   table:
   - num: 35
-    count: 2
-    maxCount: 0
-    minCount: 0
-    countRandom: 0
+    count: 0
+    maxCount: 3
+    minCount: 1
+    countRandom: 1
     itemRandom: 1

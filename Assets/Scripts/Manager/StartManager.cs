@@ -19,13 +19,14 @@ namespace Manager
         public GameObject createArchivePrefab;
         public SettingTable settingTablePrefab;
         public LoadCanvas loadCanvasPrefab;
-        public GameObject StartCanvas;
+        public GameObject startCanvasPrefab;
 
         private ArchiveTable archiveTable = null;
         public ArchiveTable ArchiveTable { get { return archiveTable; } }
         private GameObject createArchive = null;
         private SettingTable settingTable = null;
         private LoadCanvas loadCanvas = null;
+        private GameObject startCanvas = null;
         private List<string> fileList = new List<string>();
         public List<string> FileList { get { return fileList; } }
 
@@ -43,7 +44,7 @@ namespace Manager
                     if (settingTable != null) settingTable.DestroySelf();
                     if (loadCanvas != null) loadCanvas.DestroySelf();
                     if (createArchive != null) Destroy(createArchive);
-                    StartCanvas.SetActive(true);
+                    if (startCanvas == null) startCanvas = Instantiate(startCanvasPrefab);
                 }
                 else if (value == StartState.CreateArchive)
                 {
@@ -51,7 +52,7 @@ namespace Manager
                     if (settingTable != null) settingTable.DestroySelf();
                     if (loadCanvas != null) loadCanvas.DestroySelf();
                     if (createArchive == null) createArchive = Instantiate(createArchivePrefab);
-                    StartCanvas.SetActive(false);
+                    if (startCanvas != null) Destroy(startCanvas);
                 }
                 else if (value == StartState.ArchiveTable)
                 {
@@ -59,7 +60,7 @@ namespace Manager
                     if (settingTable != null) settingTable.DestroySelf();
                     if (loadCanvas != null) loadCanvas.DestroySelf();
                     if (createArchive != null) Destroy(createArchive);
-                    StartCanvas.SetActive(false);
+                    if (startCanvas != null) Destroy(startCanvas);
                 }
                 else if (value == StartState.SettingTable)
                 {
@@ -67,7 +68,7 @@ namespace Manager
                     if (settingTable == null) settingTable = Instantiate(settingTablePrefab);
                     if (loadCanvas != null) loadCanvas.DestroySelf();
                     if (createArchive != null) Destroy(createArchive);
-                    StartCanvas.SetActive(false);
+                    if (startCanvas != null) Destroy(startCanvas);
                 }
                 else if (value == StartState.Load)
                 {
@@ -75,7 +76,7 @@ namespace Manager
                     if (settingTable != null) settingTable.DestroySelf();
                     if (loadCanvas == null) loadCanvas = Instantiate(loadCanvasPrefab);
                     if (createArchive != null) Destroy(createArchive);
-                    StartCanvas.SetActive(false);
+                    if (startCanvas != null) Destroy(startCanvas);
                 }
                 else
                 {
@@ -83,6 +84,7 @@ namespace Manager
                     if (settingTable == null) settingTable.DestroySelf();
                     if (loadCanvas != null) loadCanvas.DestroySelf();
                     if (createArchive != null) Destroy(createArchive);
+                    if (startCanvas != null) Destroy(startCanvas);
                 }
             }
         }
@@ -91,6 +93,10 @@ namespace Manager
         {
             base.Awake();
 
+            if (!Directory.Exists(Path.Combine(Application.persistentDataPath, "Archive")))
+                Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Archive"));
+
+            State = StartState.StartCanvas;
             SoundManager.I.ChangeBackground(0);
         }
 
@@ -98,9 +104,8 @@ namespace Manager
         public void UpdateArchiveList()
         {
             fileList.Clear();
-            foreach (var file in Utils.FindFile("Archive"))
-                if (file.Name.EndsWith(".list.json"))
-                    fileList.Add(file.Name.Split(".")[0]);
+            foreach (var directory in Utils.FindDirectory("Archive"))
+                fileList.Add(directory.Name);
         }
         //≥ı ºªØLoad
         public void LoadInitialization(ArchiveData archiveData)

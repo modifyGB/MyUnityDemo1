@@ -60,7 +60,7 @@ namespace UI
             foreach (var file in StartManager.I.FileList)
             {
                 var newObject = Instantiate(StartManager.I.archiveItemPrefab);
-                newObject.Initialization(Utils.LoadObject<ArchiveData>("Archive/" + file + ".list.json"), this);
+                newObject.Initialization(Utils.LoadObject<ArchiveData>("Archive/" + file + "/archiveData.json"), this);
                 newObject.transform.SetParent(archiveList, false);
                 right += 210;
             }

@@ -49,6 +49,7 @@ namespace Items
                 isThrow = value;
             }
         }
+        private bool isPick = false;
 
         private void Awake()
         {
@@ -67,9 +68,16 @@ namespace Items
         //ʰȡ
         private void OnCollisionEnter(Collision collisionInfo)
         {
+            if (isPick)
+                return;
             if (IsThrow && collisionInfo.gameObject.tag == "Player")
             {
+                isPick = true;
                 var x = PlayerManager.I.PlayerBag.Bag.AddBag(item.ToSerialization());
+                if (x != null)
+                    x.Throw(PlayerManager.I.ThrowPoint, PlayerManager.Player.transform.forward * 5);
+                else
+                    SoundManager.I.Pick();
                 item.DestroySelf();
             }
         }

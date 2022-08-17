@@ -9,16 +9,6 @@ using UnityEngine.SceneManagement;
 
 namespace UI
 {
-    public struct ArchiveData
-    {
-        public string name;
-        public int width;
-        public int height;
-        public int seed;
-        public ArchiveData(string name, int width, int height, int seed) 
-        { this.name = name; this.width = width; this.height = height; this.seed = seed; }
-    }
-
     public class ArchiveItem : MyScript, IPointerDownHandler, IPointerUpHandler
     {
         public ArchiveTable archiveTable;

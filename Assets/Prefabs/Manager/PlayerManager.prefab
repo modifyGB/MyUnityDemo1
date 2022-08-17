@@ -44,10 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b00f7aba6a48fd54caefb1ca5d76b1b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnLoad: 0
+  destroyOnLoad: 1
   PlayerPrefab: {fileID: 6370806400660244232, guid: 482f144f42238e249bd62598d979ee62,
     type: 3}
   walkSpeed: 5
   runSpeedPlus: 5
-  bagCapacity: 8
+  jumpSpeed: 5
   isBug: 0

@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   num: 19
   From:
-  - num: 50
-    count: 1
   - num: 40
     count: 4
   To:

@@ -36,7 +36,7 @@ namespace Player
 
         private void Awake()
         {
-            bag = new Bag(GameManager.I.ArchiveObject.Player.bagCapacity);
+            bag = new Bag(GameManager.I.ArchiveData.Player.bagCapacity);
             bag.SlotChangeBefore += LoseEvent;
             bag.SlotChangeAfter += ChooseEvent;
 
@@ -45,7 +45,7 @@ namespace Player
 
         private void Start()
         {
-            foreach (var item in GameManager.I.ArchiveObject.Player.bag)
+            foreach (var item in GameManager.I.ArchiveData.Player.bag)
                 bag.AddBag(item);
         }
 
@@ -98,6 +98,16 @@ namespace Player
         {
             if (bagNum == UseNum && bag.ItemList[bagNum] != null)
                 bag.ItemList[bagNum].Lose();
+        }
+        //±³°üÀ©ÈÝ
+        public void ExpansionBag(int expansionCapacity)
+        {
+            expansionCapacity = Mathf.Clamp(expansionCapacity, 0, 56 - bag.bagCapacity);
+            if (expansionCapacity == 0)
+                return;
+
+            bag.ExpansionBag(expansionCapacity);
+            UIManager.I.BagTable.ExpansionSlot(expansionCapacity);
         }
     }
 }

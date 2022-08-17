@@ -15,7 +15,7 @@ MonoBehaviour:
   num: 2
   enemyPrefab: {fileID: 7673905383508216564, guid: 10fdcab1c72e5774f8be92e61bd4e98d,
     type: 3}
-  maxBlood: 20
+  maxBlood: 25
   attack: 5
   defence: 0
   experience: 10
@@ -26,9 +26,9 @@ MonoBehaviour:
   findDistance: 5
   findAngle: 180
   findPrecision: 5
-  attackDistance: 1
+  attackDistance: 1.5
   attackRate: 10
-  attackInterval: 1
+  attackInterval: 2
   loseDistance: 20
   dropTableSO: {fileID: 11400000, guid: 2c6a2ab605c096c43b426dbaf083bad2, type: 2}
   isBug: 0

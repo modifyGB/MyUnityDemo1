@@ -48,7 +48,11 @@ namespace UI
             else
                 seed = Convert.ToInt32(textSeed.text);
 
-            var archiveData = new ArchiveData(name, width, height, seed);
+            var archiveData = new ArchiveData();
+            archiveData.name = name;
+            archiveData.width = width;
+            archiveData.height = height;
+            archiveData.seed = seed;
             StartManager.I.LoadInitialization(archiveData);
         }
     }

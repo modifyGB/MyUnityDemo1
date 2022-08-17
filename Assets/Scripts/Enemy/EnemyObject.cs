@@ -77,13 +77,20 @@ namespace Enemy
         {
             if (EnemyState == EnemyState.Die)
                 return;
+
             if (weapon.weaponPrefab.GetType() == typeof(Sword))
                 enemyValue.Blood -= CalHeart(weapon);
             else
                 enemyValue.Blood -= 1;
+
             if (enemyState == EnemyState.PeaceMove)
+            {
                 animator.SetTrigger("isAttract");
-            enemyState = EnemyState.Attract;
+                enemyState = EnemyState.Attract;
+            }
+            else
+                if (Random.Range(0, 1) < 0.3)
+                    enemyState = EnemyState.GetHit;
         }
         //³õÊ¼»¯bloodObject
         public virtual void CreateBloodObject()

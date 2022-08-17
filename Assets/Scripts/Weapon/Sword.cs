@@ -6,10 +6,6 @@ namespace Weapon
 {
     public class Sword : WeaponObject
     {
-        public override void SetTransform(Transform parent)
-        {
-            base.SetTransform(parent);
-            transform.localEulerAngles = new Vector3(-100, 180, 20);
-        }
+
     }
 }

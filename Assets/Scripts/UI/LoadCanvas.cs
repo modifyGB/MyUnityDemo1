@@ -55,16 +55,10 @@ namespace UI
                 load.transform.localPosition = new Vector3((1 - (float)World.loadPer) * 400f * -0.5f, 0, 0);
                 loadText.text = (World.loadPer * 100).ToString("f2") + "%";
 
-                if (World.loadPer < World.stepInit)
+                if (World.loadPer < 0.1)
                     behaviourText.text = "World Initialization";
-                else if (World.loadPer < World.stepInit + World.stepGround)
-                    behaviourText.text = "Create Environment";
-                else if (World.loadPer < World.stepInit + World.stepGround + World.stepPlace)
-                    behaviourText.text = "Create Place";
-                else if (World.loadPer < World.stepInit + World.stepGround + World.stepPlace + World.stepEnemy)
-                    behaviourText.text = "Create Enemy";
                 else
-                    behaviourText.text = "Verify and Save Resources";
+                    behaviourText.text = "Create Environment";
                 yield return null;
             }
             StartManager.I.State = StartManager.StartState.ArchiveTable;

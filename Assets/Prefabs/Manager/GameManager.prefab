@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d01979ff1cdfc7b42a43d929bc6085dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnLoad: 0
+  destroyOnLoad: 1
   itemTableSO: {fileID: 11400000, guid: 4e975b4e493b37b4c93e6cde51ffb3fe, type: 2}
   placeTableSO: {fileID: 11400000, guid: 73fe9cba284c5274e99fd258d571447a, type: 2}
   enemyTableSO: {fileID: 11400000, guid: cdf2737cc9f2a1645ac3d6e5808ce164, type: 2}

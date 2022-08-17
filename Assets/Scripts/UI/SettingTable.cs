@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Manager
@@ -67,6 +69,32 @@ namespace Manager
         {
             State = (SettingState)settingState;
             SoundManager.I.buttonSource.Play();
+        }
+
+        public void Save()
+        {
+            GameManager.I.SaveArchive();
+            SoundManager.I.buttonSource.Play();
+            UIManager.I.UIState = UIState.Play;
+        }
+
+        public void Save_Back()
+        {
+            GameManager.I.SaveArchive();
+            SoundManager.I.buttonSource.Play();
+            SceneManager.LoadScene(0);
+        }
+
+        public void Save_Exit()
+        {
+            GameManager.I.SaveArchive();
+            SoundManager.I.buttonSource.Play();
+
+            #if UNITY_EDITOR    //在编辑器模式下
+                        EditorApplication.isPlaying = false;
+            #else
+                                Application.Quit();
+            #endif
         }
     }
 }

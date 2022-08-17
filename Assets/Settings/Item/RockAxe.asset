@@ -15,12 +15,13 @@ MonoBehaviour:
   num: 15
   itemObject: {fileID: 6944177007110436096, guid: cc40d21b34f43ae4bb568086bcf4f427,
     type: 3}
+  itemName: "\u77F3\u65A7"
+  text: "\u77F3\u5934\u5236\u6210\u7684\u65A7\u5B50\uFF0C\u53EF\u4EE5\u7528\u6765\u780D\u6811"
   isCountable: 0
   isDurable: 1
   MaxCount: 64
   MaxDure: 100
   placeSO: {fileID: 0}
   weaponSO: {fileID: 11400000, guid: d917979c2a985724d993a766853d524e, type: 2}
-  text: ItemObject describe
   useType: 0
   addBlood: 0

@@ -15,19 +15,19 @@ MonoBehaviour:
   num: 4
   enemyPrefab: {fileID: 2744916037447578986, guid: cb02f48a09b9c60419643d8b260837e9,
     type: 3}
-  maxBlood: 50
-  attack: 10
-  defence: 20
-  experience: 30
+  maxBlood: 80
+  attack: 20
+  defence: 15
+  experience: 50
   walkSpeed: 2
   runSpeedPlus: 1
   PatrolPoints: []
-  findDistance: 5
+  findDistance: 3
   findAngle: 180
   findPrecision: 5
-  attackDistance: 1
+  attackDistance: 1.5
   attackRate: 10
-  attackInterval: 1
-  loseDistance: 20
+  attackInterval: 3
+  loseDistance: 10
   dropTableSO: {fileID: 11400000, guid: e938b74be9b6f98458b1b45e98f72cb2, type: 2}
   isBug: 0
