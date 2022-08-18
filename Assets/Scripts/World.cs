@@ -215,7 +215,13 @@ public class World
         var gridObject = archiveObject.GridArray[x, z];
         var random = new System.Random();
 
-        var num = random.Next(1, 7);
+        
+        int num;
+        var xx = random.NextDouble();
+        if (xx > 0.3)
+            num = random.Next(1, 4);
+        else
+            num = random.Next(4, 7);
         var angle = random.Next(0, 360);
         if (gridObject.ge != GridEnvironment.WATER)
             archiveObject.EnemyList.Add(new EnemyObject.Serialization(
@@ -228,12 +234,52 @@ public class World
         var random = new System.Random();
         var dir = random.Next(0, 4);
 
-        if (gridObject.ge != GridEnvironment.WATER)
+        if (gridObject.ge == GridEnvironment.WATER)
+            return;
+
+        var po = new PlaceObject.Serialization(30, new Vector2Int(
+                blockWidth * 100 + x, blockHeight * 100 + z), (Dir)dir);
+        archiveObject.PlaceList.Add(po);
+
+        var bagList = new List<Item.Serialization>();
+        var type = random.Next(0, 4);
+        if (type == 0)
         {
-            var po = new PlaceObject.Serialization(30, new Vector2Int(
-                    blockWidth * 100 + x, blockHeight * 100 + z), (Dir)dir);
-            archiveObject.PlaceList.Add(po);
-            archiveObject.ChestList.Add(new Chest.ChestSerialization(po, null));
+            bagList.Add(new Item.Serialization(51 + random.Next(0, 3), random.Next(0, 5)));
+            bagList.Add(new Item.Serialization(35, random.Next(3, 7)));
+            bagList.Add(new Item.Serialization(15, random.Next(0, 2)));
+            bagList.Add(new Item.Serialization(19, random.Next(0, 2)));
+            var xx = random.NextDouble();
+            if (xx > 0.8) bagList.Add(new Item.Serialization(10));
+            else if (xx > 0.4) bagList.Add(new Item.Serialization(11));
+            else if (xx > 0.1) bagList.Add(new Item.Serialization(12));
+            else  bagList.Add(new Item.Serialization(13));
         }
+        else if (type == 1)
+        {
+            bagList.Add(new Item.Serialization(1, random.Next(3, 7)));
+            bagList.Add(new Item.Serialization(2 + random.Next(0, 2), random.Next(3, 7)));
+            bagList.Add(new Item.Serialization(5 + random.Next(0, 1) * 2, random.Next(1, 5)));
+            bagList.Add(new Item.Serialization(4 + random.Next(0, 1) * 2, random.Next(0, 3)));
+        }
+        else if (type == 2)
+        {
+            bagList.Add(new Item.Serialization(9, random.Next(3, 7)));
+            bagList.Add(new Item.Serialization(36, random.Next(3, 7)));
+            bagList.Add(new Item.Serialization(40 + random.Next(0, 4), random.Next(1, 16)));
+            bagList.Add(new Item.Serialization(51, random.Next(1, 4)));
+            bagList.Add(new Item.Serialization(52, random.Next(0, 4)));
+            bagList.Add(new Item.Serialization(53, random.Next(0, 2)));
+        }
+        else if (type == 3)
+        {
+            bagList.Add(new Item.Serialization(8, random.Next(8, 32)));
+            bagList.Add(new Item.Serialization(2, random.Next(8, 32)));
+            bagList.Add(new Item.Serialization(24 + random.Next(0, 2), random.Next(1, 16)));
+            bagList.Add(new Item.Serialization(26, random.Next(1, 16)));
+
+        }
+
+        archiveObject.ChestList.Add(new Chest.ChestSerialization(po, bagList));
     }
 }

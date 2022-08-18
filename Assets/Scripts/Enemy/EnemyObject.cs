@@ -89,8 +89,13 @@ namespace Enemy
                 enemyState = EnemyState.Attract;
             }
             else
-                if (Random.Range(0, 1) < 0.3)
+            {
+                if (Random.Range(0, 1f) < 0.3)
+                {
                     enemyState = EnemyState.GetHit;
+                    animator.SetTrigger("isGetHit");
+                }
+            }
         }
         //³õÊ¼»¯bloodObject
         public virtual void CreateBloodObject()

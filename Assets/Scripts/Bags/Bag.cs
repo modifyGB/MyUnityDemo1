@@ -35,6 +35,8 @@ namespace Bags
             var table = GameManager.I.itemTableSO.table;
             if (table.Length <= item.num)
                 return null;
+            if (item.count == 0)
+                return null;
 
             if (table[item.num].isCountable)
             {
