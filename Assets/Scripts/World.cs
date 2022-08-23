@@ -163,8 +163,8 @@ public class World
         start += pointList.Length / 2000;
 
         //物体生成
-        step = loadStep * 0.2 / (pointList.Length / 10);
-        for (int i = start; i < start + pointList.Length / 20; i++)
+        step = loadStep * 0.2 / (pointList.Length / 30);
+        for (int i = start; i < start + pointList.Length / 30; i++)
         {
             CreatePlace(mapData, blockWidth, blockHeight, pointList[i] / mapWidth, pointList[i] % mapWidth);
             loadPer += step;
@@ -172,8 +172,8 @@ public class World
         start += pointList.Length / 20;
 
         //敌人生成
-        step = loadStep * 0.2 / (pointList.Length / 50);
-        for (int i = start; i < start + (pointList.Length / 80); i++)
+        step = loadStep * 0.2 / (pointList.Length / 150);
+        for (int i = start; i < start + (pointList.Length / 150); i++)
         {
             CreateEnemy(mapData, blockWidth, blockHeight, pointList[i] / mapWidth, pointList[i] % mapWidth);
             loadPer += step;
